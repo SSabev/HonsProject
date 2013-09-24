@@ -18,7 +18,7 @@ class MyStreamer(TwythonStreamer):
             new_data['user'] = {key: data['user'][key] for key in user_info_keys}
             if 'media' in new_data['entities'].keys():
                 del new_data['entities']['media']
-             outfile.write(json.dumps(new_data) + '\n')
+            self.f.write(json.dumps(new_data) + '\n')
 
     def on_error(self, status_code, data):
         print status_code
