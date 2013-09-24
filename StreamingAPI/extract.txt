@@ -1,0 +1,798 @@
+{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", 
+    "text": "True but not that hard!!! I seriously dc if they don't like me!! If they do.... http://t.co/xTSib8NN0S", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054219458437120", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054219458437120, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "TalaAdnan_", 
+        "friends_count": 11, 
+        "time_zone": null, 
+        "geo_enabled": false, 
+        "id": 1859962374, 
+        "name": "tala"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    3, 
+                    17
+                ], 
+                "screen_name": "MarvinCortes1", 
+                "id": 292042032, 
+                "name": "Marvin E. Cort\u00e9s", 
+                "id_str": "292042032"
+            }
+        ], 
+        "hashtags": [
+            {
+                "indices": [
+                    82, 
+                    94
+                ], 
+                "text": "marvinators"
+            }, 
+            {
+                "indices": [
+                    95, 
+                    112
+                ], 
+                "text": "teammarvincortes"
+            }, 
+            {
+                "indices": [
+                    113, 
+                    123
+                ], 
+                "text": "thewanted"
+            }
+        ], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", 
+    "text": "RT @MarvinCortes1: How I feel when I get a new follower on twitter or instagram!  #marvinators #teammarvincortes #thewanted http://t.co/n4i\u2026", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054219672342528", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054219672342528, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "psychobunnie69", 
+        "friends_count": 82, 
+        "time_zone": "Pacific Time (US & Canada)", 
+        "geo_enabled": false, 
+        "id": 871390574, 
+        "name": "Cary Garcia"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    4, 
+                    15
+                ], 
+                "screen_name": "Novia_Ra11", 
+                "id": 1874924042, 
+                "name": "Ny. Byun", 
+                "id_str": "1874924042"
+            }, 
+            {
+                "indices": [
+                    19, 
+                    31
+                ], 
+                "screen_name": "Baekyeoliee", 
+                "id": 575260236, 
+                "name": "bubble tea", 
+                "id_str": "575260236"
+            }
+        ], 
+        "hashtags": [
+            {
+                "indices": [
+                    33, 
+                    42
+                ], 
+                "text": "CHANBAEK"
+            }
+        ], 
+        "urls": []
+    }, 
+    "source": "web", 
+    "text": "RT '@Novia_Ra11 : \"@Baekyeoliee: #CHANBAEK where there is great love , there are always miracles.. http://t.co/mmAx9KUsHd\"'", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054219882065920", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054219882065920, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "Igot12wolves", 
+        "friends_count": 1182, 
+        "time_zone": "Beijing", 
+        "geo_enabled": false, 
+        "id": 859536876, 
+        "name": "12wolves MyBadman"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    3, 
+                    16
+                ], 
+                "screen_name": "MTLovenHoney", 
+                "id": 519211628, 
+                "name": "Mario Teguh", 
+                "id_str": "519211628"
+            }
+        ], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Mobile Web (M2)</a>", 
+    "text": "RT @MTLovenHoney: Be nice to yourself. Mario Teguh http://t.co/IgWqlfKhuD", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054219894636544", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054219894636544, 
+    "user": {
+        "lang": "id", 
+        "screen_name": "M_Probowisesa", 
+        "friends_count": 145, 
+        "time_zone": "Bangkok", 
+        "geo_enabled": true, 
+        "id": 1619521052, 
+        "name": "\u30dc\u30a6\u30a4"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    0, 
+                    11
+                ], 
+                "screen_name": "RobRobinkg", 
+                "id": 1672791853, 
+                "name": "Robin. Gardner", 
+                "id_str": "1672791853"
+            }
+        ], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", 
+    "text": "@RobRobinkg there are pictures of him on my twitter. He's my cover photo on twitter and there's some of us in my pics on here", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054219974311936", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054219974311936, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "KristinaWilsonn", 
+        "friends_count": 298, 
+        "time_zone": "Eastern Time (US & Canada)", 
+        "geo_enabled": true, 
+        "id": 445978548, 
+        "name": "Kristina Wilson "
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    0, 
+                    11
+                ], 
+                "screen_name": "cityninjas", 
+                "id": 562673957, 
+                "name": "City Ninjas", 
+                "id_str": "562673957"
+            }
+        ], 
+        "hashtags": [
+            {
+                "indices": [
+                    12, 
+                    26
+                ], 
+                "text": "signaturedish"
+            }
+        ], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>", 
+    "text": "@cityninjas #signaturedish breakfast pizza :D http://t.co/dGwvyP171I", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054218984476672", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054218984476672, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "AmritaRana", 
+        "friends_count": 788, 
+        "time_zone": "Mumbai", 
+        "geo_enabled": true, 
+        "id": 43744299, 
+        "name": "Amrita Of Life"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    3, 
+                    19
+                ], 
+                "screen_name": "1DUpdatesOnline", 
+                "id": 591661900, 
+                "name": "1D UPDATES", 
+                "id_str": "591661900"
+            }
+        ], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", 
+    "text": "RT @1DUpdatesOnline: Liam by the pool today in Adelaide #1 http://t.co/kAJceKTq2z", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220037251072", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220037251072, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "MissAngel1210", 
+        "friends_count": 116, 
+        "time_zone": "Pacific Time (US & Canada)", 
+        "geo_enabled": true, 
+        "id": 213303623, 
+        "name": "Tara McEachin"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    1, 
+                    16
+                ], 
+                "screen_name": "HistoricalPics", 
+                "id": 1598644159, 
+                "name": "Historical Pictures", 
+                "id_str": "1598644159"
+            }
+        ], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", 
+    "text": "\u201c@HistoricalPics: Cocaine toothache drops for children, 1885 http://t.co/tyCbXEF43j\u201d lol", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220243144704", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220243144704, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "TapsVusiChifamz", 
+        "friends_count": 582, 
+        "time_zone": "Pretoria", 
+        "geo_enabled": true, 
+        "id": 92767482, 
+        "name": "Tapfuma Chifamba"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "web", 
+    "text": "but a lot of people that used to be in the twitter community disappeared? like @cuteanimeboy and zog and stuff", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220184031232", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220184031232, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "TsundereEarth", 
+        "friends_count": 50, 
+        "time_zone": "Pacific Time (US & Canada)", 
+        "geo_enabled": false, 
+        "id": 29159282, 
+        "name": "pixie"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    29, 
+                    39
+                ], 
+                "screen_name": "eisa_kahn", 
+                "id": 585146324, 
+                "name": "I Follow Back", 
+                "id_str": "585146324"
+            }
+        ], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://blackberry.com/twitter\" rel=\"nofollow\">Twitter for BlackBerry\u00ae</a>", 
+    "text": "yep my rawwwr is amazing 8-) @eisa_kahn http://t.co/AaHpbtvkgL", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220095971328", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220095971328, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "AaliyahMxx", 
+        "friends_count": 63, 
+        "time_zone": null, 
+        "geo_enabled": true, 
+        "id": 1321437590, 
+        "name": "Aaliyah"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [], 
+        "hashtags": [
+            {
+                "indices": [
+                    40, 
+                    47
+                ], 
+                "text": "KohTao"
+            }
+        ], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", 
+    "text": "Not too bad. My advice - quit your jobs #KohTao http://t.co/XbRlA4byum", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054219949154304", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054219949154304, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "baldbone", 
+        "friends_count": 488, 
+        "time_zone": "Casablanca", 
+        "geo_enabled": false, 
+        "id": 233995530, 
+        "name": "Richard Atkins"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    3, 
+                    15
+                ], 
+                "screen_name": "dwaynebenji", 
+                "id": 174939092, 
+                "name": "Dwayne Benjamin", 
+                "id_str": "174939092"
+            }, 
+            {
+                "indices": [
+                    18, 
+                    26
+                ], 
+                "screen_name": "jilevin", 
+                "id": 24733117, 
+                "name": "Jeffrey Levin", 
+                "id_str": "24733117"
+            }
+        ], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", 
+    "text": "RT @dwaynebenji: \u201c@jilevin: For those of you who blame the victim in rape cases, consider this! http://t.co/Osj2U2bpek\u201d", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220431491072", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220431491072, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "Royal_Update", 
+        "friends_count": 480, 
+        "time_zone": "Eastern Time (US & Canada)", 
+        "geo_enabled": false, 
+        "id": 38591593, 
+        "name": "S. R."
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/#!/download/ipad\" rel=\"nofollow\">Twitter for iPad</a>", 
+    "text": "Get em while you can...these will sale out http://t.co/cTDUKLrOT8", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220397953024", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220397953024, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "SincereSoundz", 
+        "friends_count": 898, 
+        "time_zone": "Eastern Time (US & Canada)", 
+        "geo_enabled": true, 
+        "id": 26436891, 
+        "name": "Sin."
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    3, 
+                    10
+                ], 
+                "screen_name": "ManUtd", 
+                "id": 558797310, 
+                "name": "Manchester United", 
+                "id_str": "558797310"
+            }
+        ], 
+        "hashtags": [
+            {
+                "indices": [
+                    61, 
+                    66
+                ], 
+                "text": "mufc"
+            }
+        ], 
+        "urls": []
+    }, 
+    "source": "web", 
+    "text": "RT @ManUtd: It's 21 years today since David Beckham made his #mufc debut vs. Brighton. Becks: \"I realised my dreams at United.\" http://t.co\u2026", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220246962176", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220246962176, 
+    "user": {
+        "lang": "id", 
+        "screen_name": "sarahodon", 
+        "friends_count": 399, 
+        "time_zone": "Bangkok", 
+        "geo_enabled": true, 
+        "id": 500366171, 
+        "name": "sarah kurnia"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [], 
+        "hashtags": [
+            {
+                "indices": [
+                    3, 
+                    7
+                ], 
+                "text": "dog"
+            }
+        ], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://www.twitter.com\" rel=\"nofollow\">Twitter for Windows Phone</a>", 
+    "text": "My #dog is so Nanalicious and she know it! http://t.co/N0MXs4tEHM", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220062400512", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220062400512, 
+    "user": {
+        "lang": "nl", 
+        "screen_name": "KimberlyWattier", 
+        "friends_count": 342, 
+        "time_zone": "Brussels", 
+        "geo_enabled": false, 
+        "id": 424317603, 
+        "name": "Kimberly Wattier"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    0, 
+                    7
+                ], 
+                "screen_name": "lnr_fr", 
+                "id": 37647423, 
+                "name": "LNR.FR", 
+                "id_str": "37647423"
+            }
+        ], 
+        "hashtags": [
+            {
+                "indices": [
+                    14, 
+                    32
+                ], 
+                "text": "RugbyChampionsCup"
+            }, 
+            {
+                "indices": [
+                    56, 
+                    67
+                ], 
+                "text": "WaitAndSee"
+            }
+        ], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>", 
+    "text": "@lnr_fr lance #RugbyChampionsCup pour remplacer la HCup #WaitAndSee http://t.co/11TOqAod3D", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220234362880", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220234362880, 
+    "user": {
+        "lang": "fr", 
+        "screen_name": "YVIQUEL", 
+        "friends_count": 338, 
+        "time_zone": "Greenland", 
+        "geo_enabled": false, 
+        "id": 106477714, 
+        "name": "LOIC YVIQUEL"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://blackberry.com/twitter\" rel=\"nofollow\">Twitter for BlackBerry\u00ae</a>", 
+    "text": "Another zayn header :D - N http://t.co/a4XdNCxN9U\"", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220788035585", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220788035585, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "1Diamond_ID", 
+        "friends_count": 321, 
+        "time_zone": null, 
+        "geo_enabled": true, 
+        "id": 1518203521, 
+        "name": "19Win's?CheckFav!!"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [], 
+        "hashtags": [
+            {
+                "indices": [
+                    13, 
+                    21
+                ], 
+                "text": "Iceland"
+            }
+        ], 
+        "urls": []
+    }, 
+    "source": "web", 
+    "text": "Mossy Inlet, #Iceland http://t.co/NI3ugiFzig", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220490235904", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220490235904, 
+    "user": {
+        "lang": "ru", 
+        "screen_name": "KnightJOlga", 
+        "friends_count": 657, 
+        "time_zone": "Abu Dhabi", 
+        "geo_enabled": false, 
+        "id": 384017928, 
+        "name": "OlgaKnight"
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "web", 
+    "text": "BITCH WAT R U DOING http://t.co/dzsO4aX2rK", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220326633472", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220326633472, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "pchaaai_", 
+        "friends_count": 373, 
+        "time_zone": "Pacific Time (US & Canada)", 
+        "geo_enabled": false, 
+        "id": 121935841, 
+        "name": "yitch."
+    }
+}{
+    "lang": "en", 
+    "favorited": false, 
+    "entities": {
+        "symbols": [], 
+        "user_mentions": [
+            {
+                "indices": [
+                    0, 
+                    16
+                ], 
+                "screen_name": "AngryIndianLady", 
+                "id": 37179810, 
+                "name": "S.Sharmila", 
+                "id_str": "37179810"
+            }, 
+            {
+                "indices": [
+                    17, 
+                    29
+                ], 
+                "screen_name": "MassabrinaM", 
+                "id": 41469128, 
+                "name": "Sabrina Masmariyuno", 
+                "id_str": "41469128"
+            }, 
+            {
+                "indices": [
+                    30, 
+                    42
+                ], 
+                "screen_name": "kath_azrael", 
+                "id": 301753383, 
+                "name": "chegu kath", 
+                "id_str": "301753383"
+            }
+        ], 
+        "hashtags": [], 
+        "urls": []
+    }, 
+    "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>", 
+    "text": "@AngryIndianLady @MassabrinaM @kath_azrael Got mine!!! http://t.co/S3fGIbBnoF", 
+    "coordinates": null, 
+    "filter_level": "medium", 
+    "place": null, 
+    "id_str": "382054220041449472", 
+    "retweet_count": 0, 
+    "geo": null, 
+    "id": 382054220041449472, 
+    "user": {
+        "lang": "en", 
+        "screen_name": "TykorSoon", 
+        "friends_count": 248, 
+        "time_zone": "Beijing", 
+        "geo_enabled": true, 
+        "id": 589585780, 
+        "name": "Kevin Lee"
+    }
+}
