@@ -6,7 +6,7 @@ import json
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
         if 'text' in data:
-            keys_wanted = ['text', 'id', 'source', 'coordinates', 'entities', 'id_str', 'retweet_count', 'favorited', 'geo', 'lang', 'filter_level', 'place']
+            keys_wanted = ['text', 'id', 'source', 'coordinates', 'entities', 'id_str', 'retweet_count', 'favorited', 'geo', 'lang', 'filter_level', 'place', 'created_at']
             user_info_keys = ['id','geo_enabled', 'name', 'lang','screen_name', 'time_zone', 'friends_count']
             user_info = data['user']
             new_data = {key : data[key] for key in keys_wanted}
