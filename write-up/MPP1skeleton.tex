@@ -1,0 +1,97 @@
+\documentclass[bsc,frontabs,twoside,singlespacing,parskip]{infthesis}
+
+\begin{document}
+
+\title{Modelling search volumes as a dynamic system responding to external events}
+
+\author{Stefan Sabev}
+
+\course{Master of Informatics}
+\project{{\bf MInf Project (Part 1) Report}}
+
+\date{\today}
+
+\abstract{
+It is well known that some events could be easily correlated to spikes in flight booking data. Some news events, sports events and such can easily spark people?s attention and make them search for flights to a specific destination (the Champions League Quarter final draw increased the number of flight searches for a specific route X times). The main goal of this project is to grab a few data sources (initially Twitter, possibly later the BBC news web-site) and extract all the events data there is. Also afterwards, we want to separate those events into two groups ? those who can trigger people to search for flights and those who don?t. This will later be used to detect when people want to go somewhere based on the news channels around the world.
+}
+
+\maketitle
+
+\section*{Acknowledgements}
+Acknowledgements go here. 
+
+\tableofcontents
+
+%\pagenumbering{arabic}
+
+
+\chapter{Introduction}
+
+The document structure should include:
+\begin{itemize}
+\item
+The title page  in the format used above.
+\item
+An optional acknowledgements page.
+\item
+The table of contents.
+\item
+The report text divided into chapters as appropriate.
+\item
+The bibliography.
+\end{itemize}
+
+Commands for generating the title page appear in the skeleton file and
+are self explanatory.
+The file also includes commands to choose your report type (project
+report, thesis or dissertation) and degree.
+These will be placed in the appropriate place in the title page. 
+
+The default behaviour of the documentclass is to produce documents typeset in
+12 point.  Regardless of the formatting system you use, 
+it is recommended that you submit your thesis printed (or copied) 
+double sided.
+
+The report should be printed single-spaced.
+It should be 30 to 60 pages long, and preferably no shorter than 20 pages.
+Appendices are in addition to this and you should place detail
+here which may be too much or not strictly necessary when reading the relevant section.
+
+\section{Using Sections}
+
+Divide your chapters into sub-parts as appropriate.
+
+\section{Citations}
+
+Note that citations 
+(like \cite{P1} or \cite{P2})
+can be generated using {\tt BibTeX} or by using the
+{\tt thebibliography} environment. This makes sure that the
+table of contents includes an entry for the bibliography.
+Of course you may use any other method as well.
+
+\section{Options}
+
+There are various documentclass options, see the documentation.  Here we are
+using an option ({\tt bsc} or {\tt minf}) to choose the degree type, plus:
+\begin{itemize}
+\item {\tt frontabs} (recommended) to put the abstract on the front page;
+\item {\tt twoside} (recommended) to format for two-sided printing, with
+  each chapter starting on a right-hand page;
+\item {\tt singlespacing} (required) for single-spaced formating; and
+\item {\tt parskip} (a matter of taste) which alters the paragraph formatting so that
+paragraphs are separated by a vertical space, and there is no
+indentation at the start of each paragraph.
+\end{itemize}
+
+\chapter{Data gathering and analysis}
+
+Of course
+you may want to use several chapters and much more text than here.
+
+% use the following and \cite{} as above if you use BibTeX
+% otherwise generate bibtem entries
+\bibliographystyle{plain}
+\bibliography{mybibfile}
+
+\end{document}
