@@ -18,12 +18,15 @@ class KeyStats(object):
             if 'entities' in data:
                 hastags = data['entities']['hashtags']
                 dt_stamp = datetime.datetime.strptime(data['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-                print dt_stamp
-                break
+
+                dt_key = dt_stamp.strftime('%Y-%m-%d %H')
                 for hashtag in hastags:
                     text = hashtag['text']
-                    self.hashtags[text] = self.hashtags.get(text, 0)
-                    self.hashtags[text] +=1
+                    if text not in self.hashtags:
+                        self.hashtags[text] = {}
+                        self.hashtags[text][key] = self.hashtags[text].get(dt_key, 0) + 1
+                    else:
+                        self.hashtags[text][key] = self.hashtags[text].get(dt_key, 0) + 1
 
     def dump_tags(self):
 
@@ -40,8 +43,7 @@ if __name__ == '__main__':
     outfile = open('outfile', 'wb')
 
 
-    outfile.write(json.dumps(tags.hashtags, indent=4))
-    outfile.write(json.dumps(sorted(tags.hashtags.items(), key=lambda x: x[1]), indent=4))
+    outfile.write(json.dumps(sorted(tags.hashtags.items(), key=lambda x: len(x[1]), reverse=True), indent=4))
     outfile.close()
 
     print delta.seconds 
