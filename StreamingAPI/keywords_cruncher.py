@@ -1,6 +1,5 @@
 import re
 import json
-from ast import literal_eval
 import datetime 
 
 class KeyStats(object):
@@ -15,10 +14,10 @@ class KeyStats(object):
     
     def get_keywords(self):
         for line in self.filehandler:
-            data = literal_eval(line)
+            data = json.loads(line)
             if 'entities' in data:
                 hastags = data['entities']['hashtags']
-                dt_stamp = datetime.datetime.strptime(data['created_at'], '%Y-%m-%d %H:%M')
+                dt_stamp = datetime.datetime.strptime(data['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
                 print dt_stamp
                 break
                 for hashtag in hastags:
