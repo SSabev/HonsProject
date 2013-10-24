@@ -18,6 +18,9 @@ class KeyStats(object):
             data = literal_eval(line)
             if 'entities' in data:
                 hastags = data['entities']['hashtags']
+                dt_stamp = datetime.datetime.strptime(data['created_at'], '%Y-%m-%d %H:%M')
+                print dt_stamp
+                break
                 for hashtag in hastags:
                     text = hashtag['text']
                     self.hashtags[text] = self.hashtags.get(text, 0)
@@ -30,7 +33,7 @@ class KeyStats(object):
 
 if __name__ == '__main__':
 
-    tags = KeyStats('Data-23.9.2013')
+    tags = KeyStats('data-dump-with-dt-19')
 
     # tags.dump_tags()
     delta = datetime.datetime.now() - tags.starttime
