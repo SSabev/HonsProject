@@ -55,5 +55,5 @@ if __name__ == '__main__':
         tags = KeyStats(i)
 
         delta = datetime.datetime.now() - tags.starttime
-        tags.to_csv('%.csv'%str(j)
+        tags.to_csv('%s.csv'%str(j))
         print delta.seconds 
