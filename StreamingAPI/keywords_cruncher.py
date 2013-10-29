@@ -48,12 +48,13 @@ class KeyStats(object):
 
 
 if __name__ == '__main__':
-
-    all_the_files = sorted(set([i for i in glob.glob(r'data-dump-with-*')][:-1]))
+    current = 'data-dump-with-dt-26'
+    all_the_files = [i for i in glob.glob(r'data-dump-with-*') if i != current]
     print all_the_files
-    for i, j in zip(all_the_files, xrange(0, len(all_the_files)-1)):
+    for i in all_the_files:
+        filename = i.split('-')[-1]
         tags = KeyStats(i)
 
         delta = datetime.datetime.now() - tags.starttime
-        tags.to_csv('%s.csv'%str(j))
+        tags.to_csv('%s.csv'%str(filename))
         print delta.seconds 
