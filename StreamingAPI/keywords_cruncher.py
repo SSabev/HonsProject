@@ -35,7 +35,7 @@ class KeyStats(object):
         print self.hashtags
     
     def to_csv(self, filename):
-        outfile = open('outfile.csv', 'wb')
+        outfile = open(filename, 'wb')
         outwriter = csv.writer(outfile)
         outwriter.writerow(['Hashtag', 'Datetime', 'TimesSeen'])
         for key in self.hashtags:
