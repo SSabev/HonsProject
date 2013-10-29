@@ -16,20 +16,23 @@ class KeyStats(object):
     
     def get_keywords(self):
         for line in self.filehandler:
-            data = json.loads(line)
-            if 'entities' in data:
-                hastags = data['entities']['hashtags']
-                dt_stamp = datetime.datetime.strptime(data['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+            try:
+                data = json.loads(line)
+                if 'entities' in data:
+                    hastags = data['entities']['hashtags']
+                    dt_stamp = datetime.datetime.strptime(data['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
 
-                dt_key = dt_stamp.strftime('%Y-%m-%d %H')
-                for hashtag in hastags:
-                    text = hashtag['text']
-                    if text not in self.hashtags:
-                        self.hashtags[text] = {}
-                        self.hashtags[text][dt_key] = self.hashtags[text].get(dt_key, 0) + 1
-                    else:
-                        self.hashtags[text][dt_key] = self.hashtags[text].get(dt_key, 0) + 1
-
+                    dt_key = dt_stamp.strftime('%Y-%m-%d %H')
+                    for hashtag in hastags:
+                        text = hashtag['text']
+                        if text not in self.hashtags:
+                            self.hashtags[text] = {}
+                            self.hashtags[text][dt_key] = self.hashtags[text].get(dt_key, 0) + 1
+                        else:
+                            self.hashtags[text][dt_key] = self.hashtags[text].get(dt_key, 0) + 1
+            except ValueError:
+                pass
+            
     def dump_tags(self):
 
         print self.hashtags
@@ -49,7 +52,7 @@ class KeyStats(object):
 
 if __name__ == '__main__':
     current = 'data-dump-with-dt-26'
-    all_the_files = [i for i in glob.glob(r'data-dump-with-*') if i != current]
+    all_the_files = [i for i in glob.glob(r'data-dump-with-*') if i != current][4:]
     print all_the_files
     for i in all_the_files:
         filename = i.split('-')[-1]
