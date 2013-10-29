@@ -1,6 +1,8 @@
 import re
 import json
-import datetime 
+import datetime
+import csv
+import glob, os, sys
 
 class KeyStats(object):
     
@@ -32,14 +34,14 @@ class KeyStats(object):
 
         print self.hashtags
     
-    def to_csv(self):
+    def to_csv(self, filename):
         outfile = open('outfile.csv', 'wb')
         outwriter = csv.writer(outfile)
-        outwriter.writerow('Hashtag', 'Datetime', 'TimesSeen')
+        outwriter.writerow(['Hashtag', 'Datetime', 'TimesSeen'])
         for key in self.hashtags:
             data = self.hashtags[key]
             for i in data:
-                outwriter.writerow(key, i, data[i])
+                outwriter.writerow([key.encode('ascii', 'ignore'), i.encode('ascii', 'ignore'), data[i]])
 
         outfile.close()
 
@@ -47,15 +49,11 @@ class KeyStats(object):
 
 if __name__ == '__main__':
 
-    tags = KeyStats('data-dump-with-dt-12')
+    all_the_files = sorted(set([i for i in glob.glob(r'data-dump-with-*')][:-1]))
+    print all_the_files
+    for i, j in zip(all_the_files, xrange(0, len(all_the_files)-1)):
+        tags = KeyStats(i)
 
-    # tags.dump_tags()
-    delta = datetime.datetime.now() - tags.starttime
-    
-    outfile = open('outfile', 'wb')
-
-
-    outfile.write(json.dumps(sorted(tags.hashtags.items(), key=lambda x: len(x[1]), reverse=True), indent=4))
-    outfile.close()
-
-    print delta.seconds 
+        delta = datetime.datetime.now() - tags.starttime
+        tags.to_csv('%.csv'%str(j)
+        print delta.seconds 
