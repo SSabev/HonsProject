@@ -24,18 +24,30 @@ class KeyStats(object):
                     text = hashtag['text']
                     if text not in self.hashtags:
                         self.hashtags[text] = {}
-                        self.hashtags[text][key] = self.hashtags[text].get(dt_key, 0) + 1
+                        self.hashtags[text][dt_key] = self.hashtags[text].get(dt_key, 0) + 1
                     else:
-                        self.hashtags[text][key] = self.hashtags[text].get(dt_key, 0) + 1
+                        self.hashtags[text][dt_key] = self.hashtags[text].get(dt_key, 0) + 1
 
     def dump_tags(self):
 
         print self.hashtags
+    
+    def to_csv(self):
+        outfile = open('outfile.csv', 'wb')
+        outwriter = csv.writer(outfile)
+        outwriter.writerow('Hashtag', 'Datetime', 'TimesSeen')
+        for key in self.hashtags:
+            data = self.hashtags[key]
+            for i in data:
+                outwriter.writerow(key, i, data[i])
+
+        outfile.close()
+
 
 
 if __name__ == '__main__':
 
-    tags = KeyStats('data-dump-with-dt-19')
+    tags = KeyStats('data-dump-with-dt-12')
 
     # tags.dump_tags()
     delta = datetime.datetime.now() - tags.starttime
