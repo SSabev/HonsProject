@@ -51,8 +51,8 @@ class KeyStats(object):
 
 
 if __name__ == '__main__':
-    current = 'data-dump-with-dt-26'
-    all_the_files = [i for i in glob.glob(r'data-dump-with-*') if i != current][4:]
+    current = 'data-dump-with-dt-28'
+    all_the_files = [i for i in glob.glob(r'data-dump-with-*') if i != current]
     print all_the_files
     for i in all_the_files:
         filename = i.split('-')[-1]
