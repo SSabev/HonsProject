@@ -15,8 +15,8 @@ def get_cities():
 if __name__ == '__main__':
     cities = get_cities()
 
-
-    all_the_files = [i for i in glob.glob(r'data-dump-with-dt-*')]
+    current = ''
+    all_the_files = [i for i in glob.glob(r'data-dump-with-dt-*') if i!=current]
 
     for i in all_the_files: 
         data_file = open(i, 'r')
