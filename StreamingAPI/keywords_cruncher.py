@@ -33,10 +33,6 @@ class KeyStats(object):
             except ValueError:
                 pass
             
-    def dump_tags(self):
-
-        print self.hashtags
-    
     def to_csv(self, filename):
         outfile = open(filename, 'wb')
         outwriter = csv.writer(outfile)
