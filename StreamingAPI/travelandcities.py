@@ -24,16 +24,19 @@ if __name__ == '__main__':
         t_flag = False
         p_flag = False
         for line in data_file:
-            tweet = json.loads(line)
-            text = tweet['text'].encode('utf-8').split()
-            for i in text:
-                if i in cities:
-                    p_flag = True
-                if i in terms:
-                    t_flag = True
-            if p_flag and t_flag:
-                outfile.write(json.dumps(tweet) + '\n')
-            p_flag = False
-            t_flag = False
+            try:
+                tweet = json.loads(line)
+                text = tweet['text'].encode('utf-8').split()
+                for i in text:
+                    if i in cities:
+                        p_flag = True
+                    if i in terms:
+                        t_flag = True
+                if p_flag and t_flag:
+                    outfile.write(json.dumps(tweet) + '\n')
+                p_flag = False
+                t_flag = False
+            except ValueError:
+                pass
         data_file.close()
         outfile.close()
