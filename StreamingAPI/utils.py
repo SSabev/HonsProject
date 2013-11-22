@@ -2,6 +2,10 @@ import re
 import json
 from ast import literal_eval
 
+"""
+Wee swiss knife of functions for cleansing the data
+"""
+
 def trim_file(infile, outfile):
     for line in infile:
         #print line

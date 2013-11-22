@@ -5,6 +5,13 @@ import csv
 import glob, os, sys
 
 class KeyStats(object):
+
+    """
+    This gives the data that is fed for the Aggregator.
+
+    Word_counter is the one that does the words in text
+    
+    """
     
     def __init__(self, filename):
 
