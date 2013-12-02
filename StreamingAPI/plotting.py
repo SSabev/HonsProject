@@ -6,7 +6,7 @@ import datetime as dt
 Simple small script for plotting timeseries
 """
 
-city = 'Manhattan'
+city = 'London'
 
 data = p.read_csv('tc/%s.csv'%city)
 
