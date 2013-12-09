@@ -16,11 +16,13 @@ if __name__ == '__main__':
     cities = get_cities()
 
     current = ''
-    all_the_files = [i for i in glob.glob(r'data-dump-with-dt-*') if i!=current]
-
+    all_the_files = [i for i in glob.glob(r'/Volumes/Tweets/Data/data-dump-with-dt-*') if i!=current]
+    print all_the_files
+    
     for i in all_the_files: 
         data_file = open(i, 'r')
-        outfile = open('traveltweets/%s'%i, 'wb')
+        filename_current = i.split('/')[-1]
+        outfile = open('traveltweets/%s'%filename_current, 'wb')
         t_flag = False
         p_flag = False
         for line in data_file:
@@ -37,6 +39,6 @@ if __name__ == '__main__':
                 p_flag = False
                 t_flag = False
             except ValueError:
-                pass
+                print line
         data_file.close()
         outfile.close()

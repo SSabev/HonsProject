@@ -58,6 +58,8 @@ if __name__ == '__main__':
     all_the_files = [i for i in glob.glob(r'/Volumes/Tweets/Data/data-dump-with-*') if i != current]
     print all_the_files
 
+    all_the_files = 
+
     for i in all_the_files:
         filename = i.split('-')[-1]
         tags = KeyStats(i)
