@@ -51,7 +51,6 @@ class PlaceNameCounter(object):
                     df.to_csv('%s/%s.csv'%(directory,i), index=False)
                 else:
                     pass
-    
 
 if __name__ == '__main__':
     all_the_files = [i for i in glob.glob(r'processed/*.csv')]

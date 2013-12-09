@@ -54,13 +54,14 @@ class KeyStats(object):
 
 
 if __name__ == '__main__':
-    current = 'data-dump-with-dt-28'
-    all_the_files = [i for i in glob.glob(r'data-dump-with-*') if i != current]
+    current = ''
+    all_the_files = [i for i in glob.glob(r'/Volumes/Tweets/Data/data-dump-with-*') if i != current]
     print all_the_files
+
     for i in all_the_files:
         filename = i.split('-')[-1]
         tags = KeyStats(i)
 
         delta = datetime.datetime.now() - tags.starttime
-        tags.to_csv('%s.csv'%str(filename))
+        tags.to_csv('counts/%s.csv'%str(filename))
         print delta.seconds 
