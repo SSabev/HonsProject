@@ -4,7 +4,7 @@ import csv
 import glob, os, sys
 import pandas as p
 import terms
-import travelandcities as tc
+import get_only_place_tweets as tc
 
 
 class PlaceNameCounter(object):
@@ -53,8 +53,8 @@ class PlaceNameCounter(object):
                     pass
 
 if __name__ == '__main__':
-    all_the_files = [i for i in glob.glob(r'processed/*.csv')]
-    print all_the_files
+    #all_the_files = [i for i in glob.glob(r'processed/*.csv')]
+    #print all_the_files
 
     f = 'travel_counts.csv'
     directory = 'tc'

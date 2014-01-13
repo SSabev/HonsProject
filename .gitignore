@@ -1,2 +1,3 @@
 StreamingAPI/*.pyc
 StreamingAPI/data-dump-*
+*.csv
