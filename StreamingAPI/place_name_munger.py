@@ -42,7 +42,7 @@ class PlaceNameCounter(object):
         done_tags = [] #[i.split('/')[1].split('.')[0] for i in done_tags]
         print done_tags
         for i in iter(self.uniques):
-            if i not in done_tags and (i in cities or i in terms.terms):
+            if i not in done_tags and (i in cities or i in terms.terms or i in terms.countries):
                 df = self.data[self.data['KeyWord'] == i]
                 df_sum = sum([j for j in df['Count']])
                 if df_sum > 100:
