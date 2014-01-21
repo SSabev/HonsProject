@@ -3,13 +3,16 @@ import scipy
 from scipy.stats import pearsonr, linregress
 import matplotlib.pyplot as plt
 import datetime as dt
+from dateutil.relativedelta import relativedelta
 
 city = 'London'
 
 searches = p.read_csv('tidydata/se/%s.csv'%city)
 
 def conversion(date):
-    return dt.datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')
+    temp = dt.datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+    #temp = temp + relativedelta(days = 1)
+    return temp.strftime('%Y-%m-%d')
 
 searches.Date = searches.Date.apply(conversion)
 tweets = p.read_csv('tc/%s.csv'%city)
@@ -19,7 +22,9 @@ tweets['Date'] = tweets['Datetime']
 searches_and_tweets = searches.merge(tweets, on='Date', how='inner')
 del searches_and_tweets['KeyWord']
 
-#r_row, p_value = pearsonr(earches_and_tweets['Count'], earches_and_tweets['Searches'])
+r_row, p_value = pearsonr(searches_and_tweets['Count'], searches_and_tweets['Searches'])
+
+r_row, p_value
 
 searches_and_tweets['NSearches'] = searches_and_tweets['Searches']/float(max(searches_and_tweets['Searches']))
 del searches_and_tweets['Searches']
@@ -47,7 +52,6 @@ plt.show()
 
 # In [8]: p_value Out[8]: 0.34812122310798099
 
-
 # For bankgkok 
 
 # In [16]: r_row, p_value
@@ -70,7 +74,7 @@ plt.show()
 # Out[23]: (0.047154898428752631, 0.69198824802642978)
 
 
-gradient, intercept, r_value, p_value, std_err = linregress(earches_and_tweets['Count'], earches_and_tweets['Searches'])
+gradient, intercept, r_value, p_value, std_err = linregress(searches_and_tweets['Count'], searches_and_tweets['Searches'])
 
 # In [45]: gradient
 # Out[45]: 0.15605997434796715

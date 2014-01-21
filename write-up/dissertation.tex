@@ -22,7 +22,7 @@
 
 \abstract{
 It is well known that some events might spark people's interest to fly to different destinations. In particular news events or sports events can quite easily make people search for a specific destination - for example the Champions League Quarter final draw increased the number of flight searches from Glasgow to Spain 6 times.
-The main goal of this project is to grab Twitter data and possibly the BBC news web-site and extract the available event data. Afterwards we'd want to split it into two groups - those who spark people's interest and those don't.
+The main goal of this project is to collect Twitter data initially and possibly several other news sources and extract the available event data. Afterwards we'd want to split it into two groups - those who spark people's interest and those don't.
 This can later be used to detect when people want to go somewhere based on the news channels around the world.
 }
 
@@ -34,7 +34,6 @@ Acknowledgements go here.
 \tableofcontents
 
 \pagenumbering{arabic}
-
 
 \chapter{Introduction}
 
@@ -128,7 +127,7 @@ For London the numbers we got back from that are:
 \begin{quotation}
 In [39]: r\_row, p\_value
 
-Out [39]: (0.13016098564086925, 0.28283460745375955)
+Out [39]: (0.13, 0.28)
 \end{quotation}
 
 From this it seems that the situation is truly unrelated. After all a positive correlation of only 13\% is something that even a social scientist wouldn't report!
@@ -147,7 +146,7 @@ The Pearson test yields the following values for Sydney:
 \begin{quotation}
 In [23]: r\_row, p\_value
 
-Out[23]: (0.047154898428752631, 0.69198824802642978)
+Out[23]: (0.05, 0.70)
 \end{quotation}
 \newpage
 And here is the scatter plot:
@@ -157,6 +156,29 @@ And here is the scatter plot:
 Here we do see that indeed the correlation is not as well expressed. The implications of that are that the approach we take to building the model must be more versatile - we will aim to build one model for the overall twitter counts of places correlated to the total number of exits and models on a per city basis.
 
 \section{Cleansing the data}
+
+As mentioned,every time you depend a few external data source there will be some holes in the data, caused by several things. 
+
+In my case they were a couple of major sources of risk:
+\begin{enumerate}
+\item The script that collects data from the Streaming API.
+\item The searches data coming from Skyscanner being incorrect or partial - not spanning the full date range.
+\end{enumerate}
+
+The dates with incomplete data or missing data altogether can seriously impact any regression or statistical test, so it was vital to tidy up the data set by backfilling the data. I applied the Last 4 Fridays mentioned in the following chapter in order to make the dataset more consistent and easier to work with. 
+
+The interesting part was that it completely change the results from the test. For London the values returned by the Pearson test are now:
+
+\begin{quotation}
+In [23]: r\_row, p\_value
+
+Out[23]: (-0.23, 0.02)
+\end{quotation}
+
+That is quite interesting and it has a lot of implications on the models we will use afterwards to correlate the two variables. 
+We might have to add a certain "lag" factor to this, which will offset the tweets by correlating the numbers extrapolated from Twitter with the numbers and match them against searches from the following day.
+
+\section{Top features}
 
 
 
@@ -175,8 +197,16 @@ It works in the following way:
 This model was tested out against more complex classifiers like ARIMA and Autoregressive Vector Methods and it performed really well, but unlike the others it was many times simpler to program and maintain.
 
 
-
 \chapter{Timeline}
+
+The timeline for the next 3 months is the following:
+
+\begin{enumerate}
+\item Continue with the tests
+\item Finish the model that will detect the anomalies based on TDT.
+\item Final draft done by mid-March.
+\item Submit dissertation.
+\end{enumerate}
 
 
 
