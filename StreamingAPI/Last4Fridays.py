@@ -17,12 +17,16 @@ class Analyser:
         if 'Datetime' in self.df:
             self.df['Date'] = self.df.Datetime.apply(conversion)
         else:
-            self.df.Date = self.df.Date.apply(conversion) 
+            try:
+                self.df.Date = self.df.Date.apply(conversion) 
+            except TypeError:
+                print "Already a stamp"
 
     def createblankdf(self):
         start = dt.datetime.strptime(str(self.df.Date.irow(0)), "%Y-%m-%d %H:%M:%S")
         
-        lastdate = self.df.Date.irow(-1) 
+        lastdate = self.df.Date.irow(-1)
+        self.lastdate = lastdate
         startdate = dt.datetime(lastdate.year, lastdate.month, 1)
         enddate = startdate + relativedelta(days=-1, months=1)
         currentdate = start
@@ -56,7 +60,7 @@ class Analyser:
             r2 = self.results[self.results.Date == tm2]
             r3 = self.results[self.results.Date == tm3]
             r4 = self.results[self.results.Date == tm4]
- 
+            
             if np.isnan(r1.Count):
                 v1 = float(r1.Forecast)
             else:
@@ -85,8 +89,9 @@ class Analyser:
     def backfill(self, variable): 
         self.forecastdates = self.results[(self.results.Forecast == 0)
                & (np.isnan(self.results['%s'%variable]))]['Date']
-                    
-            
+        #for forecastdate in self.forecastdates:
+        #    print forecastdate
+
         for forecastdate in self.forecastdates:
             # figure out the dates 1, 2, 3 and 4 weeks ago
             tm1 = forecastdate - relativedelta(days = 7)
@@ -103,7 +108,7 @@ class Analyser:
             r2 = self.results[self.results.Date == tm2]
             r3 = self.results[self.results.Date == tm3]
             r4 = self.results[self.results.Date == tm4]
- 
+        
             if np.isnan(r1['%s'%variable]):
                 v1 = float(r1.Forecast)
             else:

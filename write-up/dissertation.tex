@@ -178,7 +178,9 @@ Out[23]: (-0.23, 0.02)
 That is quite interesting and it has a lot of implications on the models we will use afterwards to correlate the two variables. 
 We might have to add a certain "lag" factor to this, which will offset the tweets by correlating the numbers extrapolated from Twitter with the numbers and match them against searches from the following day.
 
-\section{Top features}
+\section{Top features} 
+
+The idea here is to extract the top N features from the tweet and use them in the logistic regression model that we will build to predict the 
 
 
 
@@ -200,15 +202,16 @@ This model was tested out against more complex classifiers like ARIMA and Autore
 \chapter{Timeline}
 
 The timeline for the next 3 months is the following:
-
 \begin{enumerate}
 \item Continue with the tests
-\item Finish the model that will detect the anomalies based on TDT.
+\item Chose which approach is to be picked up:
+\begin{itemize}
+\item Explain spikes in searches by looking at historical tweet data
+\item Or try to predict the spikes in the first place
+\end{itemize}
 \item Final draft done by mid-March.
 \item Submit dissertation.
 \end{enumerate}
-
-
 
 
 %\begin{thebibliography}{50}
