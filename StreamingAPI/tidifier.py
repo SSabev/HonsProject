@@ -18,7 +18,7 @@ def join_files(city,filenames):
     
     searches.Date = searches.Date.apply(conversion)
     tweets.Date = tweets.Date.apply(conversion)
-    searches_and_tweets = searches.merge(tweets, on='Date', how='inner')
+    searches_and_tweets = searches.merge(tweets, on='Date', how='outer')
     try:
         searches_and_tweets['NSearches'] = searches_and_tweets['Searches']/float(max(searches_and_tweets['Searches']))
         searches_and_tweets.to_csv('tidydata/joined/%s.csv'%city)
