@@ -44,8 +44,6 @@ class TopFeatures(object):
                             #    self.keywords[token][dt_key] = self.keywords[token].get(dt_key, 0) + 1
                             #else:
                             #    self.keywords[token][dt_key] = self.keywords[token].get(dt_key, 0) + 1
-
-
             self.j+=1
 
             if self.j%100000 == 0:
@@ -61,4 +59,4 @@ if __name__ == '__main__':
     a = TopFeatures(f, topics)
 
     #a.tdf  = a.tdf.sort(columns = ['Count'], ascending=False)
-    #a.df  = a.df.sort(columns = ['Count'], ascending=False)
+    #a.df  = a.df.sort(columns = ['Count'], aascending=False)
