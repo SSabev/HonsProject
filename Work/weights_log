@@ -399,10 +399,3 @@ Zagreb [-0.03908675  0.3551618   0.08250233  0.09140106 -0.03642725]
 Zanzibar
 Zaragoza [-0.00800749  0.52139965  0.13776269  0.21101378  0.01154218]
 Zurich [ 0.14393771  0.57716836  0.0252032   0.2103917   0.00152126]
-<class 'pandas.core.frame.DataFrame'>
-Index: 272 entries, Aarhus to Zurich
-Data columns (total 3 columns):
-RMSE_Twitter         272  non-null values
-RMSE_L4F             272  non-null values
-RMSE_Just_Twitter    272  non-null values
-dtypes: float64(3)
