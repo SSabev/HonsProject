@@ -58,9 +58,15 @@ class TwitterExtractor(object):
         self.get_lists()
         for twfile in self.all_the_files:
             change = False
+            travelFlag = False
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
             self.counts = {}
+            for i in self.single_word:
+                self.counts[i] = {}
+            for i in self.multi_word:
+                self.counts[i] = {}
+
             self.counts['Brazil'] = {}
             filename_current = twfile.split('/')[-1]
             outfile = open('traveltweets_expanded/%s'%filename_current, 'wb')
@@ -73,6 +79,11 @@ class TwitterExtractor(object):
                     
                 if tweet:
                     temp = tweet['text'].encode('utf-8').lower()
+                    for w in terms:
+                        if w in temp:
+                            travelFlag = True
+                            break
+
                     dt_stamp = datetime.datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
                     dt_key = dt_stamp.strftime('%Y-%m-%d')
                     if 'rio' in temp or 'brazil' in temp or 'world cup' in temp:
@@ -82,25 +93,22 @@ class TwitterExtractor(object):
                     for i in self.multi_word:
                         if i in temp:
                             change = True
-                            if i not in self.counts:
-                                self.counts[i] = {}
-                                self.counts[i][dt_key] = self.counts[i].get(dt_key, 0) + 1
-                            else:
+                            if travelFlag:
                                 self.counts[i][dt_key] = self.counts[i].get(dt_key, 0) + 1
 
                     for token in temp.split(' '):
                         if token in self.single_word:
                             change = True
-                            if i not in self.counts:
-                                self.counts[i] = {}
-                                self.counts[i][dt_key] = self.counts[i].get(dt_key, 0) + 1
-                            else:
+                            if travelFlag:
                                 self.counts[i][dt_key] = self.counts[i].get(dt_key, 0) + 1
 
-                    if change:
+                    if change and travelFlag and tweet:
                         outfile.write(json.dumps(tweet) + '\n')
+
             for key in self.counts:
-                df = p.DataFrame(list(self.travel.iteritems()), \
+                temp = self.counts[key]
+                print list(temp.iteritems())
+                df = p.DataFrame(list(temp.iteritems()), \
                 columns=['Date', 'Count']).sort(columns=['Date'], ascending=False)
                 df.to_csv('pcounts/%s.csv'%str(key))
                                
