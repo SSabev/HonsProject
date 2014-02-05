@@ -57,8 +57,6 @@ class TwitterExtractor(object):
         cities = self.get_cities()
         self.get_lists()
         for twfile in self.all_the_files:
-            change = False
-            travelFlag = False
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
             self.counts = {}
@@ -72,6 +70,8 @@ class TwitterExtractor(object):
             outfile = open('traveltweets_expanded/%s'%filename_current, 'wb')
 
             for line in open(twfile, 'r'):
+                change = False
+                travelFlag = False
                 try:
                     tweet = json.loads(line)
                 except ValueError:
@@ -93,16 +93,14 @@ class TwitterExtractor(object):
                     for i in self.multi_word:
                         if i in temp:
                             change = True
-                            if travelFlag:
-                                self.counts[i][dt_key] = self.counts[i].get(dt_key, 0) + 1
+                            self.counts[i][dt_key] = self.counts[i].get(dt_key, 0) + 1
 
                     for token in temp.split(' '):
                         if token in self.single_word:
                             change = True
-                            if travelFlag:
-                                self.counts[i][dt_key] = self.counts[i].get(dt_key, 0) + 1
+                            self.counts[token][dt_key] = self.counts[token].get(dt_key, 0) + 1
 
-                    if change and travelFlag and tweet:
+                    if (change or travelFlag) and tweet:
                         outfile.write(json.dumps(tweet) + '\n')
 
             for key in self.counts:
