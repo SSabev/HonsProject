@@ -41,11 +41,8 @@ class TwitterProcessor(object):
             name = filename.split('/')[-1].replace('.csv','')
             data = p.read_csv(filename)
             if np.sum(data.Count) > 100:
-                data['Date'] = data.Datetime.apply(conversion)
                 data = data[data.Date != '2013-10-03']
                 data = data[data.Date != '2013-10-15']
-                del data['KeyWord']
-                del data['Datetime']
                 new_df = self.mergedfs(data)
                 new_df = new_df.fillna(new_df.mean())
                 new_df.Count = new_df.Count.astype('int')

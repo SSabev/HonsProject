@@ -21,6 +21,7 @@ class TwitterExtractor(object):
         self.all_the_files = [i for i in glob.glob(r'%s/data-dump-with-dt-*'%basepath) if i not in self.processed]
         print "Got %s files to go through"%str(len(self.all_the_files))
         self.process_files()
+        self.rebalance_counts()
 
     def convert_timedelta(self, duration):
         days, seconds = duration.days, duration.seconds
@@ -56,19 +57,19 @@ class TwitterExtractor(object):
         self.startime = None
         cities = self.get_cities()
         self.get_lists()
+        self.counts = {}
+        self.counts['Brazil'] = {}
+        for i in self.single_word:
+            self.counts[i] = {}
+        for i in self.multi_word:
+            self.counts[i] = {}
+
+
         for twfile in self.all_the_files:
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
-            self.counts = {}
-            for i in self.single_word:
-                self.counts[i] = {}
-            for i in self.multi_word:
-                self.counts[i] = {}
-
-            self.counts['Brazil'] = {}
             filename_current = twfile.split('/')[-1]
             outfile = open('traveltweets_expanded/%s'%filename_current, 'wb')
-
             for line in open(twfile, 'r'):
                 change = False
                 travelFlag = False
@@ -102,25 +103,49 @@ class TwitterExtractor(object):
 
                     if (change or travelFlag) and tweet:
                         outfile.write(json.dumps(tweet) + '\n')
-
-            for key in self.counts:
-                temp = self.counts[key]
-                print list(temp.iteritems())
-                df = p.DataFrame(list(temp.iteritems()), \
-                columns=['Date', 'Count']).sort(columns=['Date'], ascending=False)
-                df.to_csv('pcounts/%s.csv'%str(key))
-                               
-            
+                    
             h, m, s = self.convert_timedelta(datetime.datetime.now() - self.starttime)
             print '{} took {}h,{}m,{}s to process'.format(twfile, h, m, s)
             self.startime = datetime.datetime.now()
 
+            
+        print self.counts 
+        for key in self.counts:
+            temp = self.counts[key]
+            if temp != {}:
+                df = p.DataFrame(list(temp.iteritems()), \
+                columns=['Date', 'Count']).sort(columns=['Date'], ascending=False)
+                city_formatted = str(key)
+                df.to_csv('pcounts/%s.csv'%(city_formatted.capitalize()))            
+            
+            
+    def rebalance_counts(self):
+        twitter_dir = 'tc/'
+        twitter_files = glob.glob('tc/*.csv')
+        pcounts = glob.glob('pcounts/*.csv')
 
+        for i in pcounts:
+            name = i.split('/')[1].replace('.csv','')
+            for j in twitter_files:
+                tname = j.split('/')[1].replace('.csv','')
+                if name == tname:
+                    print 'Match for %s'%tname
+                    data = p.read_csv(j)
+                    new_data = p.read_csv(i)
 
+                    data['Date'] = data.Datetime
+                    del data['Datetime'], data['KeyWord']
+                    del new_data['Unnamed: 0']
+                    print data
+                    print new_data
+                    data = data.append(new_data)
+                    print data
+                    new = data.groupby(['Date'])
+                    df = new.sum()
+                    df.to_csv(j)
 
 if __name__ == '__main__':
-
+    basepath2 = '/Volumes/Samsung/TwitterData'
     basepath = "/Volumes/Tweets/Data"
-    a = TwitterExtractor(basepath)
-
+    a = TwitterExtractor(basepath2)
 
