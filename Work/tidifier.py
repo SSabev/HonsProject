@@ -10,7 +10,10 @@ def join_files(city,filenames):
     tweets = p.read_csv(t_file)
 
     def conversion(date):
-        temp = dt.datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+        try:
+            temp = dt.datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+        except:
+            temp = dt.datetime.strptime(date, '%Y-%m-%d')
         #temp = temp + relativedelta(days = 1)
         return temp.strftime('%Y-%m-%d')
     #print searches[0:2]
@@ -34,13 +37,16 @@ def tidy_up():
         city_name = i.replace('.csv','').split('/')[-1]
         tweet_file = None
         for j in tweet_files:
-            if city_name in j:
+            other_name = j.replace('.csv','').split('/')[-1]
+            if city_name == other_name:
                 city_dict[city_name] = (i,j)
+
+
+    tweets_files_names = [i.replace('.csv', '').split('/')[-1] for i in tweet_files]
+    ss_files_names = [i.replace('.csv', '').split('/')[-1] for i in ss_files]
     
-    print tweet_files
-    print ss_files
-    print len(tweet_files)
-    print len(ss_files)
+    print "Unmatched: "
+    print set(tweets_files_names).difference(set(ss_files_names))
     return city_dict
 
 if __name__ == '__main__':

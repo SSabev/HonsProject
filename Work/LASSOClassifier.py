@@ -81,7 +81,7 @@ if __name__ == '__main__':
             #print clf
             print cityname, clf.coef_
 
-            cutoff_date = dt.datetime.strptime('2013-10-24 00:00:00', '%Y-%m-%d %H:%M:%S')
+            cutoff_date = dt.datetime.strptime('2013-09-24 00:00:00', '%Y-%m-%d %H:%M:%S')
 
             def predict_searches(row):
                 if row['Date'] > cutoff_date:
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
             data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
 
-
+            print data[100:]
             predicted_w_t = data.PredictedSearches
             predicted_l4f = data.LF4Predicted
             actual = data.Searches

@@ -132,14 +132,12 @@ class TwitterExtractor(object):
                     print 'Match for %s'%tname
                     data = p.read_csv(j)
                     new_data = p.read_csv(i)
-
-                    data['Date'] = data.Datetime
-                    del data['Datetime'], data['KeyWord']
+                    if 'Datetime' in data:
+                        data['Date'] = data.Datetime
+                        del data['Datetime'], data['KeyWord']
+                    
                     del new_data['Unnamed: 0']
-                    print data
-                    print new_data
                     data = data.append(new_data)
-                    print data
                     new = data.groupby(['Date'])
                     df = new.sum()
                     df.to_csv(j)

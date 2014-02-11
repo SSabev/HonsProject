@@ -36,7 +36,7 @@ class ExitsProcessor(object):
         print len(set(self.data['ToCity']))
         self.uniques = set(self.data['ToCity'])
         
-    def make_extracts(self):
+    def make_extracts_for_cities(self):
         bad, good = 0, 0
         for i in iter(self.uniques):
             if (i in self.cities or i in terms.terms or i in terms.countries):
@@ -75,4 +75,4 @@ if __name__ == '__main__':
     directory = 'tidydata/se'
     a = ExitsProcessor(f, directory)
     a.list_cities()
-    a.make_extracts()
+    a.make_extracts_for_cities()
