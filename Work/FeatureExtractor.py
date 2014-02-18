@@ -7,6 +7,7 @@ import glob
 import io
 import nltk
 import string
+import numpy as np
 
 class FeatureExtractor(object):
 
@@ -23,7 +24,7 @@ class FeatureExtractor(object):
         print self.all_the_files
         print "Got %s files to go through"%str(len(self.all_the_files))
         self.process_files()
-        self.process_the_counts()
+        #self.process_the_counts()
 
     def convert_timedelta(self, duration):
         days, seconds = duration.days, duration.seconds
@@ -102,6 +103,7 @@ class FeatureExtractor(object):
         for i in self.counts:
             data = p.DataFrame.from_dict(self.counts[i])
             print data
+            sums = {}
             for i in data.columns:
                 sums[i] = np.sum(data[i])
             sorted_sums=sorted(sums.iteritems(), key=lambda x: x[1], reverse=True)
