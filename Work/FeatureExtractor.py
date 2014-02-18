@@ -5,6 +5,8 @@ from terms import terms, countries
 import pandas as p
 import glob
 import io
+import nltk
+import string
 
 class FeatureExtractor(object):
 
@@ -85,9 +87,10 @@ class FeatureExtractor(object):
 
                     if 'london' in temp:
                         for token in temp.split(' '):
-                            dictemp = self.counts['london'].get(token, {})
-                            dictemp[dt_key] = dictemp.get(dt_key, 0) + 1
-                            self.counts['london'][token] = dictemp
+                            if 'http' not in token and '@' not in token:
+                                dictemp = self.counts['london'].get(token, {})
+                                dictemp[dt_key] = dictemp.get(dt_key, 0) + 1
+                                self.counts['london'][token] = dictemp
 
                 
 
@@ -98,7 +101,19 @@ class FeatureExtractor(object):
     def process_the_counts(self):
         for i in self.counts:
             data = p.DataFrame.from_dict(self.counts[i])
-            data.to_csv('London.features.csv')
+            print data
+            for i in data.columns:
+                sums[i] = np.sum(data[i])
+            sorted_sums=sorted(sums.iteritems(), key=lambda x: x[1], reverse=True)
+            sorted_sums = [(i, j) for (i, j) in sorted_sums if "@" not in i and \
+                    'http' not in i and i not in nltk.corpus.stopwords('english') and i not in string.punctuation]
+            to_keep = []
+            for i in sorted_sums[:500]:
+                to_keep.append(i)
+            for i in data.columns:
+                if i not in to_keep:
+                    del data['%s'%i]
+            data.to_csv('%s.features.csv'%i.capitalize())
 
 if __name__ == '__main__':
     basepath2 = '/Volumes/Samsung/traveltweets_expanded'
