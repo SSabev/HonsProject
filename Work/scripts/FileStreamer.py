@@ -7,7 +7,7 @@ import sys
 class MyStreamer(TwythonStreamer):
 
     def add_file_handler(self, filename):
-        self.f = open(filename, 'wb')
+        self.f = open(filename, 'a')
     
     def on_success(self, data):
         if 'text' in data:
