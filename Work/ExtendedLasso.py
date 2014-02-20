@@ -102,9 +102,8 @@ if __name__ == '__main__':
 
         def predict_last_4_fridays(row):
             if row['Date'] > cutoff_date:
-                f1_w, f2_w, f3_w, f4_w = 0.675, 0.225, 0.075, 0.025
-                ps = f1_w*row['Friday1'] + f2_w*row['Friday2'] + \
-                    f3_w*row['Friday3'] + f4_w*row['Friday4']
+                ps = 0.675*row['Friday1'] + 0.225*row['Friday2'] + \
+                        0.075*row['Friday3'] + 0.025*row['Friday4']
                 return ps
             else:
                 return 0
