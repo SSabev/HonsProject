@@ -111,7 +111,7 @@ class FeatureExtractor(object):
 
 
         kept = p.DataFrame.from_dict(kept)
-        kept = kept.fillna(0)
+        kept = kept.fillna(kept.median())
         kept.to_csv('tidydata/rawfeatures/%s.csv'%name)
         self.processed.append(name)
     
@@ -124,6 +124,6 @@ if __name__ == '__main__':
     basepath2 = '/Volumes/Samsung/traveltweets_expanded'
     basepath = "traveltweets_expanded"
 
-    list_of_todo = ['london', 'paris']
+    list_of_todo = ['london', 'paris', 'barcelona', 'milan', 'rome', 'manchester', 'dublin', 'amsterdam', 'tenerife', 'moscow']
     a = FeatureExtractor(basepath, list_of_todo)
 

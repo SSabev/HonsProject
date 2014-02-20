@@ -5,7 +5,7 @@ import pandas as p
 import numpy as np
 import terms
 from dateutil.relativedelta import relativedelta
-from Last4Fridays import Analyser
+from Last4Backfill import Analyser
 
 class ExitsProcessor(object):
     def __init__(self, filenames, directory):

@@ -13,6 +13,7 @@ import math
 
 if __name__ == '__main__':
     errors = {}
+    weights = {}
 
     for i in glob.glob('tidydata/joined/*.csv'):
         data = p.read_csv(i)
@@ -22,7 +23,7 @@ if __name__ == '__main__':
         fridays = []
 
         def get_fridays():
-            for forecastdate in data.Date[39:]:
+            for forecastdate in data.Date[40:]:
                 tm1 = forecastdate - relativedelta(days = 7)
                 tm2 = forecastdate - relativedelta(days =14)
                 tm3 = forecastdate - relativedelta(days =21)
@@ -35,6 +36,9 @@ if __name__ == '__main__':
                 if np.isnan(r1.Searches):
                     v1 = float(0)
                 else:
+                    if cityname=='Denver':
+                        print r1.Searches
+
                     v1 = float(r1.Searches)
                 
                 if np.isnan(r2.Searches):
@@ -66,33 +70,32 @@ if __name__ == '__main__':
         data_fridays = p.DataFrame(fridays, columns = ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
 
         data = data.merge(data_fridays, on='Date', how='outer')
-        data = data[40:]
+        data = data[40:172]
+        data = data.fillna(data.mean())
 
         Xinput = zip(data.Count.tolist(), data.Friday1.tolist(), data.Friday2.tolist(),data.Friday3.tolist(),data.Friday4.tolist())
         
         Youtput = data.Searches.tolist()
 
-        data.to_csv('derp.csv')
+        #print Xinput
+        #print Youtput
+
         #print Xinput[:10]
         #print Youtput[:10]
         try:
             clf = Lasso(alpha=0.01)
-            clf.fit(Xinput, Youtput)
+            clf.fit(Xinput[:110], Youtput[:110])
             #print clf
             print cityname, clf.coef_
 
+            weights[cityname] = {'Twitter': clf.coef_[0],
+                    'F1': clf.coef_[1],
+                    'F2': clf.coef_[2],
+                    'F3': clf.coef_[3],
+                    'F4': clf.coef_[4],
+                    }
+
             cutoff_date = dt.datetime.strptime('2013-09-24 00:00:00', '%Y-%m-%d %H:%M:%S')
-
-            def predict_searches(row):
-                if row['Date'] > cutoff_date:
-                    tc_w, f1_w, f2_w, f3_w, f4_w = clf.coef_ 
-                    ps = tc_w*row['Count'] + f1_w*row['Friday1'] + f2_w*row['Friday2'] + \
-                        f3_w*row['Friday3'] + f4_w*row['Friday4']
-                    return ps
-                else:
-                    return 0
-
-            data['PredictedSearches'] = data.apply(predict_searches, axis=1)
 
             def predict_last_4_fridays(row):
                 if row['Date'] > cutoff_date:
@@ -105,45 +108,31 @@ if __name__ == '__main__':
 
             data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
 
-            print data[100:]
-            predicted_w_t = data.PredictedSearches
+            predicted_w_t_by_lass = clf.predict(Xinput[110:])
             predicted_l4f = data.LF4Predicted
             actual = data.Searches
 
-            rmse_twitter = mean_squared_error(actual, predicted_w_t)
+            rmse_twitter = mean_squared_error(actual[110:], predicted_w_t_by_lass)
             rmse_twitter = math.sqrt(rmse_twitter)
 
             #print "RMSE from Model with Twitter is %s"%str(rmse_twitter)
 
-            rmse_l4f = mean_squared_error(actual, predicted_l4f)
+            rmse_l4f = mean_squared_error(actual[110:], predicted_l4f[110:])
             rmse_l4f = math.sqrt(rmse_l4f)
+
+            del data['Unnamed: 0']
+            data.to_csv('tidydata/predictions/%s.csv'%cityname)
             
             #print "RMSE from L4F is %s"%str(rmse_l4f)
 
-            TWRaw = data.Count.tolist()
-            TWinput = [[i] for i in TWRaw]
-
-            clf = Lasso(alpha=0.01)
-            clf.fit(TWinput, Youtput)
-            just_twitter = [clf.coef_[0]*i for i in TWRaw]
-
-            rmse_jt = mean_squared_error(actual, just_twitter)
-            rmse_jt = math.sqrt(rmse_jt)
-            
-            #print "RMSE from Just Twitter is %s"%str(rmse_jt)
-
-            errors[cityname] = {"RMSE_Twitter": rmse_twitter, 
-                        "RMSE_L4F": rmse_l4f, 
-                        "RMSE_Just_Twitter": rmse_jt}
-        except ValueError:
-            print cityname
+            errors[cityname] = {"RMSE_Twitter": rmse_twitter,
+                        "RMSE_L4F": rmse_l4f,
+                        }
+        except ValueError, e:
+            print cityname, e
     
     error_df = p.DataFrame.from_dict(errors, orient="index")
     error_df.to_csv('results.csv')
 
-    print error_df
-
-        
-
-
-
+    weights_df = p.DataFrame.from_dict(weights, orient='index')
+    weights_df.to_csv('weights.csv')
