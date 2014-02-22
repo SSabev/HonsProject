@@ -21,10 +21,20 @@ def plot_both(city):
         plt.subplot(211)
         plt.title('Mentions of %s on Twitter'%city)
         plt.plot(data['Date'], data['Count'])
+        plt.xlabel(r"Date", fontsize = 12)
+        plt.ylabel(r"Search count (Normalised)", fontsize = 12)
 
         plt.subplot(212)
         plt.title('Searches to %s'%city)
         plt.plot(data['Date'], data['NSearches'])
+        plt.xlabel(r"Date", fontsize = 12)
+        plt.ylabel(r"Twitter counts", fontsize = 12)
+        plt.show()
+
+        plt.scatter(data['Count'], data['NSearches'])
+        plt.title('Scatter of twitter counts against searches for %s'%city)
+        plt.xlabel(r"Twitter counts", fontsize = 12)
+        plt.ylabel(r"Search count (Normalised)", fontsize = 12)
         plt.show()
     except IOError:
         print "no such place"

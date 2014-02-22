@@ -13,12 +13,12 @@ import math
 
 if __name__ == '__main__':
     errors = {}
-    list_of_feature_files = [i.split('/')[-1].replace('.csv', '') for i in glob.glob('tidydata/rawfeatures/*.csv')]
+    list_of_feature_files = [i.split('/')[-1].replace('.csv', '') for i in glob.glob('~/Dev/HonsProject/Work/tidydata/rawfeatures/*.csv')]
     print list_of_feature_files
     for cityname in list_of_feature_files:
         print cityname
-        i = 'tidydata/joined/%s.csv'%cityname
-        j = 'tidydata/rawfeatures/%s.csv'%cityname
+        i = '~/Dev/HonsProject/Work/tidydata/joined/%s.csv'%cityname
+        j = '~/Dev/HonsProject/Work/tidydata/rawfeatures/%s.csv'%cityname
         data = p.read_csv(i)
         features = p.read_csv(j)
         features['Date'] = features['Unnamed: 0']
@@ -83,12 +83,21 @@ if __name__ == '__main__':
         dict_of_items = {i: data[i].tolist() for i in data.columns if i in [ 'Friday1', 'Friday2', 'Friday3', 'Friday4']}
         dict_of_all = dict(dict_of_features.items() + dict_of_items.items())
         Xinput = p.DataFrame.from_dict(dict_of_all)
+
+        print Xinput.columns
+        try: 
+            del Xinput['Searches']
+            del Xinput['NSearches']
+            del Xinput['Exits']
+            
+        except KeyError:
+            print "Failed deleting some of the columns"
         Xinput = Xinput.fillna(0)
         Youtput = data.Searches.tolist()
 
-        Xinput.to_csv('tidydata/withfeatures/%s.csv'%cityname)
+        Xinput.to_csv('~/Dev/HonsProject/Work/tidydata/withfeatures/%s.csv'%cityname)
 
-        clf = Lasso(alpha=0.9, max_iter = 1000)
+        clf = Lasso(alpha=250, max_iter = 1000)
         clf.fit(Xinput[:110].values, Youtput[:110])
         #print cityname, clf.coef_
 
@@ -112,9 +121,10 @@ if __name__ == '__main__':
 
         predicted_w_t = clf.predict(Xinput[110:].values)
         predicted_l4f = data.LF4Predicted[110:]
+
         actual = data.Searches[110:]
 
-        data.to_csv('tidydata/withfeatures/%s_with_prediction.csv'%cityname)
+        data.to_csv('~/Dev/HonsProject/Work/tidydata/withfeatures/%s_with_prediction.csv'%cityname)
 
         rmse_twitter = mean_squared_error(actual, predicted_w_t)
         rmse_twitter = math.sqrt(rmse_twitter)
@@ -128,6 +138,8 @@ if __name__ == '__main__':
 
         errors[cityname] = {"RMSE_Twitter": rmse_twitter, 
                     "RMSE_L4F": rmse_l4f, 
+                    "R^2_twitter": clf.score(Xinput[110:].values, actual),
+                    "Non0Weights": sum([1 for i in clf.coef_ if i>0])
                     }
 
     print errors
@@ -135,8 +147,7 @@ if __name__ == '__main__':
     #    print cityname
 
     error_df = p.DataFrame.from_dict(errors, orient="index")
-    error_df.to_csv('results.csv')
-
+    error_df.to_csv('~/Dev/HonsProject/Work/results/ext-results.csv')
     #print error_df
 
     

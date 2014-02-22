@@ -21,9 +21,8 @@ class FeatureExtractor(object):
                 self.processed.append(line.rstrip())
 
         print "Processed %s cities so far"%str(len(self.processed))
-        print self.processed
-        print self.to_process
         self.to_process = set(self.to_process).difference(set(self.processed))
+
         self.all_the_files = [i for i in glob.glob(r'%s/*'%basepath)]
         print "Got %s cities to go through"%str(len(self.to_process))
         if self.to_process:
@@ -125,5 +124,10 @@ if __name__ == '__main__':
     basepath = "traveltweets_expanded"
 
     list_of_todo = ['london', 'paris', 'barcelona', 'milan', 'rome', 'manchester', 'dublin', 'amsterdam', 'tenerife', 'moscow']
+
+    with open('tidydata/to_get_features') as f:
+        for line in f:
+            list_of_todo.append(line.rstrip().lower())
+    print list_of_todo
     a = FeatureExtractor(basepath, list_of_todo)
 

@@ -16,7 +16,7 @@ class TwitterExtractor(object):
     And it will use more pandas rather than all the other custom crap.
     """
     def __init__(self, basepath):
-        self.processed = ["%s/%s"%(basepath,i.split('/')[-1]) for i in glob.glob('traveltweets_expanded/*')]
+        self.processed = ["%s/%s"%(basepath,i.split('/')[-1]) for i in glob.glob('~/Dev/HonsProject/Work/traveltweets_expanded/*')]
         print "Processed %s files so far"%str(len(self.processed))
         self.all_the_files = [i for i in glob.glob(r'%s/data-dump-with-dt-*'%basepath) if i not in self.processed]
         print "Got %s files to go through"%str(len(self.all_the_files))
@@ -116,13 +116,13 @@ class TwitterExtractor(object):
                 df = p.DataFrame(list(temp.iteritems()), \
                 columns=['Date', 'Count']).sort(columns=['Date'], ascending=False)
                 city_formatted = str(key)
-                df.to_csv('pcounts/%s.csv'%(city_formatted.capitalize()))            
+                df.to_csv('~/Dev/HonsProject/Work/pcounts/%s.csv'%(city_formatted.capitalize()))            
             
             
     def rebalance_counts(self):
         twitter_dir = 'tc/'
-        twitter_files = glob.glob('tc/*.csv')
-        pcounts = glob.glob('pcounts/*.csv')
+        twitter_files = glob.glob('~/Dev/HonsProject/Work/tc/*.csv')
+        pcounts = glob.glob('~/Dev/HonsProject/Work/pcounts/*.csv')
 
         for i in pcounts:
             name = i.split('/')[1].replace('.csv','')
