@@ -16,7 +16,7 @@ class FeatureExtractor(object):
     def __init__(self, basepath, todo):
         self.processed  = []
         self.to_process = todo
-        with open('tidydata/features_status', 'r') as f:
+        with open('~/Dev/HonsProject/Work/tidydata/features_status', 'r') as f:
             for line in f:
                 self.processed.append(line.rstrip())
 
@@ -111,11 +111,11 @@ class FeatureExtractor(object):
 
         kept = p.DataFrame.from_dict(kept)
         kept = kept.fillna(kept.median())
-        kept.to_csv('tidydata/rawfeatures/%s.csv'%name)
+        kept.to_csv('~/Dev/HonsProject/Work/tidydata/rawfeatures/%s.csv'%name)
         self.processed.append(name)
     
     def output_to_file_process(self):
-        with open('tidydata/features_status', 'w') as f:
+        with open('~/Dev/HonsProject/Work/tidydata/features_status', 'w') as f:
             for i in self.processed:
                 f.write('%s\n'%i)
     
@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
     list_of_todo = ['london', 'paris', 'barcelona', 'milan', 'rome', 'manchester', 'dublin', 'amsterdam', 'tenerife', 'moscow']
 
-    with open('tidydata/to_get_features') as f:
+    with open('~/Dev/HonsProject/Work/tidydata/to_get_features') as f:
         for line in f:
             list_of_todo.append(line.rstrip().lower())
     print list_of_todo
