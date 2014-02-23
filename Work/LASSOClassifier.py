@@ -15,7 +15,7 @@ if __name__ == '__main__':
     errors = {}
     weights = {}
 
-    for i in glob.glob('~/Dev/HonsProject/Work/tidydata/joined/*.csv'):
+    for i in glob.glob('tidydata/joined/*.csv'):
         data = p.read_csv(i)
         cityname = i.split('/')[-1].replace('.csv','')
         #print data
@@ -115,7 +115,7 @@ if __name__ == '__main__':
         rmse_l4f = math.sqrt(rmse_l4f)
 
         del data['Unnamed: 0']
-        data.to_csv('~/Dev/HonsProject/Work/tidydata/predictions/%s.csv'%cityname)
+        data.to_csv('tidydata/predictions/%s.csv'%cityname)
         
         #print "RMSE from L4F is %s"%str(rmse_l4f)
 
@@ -125,7 +125,7 @@ if __name__ == '__main__':
                     }
     
     error_df = p.DataFrame.from_dict(errors, orient="index")
-    error_df.to_csv('~/Dev/HonsProject/Work/results/results.csv')
+    error_df.to_csv('results/results.csv')
 
     weights_df = p.DataFrame.from_dict(weights, orient='index')
-    weights_df.to_csv('~/Dev/HonsProject/Work/results/weights.csv')
+    weights_df.to_csv('results/weights.csv')
