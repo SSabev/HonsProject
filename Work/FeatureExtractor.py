@@ -16,19 +16,19 @@ class FeatureExtractor(object):
     def __init__(self, basepath, todo):
         self.processed  = []
         self.to_process = todo
-        with open('~/Dev/HonsProject/Work/tidydata/features_status', 'r') as f:
+        with open('tidydata/features_status', 'r') as f:
             for line in f:
                 self.processed.append(line.rstrip())
 
-        print "Processed %s cities so far"%str(len(self.processed))
+        print "Processed %s placenames so far"%str(len(self.processed))
         self.to_process = set(self.to_process).difference(set(self.processed))
 
         self.all_the_files = [i for i in glob.glob(r'%s/*'%basepath)]
-        print "Got %s cities to go through"%str(len(self.to_process))
+        print "Got %s placenames to go through"%str(len(self.to_process))
         if self.to_process:
             self.process_files()
         else:
-            print "All the cities are done"
+            print "All the placenames are done"
 
     def convert_timedelta(self, duration):
         days, seconds = duration.days, duration.seconds
@@ -38,12 +38,12 @@ class FeatureExtractor(object):
         return hours, minutes, seconds
 
     def get_cities(self):
-        f = open('tbcities.dat', 'r')
         cities = {}
-        for line in f:
-            temp = line.split('\t')
-            name = temp[1]
-            cities[name.lower()] = ''
+        with open('tbcities.dat', 'r') as f:
+            for line in f:
+                temp = line.split('\t')
+                name = temp[1]
+                cities[name.lower()] = ''
         return cities
 
     def get_lists(self):
@@ -111,11 +111,11 @@ class FeatureExtractor(object):
 
         kept = p.DataFrame.from_dict(kept)
         kept = kept.fillna(kept.median())
-        kept.to_csv('~/Dev/HonsProject/Work/tidydata/rawfeatures/%s.csv'%name)
+        kept.to_csv('tidydata/rawfeatures/%s.csv'%name)
         self.processed.append(name)
     
     def output_to_file_process(self):
-        with open('~/Dev/HonsProject/Work/tidydata/features_status', 'w') as f:
+        with open('tidydata/features_status', 'w') as f:
             for i in self.processed:
                 f.write('%s\n'%i)
     
@@ -123,9 +123,8 @@ if __name__ == '__main__':
     basepath2 = '/Volumes/Samsung/traveltweets_expanded'
     basepath = "traveltweets_expanded"
 
-    list_of_todo = ['london', 'paris', 'barcelona', 'milan', 'rome', 'manchester', 'dublin', 'amsterdam', 'tenerife', 'moscow']
-
-    with open('~/Dev/HonsProject/Work/tidydata/to_get_features') as f:
+    list_of_todo = []
+    with open('tidydata/to_get_features') as f:
         for line in f:
             list_of_todo.append(line.rstrip().lower())
     print list_of_todo

@@ -15,7 +15,7 @@ if __name__ == '__main__':
     errors = {}
     list_of_feature_files = [i.split('/')[-1].replace('.csv', '') for i in glob.glob('tidydata/rawfeatures/*.csv')]
     print list_of_feature_files
-    alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000]
+    alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000, 2000, 4000]
     for alpha in alphas:
         for cityname in list_of_feature_files:
             print cityname
@@ -147,12 +147,9 @@ if __name__ == '__main__':
                         }
 
         print errors
-        #except ValueError:
-        #    print cityname
 
         error_df = p.DataFrame.from_dict(errors, orient="index")
-        error_df.to_csv('results/ext-results%s.csv')
-    #print error_df
+        error_df.to_csv('results/ext.results%s.csv'%str(alpha))
 
     
 
