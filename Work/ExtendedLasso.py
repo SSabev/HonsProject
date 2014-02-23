@@ -13,7 +13,7 @@ import math
 
 if __name__ == '__main__':
     errors = {}
-    list_of_feature_files = [i.split('/')[-1].replace('.csv', '') for i in glob.glob('~/Dev/HonsProject/Work/tidydata/rawfeatures/*.csv')]
+    list_of_feature_files = [i.split('/')[-1].replace('.csv', '') for i in glob.glob('tidydata/rawfeatures/*.csv')]
     print list_of_feature_files
     alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000]
     for alpha in alphas:
