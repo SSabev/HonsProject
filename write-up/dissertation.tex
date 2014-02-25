@@ -1,7 +1,10 @@
 \documentclass[minf,frontabs,twoside,singlespacing,parskip]{infthesis} % 
 
+%\usepackage{biblatex}
 \usepackage[xetex]{graphicx}
+\usepackage{url}
 \usepackage{fontspec,xunicode}
+
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
 \setmainfont[Scale=.95]{Georgia}
 \setmonofont{Georgia}
@@ -10,7 +13,6 @@
 \newcommand{\BigO}[1]{\ensuremath{\operatorname{O}\bigl(#1\bigr)}}
 
 \begin{document}
-
 \title{Modelling search volumes as a dynamic system responding to external events}
 
 \author{Stefan Sabev}
@@ -21,15 +23,20 @@
 \date{\today}
 
 \abstract{
-It is well known that some events might spark people's interest to fly to different destinations. In particular news events or sports events can quite easily make people search for a specific destination - for example the Champions League Quarter final draw increased the number of flight searches from Glasgow to Spain 6 times.
-The main goal of this project is to collect Twitter data initially and possibly several other news sources and extract the available event data. Afterwards we'd want to split it into two groups - those who spark people's interest and those don't.
-This can later be used to detect when people want to go somewhere based on the news channels around the world.
+It is well known that some events might spark people's interest to fly to different destinations. In particular news events or sports events can quite easily make people search for a specific destination - for example the Champions League Quarter final draw increased the number of flight searches from Glasgow to Spain 6 times.\\
+For this project we have collected vast amounts of Twitter data. With this dataset and the flight search dataset provided by Skyscanner it was possible to build a classifier that predicts flight search demand based on what's happening on Twitter. This is a noble approach to predicting flight search volumes utilising the vastness of Social data available. \\
+The potential applications of this are generic prediction of flight search volumes, predicting new events for better marketing and also anomaly detection in traffic caused by events.
+%The main goal of this project is to collect Twitter data initially and possibly several other news sources and extract the available event data. Afterwards we'd want to split it into two groups - those who spark people's interest and those don't.
+%This can later be used to detect when people want to go somewhere based on the news channels around the world.
 }
 
 \maketitle
 
-%\section*{Acknowledgements}
-%Acknowledgements go here. 
+\section*{Acknowledgements}
+
+I would like to thank Charles Sutton for his support while supervising this project.\\
+\\
+Another thank you to Ewan Nicolson for helping with the project and giving access to data storage and the Skyscanner dataset used in this project.
 
 \tableofcontents
 
@@ -37,15 +44,31 @@ This can later be used to detect when people want to go somewhere based on the n
 
 \chapter{Introduction}
 
-In recent times social media has been of great interest to everyone. Everyone is trying to benefit from the vastness of the data available - companies are paying for sentiment analysis, targeted ads, promoted trends and so on. 
+With millions and some with even billions of users, Social Networks are becoming an increasingly more important in our lives. A big proportion of people use it as their primary way of communicating with the outside world. As with any other network - be it TV, radio, newspaper - people are trying to benefit in some way from it. Due to the vastness of its data, this new generation of networks has created an entirely new ecosystem of its own - companies are doing sentiment analysis, targeted ads, clustering and segmentation of customers being prime examples of this. 
+
+One of those social networks is Twitter {\copyright}. With a base of 200 million active users it has slowly become a very promising source of data after they opened up their public streams. There are lots of articles which are using it to do plenty of amazing things - demographics research, predicting flu outbreaks, etc. \cite{TwitterResearch}
+
 
 With a base of 190 million active monthly users, Twitter{\copyright} has turned into quite a promising source of data. Many are trying harness the power of social media and use it to some purpose - to see how their product or company is performing or predict something about the future such as flu outbreaks, etc.
 
 The aim of this dissertation is to explore the effect that social media, and more specifically Twitter, has over online travel. The aim is to show that using Twitter we can build a model that will be able to predict certain shifts in demand on some airline routes. In order to do this, we will employ a basic event detection mechanism, which will alert every time something odd happens for a particular destination and subsequently try to match that to a change of flight search profile. 
 
-Due to the fact that this is quite a niche area and the flight search datasets are not publicly available, there has been no previous research in this area. There has been a lot of work done of Topic Detection and Tracking (TDT) and First News Detection. Sasa Petrovic at the University of Edinburgh has done a lot of work and he's an excellent example of TDT (http://homepages.inf.ed.ac.uk/s0894589/petrovic-thesis.pdf)
+Due to the fact that this is quite a niche area and the flight search datasets are not publicly available, there has been no previous research in this area. There has been a lot of work done of Topic Detection and Tracking (TDT) and First News Detection. Sasa Petrovic at the University of Edinburgh has done a lot of work and he's an excellent example of TDT\cite{Petrovic2012}.
 
-\chapter{Data collection}
+\chapter{Methodology}
+
+Since the problem we face here is completely new, I had to delve into the data and explore the data as much as possible in order to understand the data set and find out what we can use in order to do our predictive modelling.
+
+I have tried several different approaches to filtering the data and exploring the relationship between the two variables. The ones worth mentioning are:
+\begin{itemize}
+\item Using hashtags which contain a country or city name and taking their counts.
+\item Taking every tweet that has a city/country name in its text in a conduction with a travel related term from the list. 
+\end{itemize}
+
+Another important aspect of the project is to take care of the data. Because of some teething problems both with the Skyscanner data and the Twitter Streaming API, there are some holes in it, which I have chosen to remote by filling in data generated by the Last 4 Fridays forecasting method. 
+
+
+\section{Data collection}
 
 The first and most important part of this project was to start collecting the correct data, which was to be used in building the model later. Twitter offers quite a comprehensive API with a lot of attributes, however in order to reduce the daily volume of data I had to take the most relevant ones for me. 
 
@@ -72,18 +95,6 @@ By selecting those particular tweet attributes and using the Streaming API, I ma
 The amount of data accumulated at the time of writing is \textasciitilde 380 GB. The collector has been running successfully from September 2013, however there are some holes of the data caused by network outages or the script interacting with the Twitter Streaming API crashing. 
 
 The data on flight search volumes is kindly provided by Skyscanner. In order to ensure that there are no concerns with confidentiality I have anonymised the data. 
-
-\chapter{Exploration and analysis of the data set}
-
-Since the problem we face here is completely new, I had to delve into the data and explore the data as much as possible in order to understand the data set and find out what we can use in order to do our predictive modelling.
-
-I have tried several different approaches to filtering the data and exploring the relationship between the two variables. The ones worth mentioning are:
-\begin{itemize}
-\item Using hashtags which contain a country or city name and taking their counts.
-\item Taking every tweet that has a city/country name in its text in a conduction with a travel related term from the list. 
-\end{itemize}
-
-Another important aspect of the project is to take care of the data. Because of some teething problems both with the Skyscanner data and the Twitter Streaming API, there are some holes in it, which I have chosen to remote by filling in data generated by the Last 4 Fridays forecasting method. 
 
 \section{Hashtags}
 
@@ -281,10 +292,7 @@ The timeline for the next 3 months is the following:
 \item Submit dissertation the final week of March.
 \end{enumerate}
 
-
-%\begin{thebibliography}{50}
-%\bibitem{1} Twitter Stats \textsl{\href{http://www.statisticbrain.com/twitter-statistics/}{Twitter Stats}}
-%\bibitem{2}  API Documentation \textsl{\href{https://dev.twitter.com/docs/streaming-apis}{Streaming API}}
-%\end{thebibliography)
+\bibliographystyle{ieeetr}
+\bibliography{Master}
 
 \end{document}

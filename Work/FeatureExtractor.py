@@ -15,20 +15,25 @@ class FeatureExtractor(object):
     """
     def __init__(self, basepath, todo):
         self.processed  = []
-        self.to_process = todo
-        with open('tidydata/features_status', 'r') as f:
+        with open('tidydata/file_status', 'r') as f:
             for line in f:
                 self.processed.append(line.rstrip())
-
-        print "Processed %s placenames so far"%str(len(self.processed))
-        self.to_process = set(self.to_process).difference(set(self.processed))
-
+        
+        self.to_process = todo
+        print self.to_process
+        print "Processed %s files so far"%str(len(self.processed))
         self.all_the_files = [i for i in glob.glob(r'%s/*'%basepath)]
-        print "Got %s placenames to go through"%str(len(self.to_process))
-        if self.to_process:
+        self.all_the_files = sorted(list(set(self.all_the_files).difference(set(self.processed))))
+        print self.all_the_files
+
+        if self.all_the_files:
             self.process_files()
+            self.merge_all()
         else:
-            print "All the placenames are done"
+            self.merge_all()
+            print "All the files are done"
+
+        self.output_processed()
 
     def convert_timedelta(self, duration):
         days, seconds = duration.days, duration.seconds
@@ -49,19 +54,22 @@ class FeatureExtractor(object):
     def get_lists(self):
         self.geotokens = self.get_cities()
         for i in countries:
-            self.geotokens[i] = ''
+            self.geotokens[i.lower()] = ''
         return self.geotokens
 
 
     def process_files(self):
         self.startime = None
         self.get_lists()
-        self.counts = {}
-        for city in self.to_process:
-            self.counts[city] = {}
-
-
+        self.punctuation = string.punctuation.replace('#', '')
+        self.punctuation += '\r\n\t'
+        print self.punctuation
+        
         for twfile in self.all_the_files:
+            self.counts = {}
+            for city in self.to_process:
+                self.counts[city] = {}
+
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
             for line in open(twfile, 'r'):
@@ -77,45 +85,57 @@ class FeatureExtractor(object):
                     tokens = temp.split(' ')
 
                     for city in self.to_process:
-                        for token in temp.split(' '):
-                            if 'http' not in token and '@' not in token:
-                                dictemp = self.counts[city].get(token, {})
-                                dictemp[dt_key] = dictemp.get(dt_key, 0) + 1
-                                self.counts[city][token] = dictemp
-
+                        if city in temp:
+                            for token in temp.split(' '):
+                                if 'http' not in token and '@' not in token:
+                                    dictemp = self.counts[city].get(token, {})
+                                    dictemp[dt_key] = dictemp.get(dt_key, 0) + 1
+                                    self.counts[city][token] = dictemp
+            
+            #print self.counts.keys()
+            for key in self.counts:
+                to_keep = {}
+                for i in self.counts[key]:
+                    if i not in nltk.corpus.stopwords.words('english') and i != '':
+                        temp = i
+                        translated = temp.translate(None, self.punctuation)
+                        to_keep[translated] = self.counts[key][i]
+                
+                #print key, self.counts.get(key).keys()[:10]
+                #print len(self.counts.get(key).keys())
+                #print len(to_keep.keys())
+                data = p.DataFrame.from_dict(to_keep)
+                data.to_csv('rawfeatures/%s-%s.csv'%(key, twfile.split('-')[-1]))
+            
+                #h, m, s = self.convert_timedelta(datetime.datetime.now() - self.starttime)
+                #print '{} took {}h,{}m,{}s to process'.format(key, h, m, s)
+                #self.startime = datetime.datetime.now()
+            
             h, m, s = self.convert_timedelta(datetime.datetime.now() - self.starttime)
             print '{} took {}h,{}m,{}s to process'.format(twfile, h, m, s)
-            self.startime = datetime.datetime.now()
 
+            self.processed.append(twfile)
+
+    def merge_all(self):
         for city in self.to_process:
-            self.process_and_output(city)
+            csvs = glob.glob(r'rawfeatures/%s*.csv'%city)
 
-        self.output_to_file_process()
-
-
-    def process_and_output(self, name):
-        data = self.counts.get(name)
-        sums = {}
-        for word in self.counts.get(name):
-            sums[word] = np.sum([j for (i, j) in self.counts.get(name)[word].iteritems()])
-        
-        sorted_sums=sorted(sums.iteritems(), key=lambda x: x[1], reverse=True)
-        sorted_sums = [(i.translate(None, string.punctuation), j) for (i, j) in sorted_sums]
-        sorted_sums = [(i, j) for (i, j) in sorted_sums if i not in nltk.corpus.stopwords.words('english') and i != '']
-
-        best_features = {i:'' for (i,j) in sorted_sums[:500]}
-        kept = {}
-        for feature in best_features:
-            kept[feature] = self.counts.get(name).get(feature)
-
-
-        kept = p.DataFrame.from_dict(kept)
-        kept = kept.fillna(kept.median())
-        kept.to_csv('tidydata/rawfeatures/%s.csv'%name)
-        self.processed.append(name)
+            data = p.DataFrame()
+            for i in csvs:
+                print i
+                data = data.append(p.read_csv(i))
+            data['Date'] = data['Unnamed: 0']
+            try: 
+                del data['Unnamed: 0']
+                del data['Unnamed: 1']
+            except ValueError:
+                pass
+            data = data.groupby(['Date'])
+            data = data.sum()
+            data.to_csv('tidydata/rawfeatures/%s.csv'%city)
     
-    def output_to_file_process(self):
-        with open('tidydata/features_status', 'w') as f:
+    def output_processed(self):
+        with open('tidydata/file_status', 'w') as f:
             for i in self.processed:
                 f.write('%s\n'%i)
     
@@ -123,10 +143,10 @@ if __name__ == '__main__':
     basepath2 = '/Volumes/Samsung/traveltweets_expanded'
     basepath = "traveltweets_expanded"
 
-    list_of_todo = []
-    with open('tidydata/to_get_features') as f:
+    places = []
+    with open('tidydata/places_list') as f:
         for line in f:
-            list_of_todo.append(line.rstrip().lower())
-    print list_of_todo
-    a = FeatureExtractor(basepath, list_of_todo)
+            places.append(line.rstrip().lower())
+    print places
+    a = FeatureExtractor(basepath, places)
 

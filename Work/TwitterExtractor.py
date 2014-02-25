@@ -20,6 +20,7 @@ class TwitterExtractor(object):
         print "Processed %s files so far"%str(len(self.processed))
         self.all_the_files = [i for i in glob.glob(r'%s/data-dump-with-dt-*'%basepath) if i not in self.processed]
         print "Got %s files to go through"%str(len(self.all_the_files))
+        print self.all_the_files
         self.process_files()
         self.rebalance_counts()
 

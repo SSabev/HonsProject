@@ -48,20 +48,23 @@ class TwitterProcessor(object):
                     data['Date'] = data.Datetime
                     del data['Datetime']
                     del data['KeyWord']
-                    print data[1:10]
                     
                 data = data[data.Date != '2013-10-03']
                 data = data[data.Date != '2013-10-15']
+                data = data[data.Date != '2013-12-20']
+                data = data[data.Date != '2013-12-27']
+                data = data[data.Date != '2014-02-19']
+
                 new_df = self.mergedfs(data)
-                new_df = new_df.fillna(new_df.mean())
+                #new_df = new_df.fillna()
+                if np.sum(data.Count) > 1000:
+                    new_df.Count = new_df.Count.interpolate()
+                else:
+                    new_df = new_df.fillna(0)
                 new_df.Count = new_df.Count.astype('int')
                 new_df.Date = new_df.Date.apply(conversion)
                 new_df.sort('Date',ascending=True, inplace=True) 
 
-                new_df = new_df[new_df.Date != '2013-12-20']
-                new_df = new_df[new_df.Date != '2013-12-27']
-                
-                
                 a = Analyser(new_df)
                 a.backfill('Count')
                 a.results.Count = a.results.Count.astype('int')

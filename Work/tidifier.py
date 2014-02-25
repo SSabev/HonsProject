@@ -54,7 +54,7 @@ if __name__ == '__main__':
     city_dict = tidy_up()
 
     for i in city_dict:
-        print "City is %s. SS file is %s, twitter file is %s"%(i, city_dict[i][0], city_dict[i][1])
+        print "Place is %s. SS file is %s, twitter file is %s"%(i, city_dict[i][0], city_dict[i][1])
         join_files(i, city_dict[i])
 
     print len(city_dict)

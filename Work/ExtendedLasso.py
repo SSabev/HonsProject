@@ -16,7 +16,9 @@ if __name__ == '__main__':
     list_of_feature_files = [i.split('/')[-1].replace('.csv', '') for i in glob.glob('tidydata/rawfeatures/*.csv')]
     print list_of_feature_files
     alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000, 2000, 4000]
+    writer = p.ExcelWriter('results/extendedLassoResults.xlsx')
     for alpha in alphas:
+        print alpha
         for cityname in list_of_feature_files:
             print cityname
             i = r'tidydata/joined/%s.csv'%cityname
@@ -25,9 +27,12 @@ if __name__ == '__main__':
             
             data = p.read_csv(i)
             features = p.read_csv(j)
-            features['Date'] = features['Unnamed: 0']
-            del features['Unnamed: 0']
-            del data['Unnamed: 0']
+            if 'Unnamed: 0' in features.columns:
+                features['Date'] = features['Unnamed: 0']
+                del features['Unnamed: 0']
+            if 'Unnamed: 0' in data.columns:
+                del data['Unnamed: 0']
+            
             merged = data.merge(features, on='Date', how='outer')
             merged = merged.fillna(merged.mean())
             cityname = i.split('/')[-1].replace('.csv','')
@@ -45,26 +50,27 @@ if __name__ == '__main__':
                     r3 = data[data.Date == tm3]
                     r4 = data[data.Date == tm4]
                     
-                    if np.isnan(r1.Searches):
+                    # r1.Searches.values
+                    if np.isnan(r1.Searches.values[0]):
                         v1 = float(0)
                     else:
-                        v1 = float(r1.Searches)
+                        v1 = float(r1.Searches.values[0])
                     
-                    if np.isnan(r2.Searches):
+                    if np.isnan(r2.Searches.values[0]):
                         v2 = float(0)
                     else:
-                        v2 = float(r2.Searches)
+                        v2 = float(r2.Searches.values[0])
 
-                    if np.isnan(r3.Searches):
+                    if np.isnan(r3.Searches.values[0]):
                         v3 = float(0)
                     else:
-                        v3 = float(r3.Searches)
+                        v3 = float(r3.Searches.values[0])
 
                                
-                    if np.isnan(r4.Searches):
+                    if np.isnan(r4.Searches.values[0]):
                         v4 = float(0)   
                     else:
-                        v4 = float(r4.Searches)
+                        v4 = float(r4.Searches.values[0])
                     
                     fridays.append((forecastdate, v1,v2,v3,v4)) 
 
@@ -78,8 +84,8 @@ if __name__ == '__main__':
 
             data_fridays = p.DataFrame(fridays, columns = ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
             data = data.merge(data_fridays, on='Date', how='outer')
-            data = data[40:172]
-            merged = merged[40:172]
+            data = data[40:173]
+            merged = merged[40:173]
 
 
             dict_of_features = {i: merged[i].tolist() for i in merged.columns if i not in ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4', 'Exits', 'Searches'
@@ -88,20 +94,21 @@ if __name__ == '__main__':
             dict_of_all = dict(dict_of_features.items() + dict_of_items.items())
             Xinput = p.DataFrame.from_dict(dict_of_all)
 
-            print Xinput.columns
+            #print Xinput.columns
             try: 
                 del Xinput['Searches']
                 del Xinput['NSearches']
                 del Xinput['Exits']
                 
             except KeyError:
-                print "Failed deleting some of the columns"
+                pass
+            
             Xinput = Xinput.fillna(0)
             Youtput = data.Searches.tolist()
 
             Xinput.to_csv('tidydata/withfeatures/%s.csv'%cityname)
 
-            clf = Lasso(alpha=alpha, max_iter = 1000)
+            clf = Lasso(alpha=alpha, max_iter = 1500)
             clf.fit(Xinput[:110].values, Youtput[:110])
             #print cityname, clf.coef_
 
@@ -109,7 +116,7 @@ if __name__ == '__main__':
             wdata = p.DataFrame.from_dict(dict(wdata), orient='index')
             wdata = wdata.reset_index()
             wdata.columns = ['Word', 'Weight']
-            wdata.to_csv('tidydata/weights/%s.csv'%cityname)
+            wdata.to_csv('tidydata/weights/%s-%s.csv'%(cityname, alpha))
 
             cutoff_date = dt.datetime.strptime('2013-09-25 00:00:00', '%Y-%m-%d %H:%M:%S')
 
@@ -143,13 +150,15 @@ if __name__ == '__main__':
             errors[cityname] = {"RMSE_Twitter": rmse_twitter, 
                         "RMSE_L4F": rmse_l4f, 
                         "R^2_twitter": clf.score(Xinput[110:].values, actual),
-                        "Non0Weights": sum([1 for i in clf.coef_ if i>0])
+                        "Non0Weights": sum([1 for i in clf.coef_ if i!=0])
                         }
 
-        print errors
+        #print errors
 
         error_df = p.DataFrame.from_dict(errors, orient="index")
-        error_df.to_csv('results/ext.results%s.csv'%str(alpha))
+        error_df.to_excel(writer,'ext.results%s.csv'%str(alpha))
+
+    writer.save()
 
     
 

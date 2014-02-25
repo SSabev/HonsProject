@@ -20,7 +20,7 @@ class Analyser:
             try:
                 self.df.Date = self.df.Date.apply(conversion) 
             except TypeError:
-                print "Already a stamp"
+                pass
 
     def createblankdf(self):
         start = dt.datetime.strptime(str(self.df.Date.irow(0)), "%Y-%m-%d %H:%M:%S")
@@ -59,11 +59,12 @@ class Analyser:
             # isn't, then use a previously forecasted value.
  
             # these are the relevant rows from the data frame.
-            r1 = self.results[self.results.Date == tm1]
+            r1 = self.results[self.results.Date == tm1] 
             r2 = self.results[self.results.Date == tm2]
             r3 = self.results[self.results.Date == tm3]
             r4 = self.results[self.results.Date == tm4]
-        
+            
+
             if np.isnan(r1['%s'%variable]):
                 v1 = float(r1.Forecast)
             else:
