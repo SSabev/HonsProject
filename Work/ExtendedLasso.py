@@ -15,11 +15,14 @@ if __name__ == '__main__':
     errors = {}
     list_of_feature_files = [i.split('/')[-1].replace('.csv', '') for i in glob.glob('tidydata/rawfeatures/*.csv')]
     print list_of_feature_files
-    alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000, 2000, 4000]
+    alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000]
+    alphas_big = [8000, 10000, 16000]
     writer = p.ExcelWriter('results/extendedLassoResults.xlsx')
-    for alpha in alphas:
+
+    place = ['London','spain', 'italy', 'germany', 'india']
+    for alpha in alphas_big:
         print alpha
-        for cityname in list_of_feature_files:
+        for cityname in place:
             print cityname
             i = r'tidydata/joined/%s.csv'%cityname
             j = r'tidydata/rawfeatures/%s.csv'%cityname
