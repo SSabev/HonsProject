@@ -2,3 +2,4 @@ StreamingAPI/*.pyc
 StreamingAPI/data-dump-*
 *.csv
 *.swp
+Work/tbcities.dat
