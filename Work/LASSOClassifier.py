@@ -23,7 +23,7 @@ if __name__ == '__main__':
         fridays = []
 
         def get_fridays():
-            for forecastdate in data.Date[40:]:
+            for forecastdate in data.Date[36:]:
                 tm1 = forecastdate - relativedelta(days = 7)
                 tm2 = forecastdate - relativedelta(days =14)
                 tm3 = forecastdate - relativedelta(days =21)
@@ -33,29 +33,53 @@ if __name__ == '__main__':
                 r3 = data[data.Date == tm3]
                 r4 = data[data.Date == tm4]
                 
-                if np.isnan(r1.Searches):
+                r1 = r1.to_dict(outtype='records')
+                r2 = r2.to_dict(outtype='records')
+                r3 = r3.to_dict(outtype='records')
+                r4 = r4.to_dict(outtype='records')
+                
+                if r1:
+                    r1 = r1[0]
+                else:
+                    r1 = {'Searches': np.nan, 'Forecast': 0}
+                
+                if r2:
+                    r2 = r2[0]
+                else:
+                    r2 = {'Searches': np.nan, 'Forecast': 0}
+
+                if r3:
+                    r3 = r3[0]
+                else:
+                    r3 = {'Searches': np.nan, 'Forecast': 0}
+
+                if r4:
+                    r4 = r4[0]
+                else:
+                    r4 = {'Searches': np.nan, 'Forecast': 0}
+                
+                if np.isnan(r1['Searches']):
                     v1 = float(0)
                 else:
                     if cityname=='Denver':
-                        print r1.Searches
-
-                    v1 = float(r1.Searches)
+                        print r1['Searches']
+                    v1 = float(r1['Searches'])
                 
-                if np.isnan(r2.Searches):
+                if np.isnan(r2['Searches']):
                     v2 = float(0)
                 else:
-                    v2 = float(r2.Searches)
+                    v2 = float(r2['Searches'])
 
-                if np.isnan(r3.Searches):
+                if np.isnan(r3['Searches']):
                     v3 = float(0)
                 else:
-                    v3 = float(r3.Searches)
+                    v3 = float(r3['Searches'])
 
                            
-                if np.isnan(r4.Searches):
+                if np.isnan(r4['Searches']):
                     v4 = float(0)   
                 else:
-                    v4 = float(r4.Searches)
+                    v4 = float(r4['Searches'])
                 
                 fridays.append((forecastdate, v1,v2,v3,v4)) 
 
@@ -70,16 +94,16 @@ if __name__ == '__main__':
         data_fridays = p.DataFrame(fridays, columns = ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
 
         data = data.merge(data_fridays, on='Date', how='outer')
-        data = data[40:172]
-        data = data.fillna(data.mean())
+        data = data[36:]
+        data = data.fillna(0)
 
         Xinput = p.DataFrame(zip(data.Count.tolist(), data.Friday1.tolist(), \
                 data.Friday2.tolist(),data.Friday3.tolist(),data.Friday4.tolist()),\
                 columns = ['Count', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
         
         Youtput = data.Searches.tolist()
-        clf = Lasso(alpha=0.01)
-        clf.fit(Xinput[:110].values, Youtput[:110])
+        clf = Lasso(alpha=0.5)
+        clf.fit(Xinput[:120].values, Youtput[:120])
         print cityname, clf.coef_
 
         weights[cityname] = {'Twitter': clf.coef_[0],
@@ -102,16 +126,16 @@ if __name__ == '__main__':
 
         data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
 
-        predicted_w_t_by_lass = clf.predict(Xinput[110:].values)
+        predicted_w_t_by_lass = clf.predict(Xinput[120:].values)
         predicted_l4f = data.LF4Predicted
         actual = data.Searches
 
-        rmse_twitter = mean_squared_error(actual[110:].tolist(), predicted_w_t_by_lass)
+        rmse_twitter = mean_squared_error(actual[120:].tolist(), predicted_w_t_by_lass)
         rmse_twitter = math.sqrt(rmse_twitter)
 
         #print "RMSE from Model with Twitter is %s"%str(rmse_twitter)
 
-        rmse_l4f = mean_squared_error(actual[110:].tolist(), predicted_l4f[110:])
+        rmse_l4f = mean_squared_error(actual[120:].tolist(), predicted_l4f[120:])
         rmse_l4f = math.sqrt(rmse_l4f)
 
         del data['Unnamed: 0']
@@ -121,11 +145,11 @@ if __name__ == '__main__':
 
         errors[cityname] = {"RMSE_Twitter": rmse_twitter,
                     "RMSE_L4F": rmse_l4f,
-                    "R^2_twitter": clf.score(Xinput[110:], actual[110:]),
+                    "R^2_twitter": clf.score(Xinput[120:], actual[120:]),
                     }
     
     error_df = p.DataFrame.from_dict(errors, orient="index")
-    error_df.to_csv('results/results.csv')
+    error_df.to_csv('results/results-with-0.csv')
 
     weights_df = p.DataFrame.from_dict(weights, orient='index')
     weights_df.to_csv('results/weights.csv')

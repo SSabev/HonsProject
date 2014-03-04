@@ -59,29 +59,55 @@ class Analyser:
             # isn't, then use a previously forecasted value.
  
             # these are the relevant rows from the data frame.
-            r1 = self.results[self.results.Date == tm1] 
+            r1 = self.results[self.results.Date == tm1]
             r2 = self.results[self.results.Date == tm2]
             r3 = self.results[self.results.Date == tm3]
             r4 = self.results[self.results.Date == tm4]
             
+            r1 = r1.to_dict(outtype='records')
+            r2 = r2.to_dict(outtype='records')
+            r3 = r3.to_dict(outtype='records')
+            r4 = r4.to_dict(outtype='records')
+            
+            if r1:
+                r1 = r1[0]
+            else:
+                r1 = {'%s'%variable: np.nan, 'Forecast': 0}
+            
+            if r2:
+                r2 = r2[0]
+            else:
+                r2 = {'%s'%variable: np.nan, 'Forecast': 0}
 
+            if r3:
+                r3 = r3[0]
+            else:
+                r3 = {'%s'%variable: np.nan, 'Forecast': 0}
+
+            if r4:
+                r4 = r4[0]
+            else:
+                r4 = {'%s'%variable: np.nan, 'Forecast': 0}
+
+    
+            
             if np.isnan(r1['%s'%variable]):
-                v1 = float(r1.Forecast)
+                v1 = float(r1['Forecast'])
             else:
                 v1 = float(r1['%s'%variable])
             
             if np.isnan(r2['%s'%variable]):
-                v2 = float(r2.Forecast)
+                v2 = float(r2['Forecast'])
             else:
                 v2 = float(r2['%s'%variable])
  
             if np.isnan(r3['%s'%variable]):
-                v3 = float(r3.Forecast)
+                v3 = float(r3['Forecast'])
             else:
                 v3 = float(r3['%s'%variable])
             
             if np.isnan(r4['%s'%variable]):
-                v4 = float(r4.Forecast)
+                v4 = float(r4['Forecast'])
             else:
                 v4 = float(r4['%s'%variable]) if r4['%s'%variable] else v3
                 

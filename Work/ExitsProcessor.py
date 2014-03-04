@@ -40,32 +40,30 @@ class ExitsProcessor(object):
         del self.data['ToCountry']
         for i in iter(self.uniques):
             if (i in self.cities):
+                print i
                 df = self.data[self.data['ToCity'] == i] 
                 if sum(df['Exits'])>100:
                     df = df.groupby(['Date','ToCity'])
                     new_df = df.agg({'Searches': np.sum, 'Exits': np.sum}).reset_index()
                     del new_df['ToCity']
                     new_df.sort('Date',ascending=True, inplace=True) 
-                    try:
-                        st = dt.datetime.strptime('2013-10-30', "%Y-%m-%d")
-                        en = st + relativedelta(days = 10)
-                        while st < en:
-                            temp = st.strftime('%Y-%m-%d')
-                            new_df = new_df[new_df.Date != temp]
-                            st += relativedelta(days = 1)
-                        
-                        new_df = new_df[new_df.Date != '2013-12-12']
-                        a = Analyser(new_df)
-                        a.backfill('Searches')
-                        a.backfill('Exits')
-                        a.results.Searches = a.results.Searches.astype('int')
-                        a.results.Exits = a.results.Exits.astype('int')
-                        del a.results['Forecast']
-                        a.results.to_csv('%s/%s.csv'%(self.directory,self.cities[i].replace('/', '')), index=False)
-                        #print "Finished successfully %s"%self.cities[i]
-                        good += 1
-                    except TypeError:
-                        bad += 1
+                    st = dt.datetime.strptime('2013-10-30', "%Y-%m-%d")
+                    en = st + relativedelta(days = 10)
+                    while st < en:
+                        temp = st.strftime('%Y-%m-%d')
+                        new_df = new_df[new_df.Date != temp]
+                        st += relativedelta(days = 1)
+                    
+                    new_df = new_df[new_df.Date != '2013-12-12']
+                    a = Analyser(new_df)
+                    a.backfill('Searches')
+                    a.backfill('Exits')
+                    a.results.Searches = a.results.Searches.astype('int')
+                    a.results.Exits = a.results.Exits.astype('int')
+                    del a.results['Forecast']
+                    a.results.to_csv('%s/%s.csv'%(self.directory,self.cities[i].replace('/', '')), index=False)
+                    #print "Finished successfully %s"%self.cities[i]
+                    good += 1
 
         print "%s finished successfully"%str(good)
         print "%s went tits up"%str(bad)
@@ -111,6 +109,6 @@ if __name__ == '__main__':
     directory = 'tidydata/se'
     a = ExitsProcessor(f, directory)
     a.list_cities()
-    #a.make_extracts_for_cities()
-    a.make_extracts_for_countries()
+    a.make_extracts_for_cities()
+    #a.make_extracts_for_countries()
 

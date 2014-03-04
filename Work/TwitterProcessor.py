@@ -54,7 +54,7 @@ class TwitterProcessor(object):
                 data = data[data.Date != '2013-12-20']
                 data = data[data.Date != '2013-12-27']
                 data = data[data.Date != '2014-02-19']
-
+                
                 new_df = self.mergedfs(data)
                 #new_df = new_df.fillna()
                 if np.sum(data.Count) > 1000:
@@ -64,7 +64,6 @@ class TwitterProcessor(object):
                 new_df.Count = new_df.Count.astype('int')
                 new_df.Date = new_df.Date.apply(conversion)
                 new_df.sort('Date',ascending=True, inplace=True) 
-
                 a = Analyser(new_df)
                 a.backfill('Count')
                 a.results.Count = a.results.Count.astype('int')

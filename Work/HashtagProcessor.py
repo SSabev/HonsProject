@@ -3,6 +3,7 @@ import datetime
 import csv
 import glob, os, sys
 import pandas as p
+import numpy as np
 
 class KeyStats(object):
 
@@ -66,9 +67,10 @@ if __name__ == '__main__':
 
     data = p.DataFrame()
     for i in glob.glob('hashtags/raw/*.csv'):
-        data.append(p.read_csv(i))
+        data = data.append(p.read_csv(i))
 
     tags = list(set(data.Tag))
     for i in tags[1:]:
-        temp = data[data.Tag == i]
-        temp.to_csv('hashtags/%s.csv'%i.replace('#', ''))
+        temp = data[data['Tag'] == i]
+        if np.sum(temp.Count) > 100:
+            temp.to_csv('hashtags/%s.csv'%i.replace('#', ''))

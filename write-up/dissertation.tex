@@ -9,6 +9,30 @@
 \setmainfont[Scale=.95]{Georgia}
 \setmonofont{Georgia}
 
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=4
+}
+
 \usepackage{amsmath}
 \newcommand{\BigO}[1]{\ensuremath{\operatorname{O}\bigl(#1\bigr)}}
 
@@ -42,8 +66,9 @@ Another thank you to Ewan Nicolson for helping with the project and giving acces
 
 \pagenumbering{arabic}
 
-\chapter{Introduction}
+\chapter{Introduction and synopsis}
 
+\section{Introduction}
 With millions and some with even billions of users, Social Networks are becoming an increasingly more important in our lives. A big proportion of people use it as their primary way of communicating with the outside world. As with any other network - be it TV, radio, newspaper - people are trying to benefit in some way from it. Due to the vastness of its data, this new generation of networks has created an entirely new ecosystem of its own - companies are doing sentiment analysis, targeted ads, clustering and segmentation of customers being prime examples of this. 
 
 One of those social networks is Twitter {\copyright}. With a base of 200 million active users it has slowly become a very promising source of data after they opened up their public streams. There are lots of articles which are using it to do plenty of amazing things - demographics research, predicting flu outbreaks, etc. \cite{TwitterResearch}
@@ -54,24 +79,54 @@ In order to get more familiar with the trending events I have done read a few pa
 
 There aren't that many flight search companies out there and up to this day there hasn't been any research into this particular topic. That is quite possibly due to the fact that it is a ver niche are and mod of the flight search datasets are not publicly available. The lack of data and the closed nature of the Online Travel industry have made research like this impossible until now. 
 
-Skyscanner has always been a data-driven company. It's one of the few companies in this industry that is still growing at a massive rate. That growth is the same as far as their data is concerned - the company is serving billions of searches every month. 
+Skyscanner has always been a data-driven company. It's one of the few companies in this industry that is still growing at a massive rate - doubling every year. \footnote{Dislaimer: I am an employee of the company and have been working there since 2011} That growth is the same as far as their data is concerned - the company is serving billions of searches every month. They asked me to perform this analysis, because it would yield interesting results and hopefully give them a classifier that they can use for both predicting volumes for destinations with flight searches that are relatively volatile, such as Ibiza, Alicante and other holiday or event-related destinations.
+
+Another practical use might be more Twitter oriented - monitoring what's happening and see if there is anything interesting happening in order to do a multitude of actions:
+\begin{itemize}
+\item Suggestion to users - "X is happening, why not fly there to see it?"
+\item Develop it further to monitor social media in order to predict spikes in traffic. Appearance on Italian caused half an hour outage in 2011!
+\end{itemize}
+
+In this part of the project I have explored the most practical use - predicting search volumes for a list of destinations using Twitter and features from Twitter. As mentioned there are not previous publications that I could find exploring this topic. The only things that have been done as far as airline/airport data is concerned is predicting prices. \cite{Hamletkdd03}
+
+Hence exploring this are would be an interesting area of research, because of the cross-section of Machine Learning and Natural Language Processing and also beneficial for Skyscanner, because they'd be able to plug it in with their data and monitor another data source.
+
+%\section{Overview of what was achieved} ??
+
+\section{Synopsis of results}
+
+Derp
+
 
 \chapter{Methodology}
 
-%The problem we have at hand is completely new. 
+The problem we have at hand is completely new. The fact that there is no previous work and little to none understanding of how it could be tackled left me with a lot of room to manoeuvre. I decided that I'd have to get accustomed to the Twitter dataset and explore and see what can be extracted and how. 
 
-Since the problem we face here is completely new, I had to delve into the data and explore the data as much as possible in order to understand the data set and find out what we can use in order to do our predictive modelling.
+That task wasn't as trivial as I expected because of the sheer size of the data. The daily rate at which I am consuming the data is 3.5 GBs (reduced from 6GBs/day), which is not small by any means. So far I have amassed 420 gigabytes of data, which I am using. I have described in detail the attributes I collected in \ref{sec:dc} on page \pageref{sec:dc}. 
 
-I have tried several different approaches to filtering the data and exploring the relationship between the two variables. The ones worth mentioning are:
+The sheer volume of the data gathered imposed a few challenges which I had to tackle:
+\begin{enumerate}
+\item How do I traverse all the data in a clever way that will allow me to keep all the processed data and only process unseen data
+\item What data structures to use such that they will hold the data in an efficient way and then output it for later use or for use by other components
+\item Building a scalable and performant codebase for the analysis that will allow easy and reproducible experimenting
+\end{enumerate}
+
+I have shown what I am using and how I process the data in \ref{sec:dp} on page \pageref{sec:dp}. My implementation was fast enough, because of the reduction to a smaller working set and it was able to process the whole reduced dataset in about 20 minutes, which is fast enough for re-processing.
+
+After collecting and preparing the data comes the next big question - what do I want to get out of this set? I have tried two ways of filtering it and trying to use it to predict the flight searches:
 \begin{itemize}
 \item Using hashtags which contain a country or city name and taking their counts.
 \item Taking every tweet that has a city/country name in its text in a conduction with a travel related term from the list. 
 \end{itemize}
 
-Another important aspect of the project is to take care of the data. Because of some teething problems both with the Skyscanner data and the Twitter Streaming API, there are some holes in it, which I have chosen to remote by filling in data generated by the Last 4 Fridays forecasting method. 
+Both of these methods have obvious advantages and disadvantages - taking only hashtags will be really fast, but not expressive and representative enough. They are both explored in  \ref{sec:hashtag} and \ref{sec:tweettext} respectively. 
 
+Before building the models there was a final step that had to be done and that was cleansing the data. Because of some teething issues with problems with the Skyscanner data and the fact that the data collections process is not perfect, there are some holes in the data. 
+
+For the Skyscanner data set I have used the Last 4 Fridays forecasting method to backfill and for Twitter I've just used the means to fill in the missing values. 
 
 \section{Data collection}
+\label{sec:dc}
 
 The first and most important part of this project was to start collecting the correct data, which was to be used in building the model later. Twitter offers quite a comprehensive API with a lot of attributes, however in order to reduce the daily volume of data I had to take the most relevant ones for me. 
 
@@ -99,7 +154,11 @@ The amount of data accumulated at the time of writing is \textasciitilde 380 GB.
 
 The data on flight search volumes is kindly provided by Skyscanner. In order to ensure that there are no concerns with confidentiality I have anonymised the data. 
 
+\section{Data processing}
+\label{sec:dp}
+
 \section{Hashtags}
+\label{sec:hashtag}
 
 Hashtag is one of the most important constructs by Twitter. Here's an example tweet:
 
@@ -121,6 +180,7 @@ This option was considered, because if it had worked it would have been what we 
 However the overall counts were quite small and the distribution of the values was very noisy, which means that fitting a model to this would've been quite hard if not impossible.
 
 \section{Occurrences paired with travel terms} 
+\label{sec:tweettext}
 
 The next slightly more expensive in computational terms option was to look at the actual tweet content and to count the number of times a city/country name appeared in conjunction with a one word form a list of travel-related words:
 
@@ -280,22 +340,35 @@ The next on the list is to expand the feature set with more features from Twitte
 With those I'll be able to better the model and reduce the RMSE across the whole board and hopefully beat the current prediction algorithm for more than 80\% of the examples.
 
 
-\chapter{Timeline}
+%\chapter{Timeline}
 
-The timeline for the next 3 months is the following:
-\begin{enumerate}
-\item Better the existing model and continue with the tests. .
-\item Add more features to the set of inputs.
-\item Work on both approaches:
-\begin{itemize}
-\item Explain spikes in searches by looking at historical tweet data
-\item Or try to predict the spikes in the first place
-\end{itemize}
-\item Final draft done by mid-March.
-\item Submit dissertation the final week of March.
-\end{enumerate}
+%The timeline for the next 3 months is the following:
+%\begin{enumerate}
+%\item Better the existing model and continue with the tests. .
+%\item Add more features to the set of inputs.
+%\item Work on both approaches:
+%\begin{itemize}
+%\item Explain spikes in searches by looking at historical tweet data
+%\item Or try to predict the spikes in the first place
+%\end{itemize}
+%\item Final draft done by mid-March.
+%\item Submit dissertation the final week of March.
+%\end{enumerate}
 
-\bibliographystyle{ieeetr}
-\bibliography{Master}
+\begin{thebibliography}{10}
+
+\bibitem{TwitterResearch}
+	Twitter Research,
+	\emph{A collection of publications using Twitter data}, \\
+ 	{\url{https://sites.google.com/site/twitterresearch09/twitter-papers}}
+	
+\bibitem{Petrovic2012}
+  \emph{Real-time Event Detection in Massive Streams, Sasa Petrovic}, 2012, School of Informatics, University of Edinburgh
+  
+\bibitem{Hamletkdd03}
+ 	Etzionni, Tuchinda, Knoblock and Yates, \emph{pandas DataFrame}, \emph{To Buy or Not to Buy: Mining Airfare Data to Minimize Ticket Purchase Price}, 2003,
+  	{\url{http://knight.cis.temple.edu/~yates/papers/hamlet-kdd03.pdf}}
+
+\end{thebibliography}
 
 \end{document}

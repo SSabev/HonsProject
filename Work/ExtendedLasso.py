@@ -15,14 +15,14 @@ if __name__ == '__main__':
     errors = {}
     list_of_feature_files = [i.split('/')[-1].replace('.csv', '') for i in glob.glob('tidydata/rawfeatures/*.csv')]
     print list_of_feature_files
-    alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000]
-    alphas_big = [8000, 10000, 16000]
+    alphas = [0.5, 1, 2,5, 10, 20, 50,]# 125, 250, 500]
+    #alphas_big = [25000, 32000]
+    # place = ['London','spain', 'italy', 'germany', 'india']
     writer = p.ExcelWriter('results/extendedLassoResults.xlsx')
 
-    place = ['London','spain', 'italy', 'germany', 'india']
-    for alpha in alphas_big:
+    for alpha in alphas:
         print alpha
-        for cityname in place:
+        for cityname in list_of_feature_files:
             print cityname
             i = r'tidydata/joined/%s.csv'%cityname
             j = r'tidydata/rawfeatures/%s.csv'%cityname
@@ -43,7 +43,7 @@ if __name__ == '__main__':
             fridays = []
 
             def get_fridays():
-                for forecastdate in data.Date[39:]:
+                for forecastdate in data.Date[36:]:
                     tm1 = forecastdate - relativedelta(days = 7)
                     tm2 = forecastdate - relativedelta(days =14)
                     tm3 = forecastdate - relativedelta(days =21)
@@ -87,8 +87,8 @@ if __name__ == '__main__':
 
             data_fridays = p.DataFrame(fridays, columns = ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
             data = data.merge(data_fridays, on='Date', how='outer')
-            data = data[40:173]
-            merged = merged[40:173]
+            data = data[36:188]
+            merged = merged[36:188]
 
 
             dict_of_features = {i: merged[i].tolist() for i in merged.columns if i not in ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4', 'Exits', 'Searches'
@@ -111,8 +111,8 @@ if __name__ == '__main__':
 
             Xinput.to_csv('tidydata/withfeatures/%s.csv'%cityname)
 
-            clf = Lasso(alpha=alpha, max_iter = 1500)
-            clf.fit(Xinput[:110].values, Youtput[:110])
+            clf = Lasso(alpha=alpha, max_iter = 300)
+            clf.fit(Xinput[:120].values, Youtput[:120])
             #print cityname, clf.coef_
 
             wdata = zip(Xinput.columns, clf.coef_)
@@ -133,13 +133,13 @@ if __name__ == '__main__':
 
             data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
 
-            predicted_w_t = clf.predict(Xinput[110:].values)
-            predicted_l4f = data.LF4Predicted[110:]
+            predicted_w_t = clf.predict(Xinput[120:].values)
+            predicted_l4f = data.LF4Predicted[120:]
 
-            actual = data.Searches[110:]
+            actual = data.Searches[120:]
 
             data.to_csv('tidydata/withfeatures/%s_with_prediction.csv'%cityname)
-
+            print actual, predicted_w_t
             rmse_twitter = mean_squared_error(actual, predicted_w_t)
             rmse_twitter = math.sqrt(rmse_twitter)
 
@@ -152,7 +152,7 @@ if __name__ == '__main__':
 
             errors[cityname] = {"RMSE_Twitter": rmse_twitter, 
                         "RMSE_L4F": rmse_l4f, 
-                        "R^2_twitter": clf.score(Xinput[110:].values, actual),
+                        "R^2_twitter": clf.score(Xinput[120:].values, actual),
                         "Non0Weights": sum([1 for i in clf.coef_ if i!=0])
                         }
 
