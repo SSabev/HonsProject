@@ -12,15 +12,17 @@ class TwitterExtractor(object):
     2014-02-04 - Stefan
     Tidying up the mess I left with all of the three files. That requires to do one linear sweep on the
     big set and then another one on the smaller set.
-    This will mitigate it, but bringing everything together and hopefully making it a bit more flexible. 
+    This will mitigate it, but bringing everything together and hopefully making it a bit more flexible.
     And it will use more pandas rather than all the other custom crap.
     """
     def __init__(self, basepath):
-        self.processed = ["%s/%s"%(basepath,i.split('/')[-1]) for i in glob.glob('traveltweets_expanded/*')]
+        self.processed = ["%s/%s"%(basepath,i.split('/')[-1]) for i in glob.glob('traveltweets/*')]
         print "Processed %s files so far"%str(len(self.processed))
         self.all_the_files = [i for i in glob.glob(r'%s/data-dump-with-dt-*'%basepath) if i not in self.processed]
+        self.all_the_files.sort()
         print "Got %s files to go through"%str(len(self.all_the_files))
         print self.all_the_files
+
         self.process_files()
         self.rebalance_counts()
 
@@ -66,11 +68,11 @@ class TwitterExtractor(object):
             self.counts[i] = {}
 
 
-        for twfile in self.all_the_files:
+        for twfile in self.all_the_files[:20]:
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
             filename_current = twfile.split('/')[-1]
-            outfile = open('traveltweets_expanded/%s'%filename_current, 'wb')
+            outfile = open('traveltweets/%s'%filename_current, 'wb')
             for line in open(twfile, 'r'):
                 change = False
                 travelFlag = False
@@ -78,7 +80,7 @@ class TwitterExtractor(object):
                     tweet = json.loads(line)
                 except ValueError:
                     print "Faulty tweet"
-                    
+
                 if tweet:
                     temp = tweet['text'].encode('utf-8').lower()
                     for w in terms:
@@ -104,25 +106,25 @@ class TwitterExtractor(object):
 
                     if (change or travelFlag) and tweet:
                         outfile.write(json.dumps(tweet) + '\n')
-                    
+
             h, m, s = self.convert_timedelta(datetime.datetime.now() - self.starttime)
             print '{} took {}h,{}m,{}s to process'.format(twfile, h, m, s)
             self.startime = datetime.datetime.now()
 
-            
-        print self.counts 
+
+        print self.counts
         for key in self.counts:
             temp = self.counts[key]
             if temp != {}:
                 df = p.DataFrame(list(temp.iteritems()), \
                 columns=['Date', 'Count']).sort(columns=['Date'], ascending=False)
                 city_formatted = str(key)
-                df.to_csv('pcounts/%s.csv'%(city_formatted.capitalize()))            
-            
-            
+                df.to_csv('pcounts/%s.csv'%(city_formatted.capitalize()))
+
+
     def rebalance_counts(self):
-        twitter_dir = 'tc/'
-        twitter_files = glob.glob('tc/*.csv')
+        twitter_dir = 'twittercounts/'
+        twitter_files = glob.glob('twittercounts/*.csv')
         pcounts = glob.glob('pcounts/*.csv')
 
         for i in pcounts:
@@ -136,7 +138,7 @@ class TwitterExtractor(object):
                     if 'Datetime' in data:
                         data['Date'] = data.Datetime
                         del data['Datetime'], data['KeyWord']
-                    
+
                     del new_data['Unnamed: 0']
                     data = data.append(new_data)
                     new = data.groupby(['Date'])
@@ -146,5 +148,4 @@ class TwitterExtractor(object):
 if __name__ == '__main__':
     basepath2 = '/Volumes/Samsung/TwitterData'
     basepath = "/Volumes/Tweets/Data"
-    a = TwitterExtractor(basepath2)
-
+    a = TwitterExtractor(basepath)

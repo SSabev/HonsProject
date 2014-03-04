@@ -1,5 +1,5 @@
 import json
-import datetime as dt 
+import datetime as dt
 import csv
 import pandas as p
 import numpy as np
@@ -23,7 +23,7 @@ class ExitsProcessor(object):
             name = temp[1]
             self.cities[temp[0]] = name
         return self.cities
-    
+
     def load_single(self):
         self.data = p.read_csv(self.filenames)
         self.original = self.data
@@ -33,7 +33,7 @@ class ExitsProcessor(object):
         print len(self.data['ToCity'])
         print len(set(self.data['ToCity']))
         self.uniques = set(self.data['ToCity'])
-        
+
     def make_extracts_for_cities(self):
         bad, good = 0, 0
         del self.data['ToAirport']
@@ -41,19 +41,19 @@ class ExitsProcessor(object):
         for i in iter(self.uniques):
             if (i in self.cities):
                 print i
-                df = self.data[self.data['ToCity'] == i] 
+                df = self.data[self.data['ToCity'] == i]
                 if sum(df['Exits'])>100:
                     df = df.groupby(['Date','ToCity'])
                     new_df = df.agg({'Searches': np.sum, 'Exits': np.sum}).reset_index()
                     del new_df['ToCity']
-                    new_df.sort('Date',ascending=True, inplace=True) 
+                    new_df.sort('Date',ascending=True, inplace=True)
                     st = dt.datetime.strptime('2013-10-30', "%Y-%m-%d")
                     en = st + relativedelta(days = 10)
                     while st < en:
                         temp = st.strftime('%Y-%m-%d')
                         new_df = new_df[new_df.Date != temp]
                         st += relativedelta(days = 1)
-                    
+
                     new_df = new_df[new_df.Date != '2013-12-12']
                     a = Analyser(new_df)
                     a.backfill('Searches')
@@ -74,12 +74,12 @@ class ExitsProcessor(object):
         del self.original['ToCity']
         for i in iter(set(self.original['ToCountry'])):
             print i
-            df = self.original[self.original['ToCountry'] == i] 
+            df = self.original[self.original['ToCountry'] == i]
             if sum(df['Exits'])>100:
                 df = df.groupby(['Date','ToCountry'])
                 new_df = df.agg({'Searches': np.sum, 'Exits': np.sum}).reset_index()
                 del new_df['ToCountry']
-                new_df.sort('Date',ascending=True, inplace=True) 
+                new_df.sort('Date',ascending=True, inplace=True)
                 try:
                     st = dt.datetime.strptime('2013-10-30', "%Y-%m-%d")
                     en = st + relativedelta(days = 10)
@@ -87,8 +87,13 @@ class ExitsProcessor(object):
                         temp = st.strftime('%Y-%m-%d')
                         new_df = new_df[new_df.Date != temp]
                         st += relativedelta(days = 1)
-                    
+
                     new_df = new_df[new_df.Date != '2013-12-12']
+                    new_df = new_df[new_df.Date != '2013-11-11']
+                    new_df = new_df[new_df.Date != '2013-11-18']
+                    new_df = new_df[new_df.Date != '2013-11-21']
+                    new_df = new_df[new_df.Date != '2013-11-28']
+
                     a = Analyser(new_df)
                     a.backfill('Searches')
                     a.backfill('Exits')
@@ -109,6 +114,5 @@ if __name__ == '__main__':
     directory = 'tidydata/se'
     a = ExitsProcessor(f, directory)
     a.list_cities()
-    a.make_extracts_for_cities()
-    #a.make_extracts_for_countries()
-
+    #a.make_extracts_for_cities()
+    a.make_extracts_for_countries()
