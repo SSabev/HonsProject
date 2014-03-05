@@ -68,7 +68,7 @@ class TwitterExtractor(object):
             self.counts[i] = {}
 
 
-        for twfile in self.all_the_files[:20]:
+        for twfile in self.all_the_files[:5]:
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
             filename_current = twfile.split('/')[-1]
@@ -76,6 +76,7 @@ class TwitterExtractor(object):
             for line in open(twfile, 'r'):
                 change = False
                 travelFlag = False
+                tweet = None
                 try:
                     tweet = json.loads(line)
                 except ValueError:
@@ -112,7 +113,7 @@ class TwitterExtractor(object):
             self.startime = datetime.datetime.now()
 
 
-        print self.counts
+        #print self.counts
         for key in self.counts:
             temp = self.counts[key]
             if temp != {}:

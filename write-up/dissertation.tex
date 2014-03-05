@@ -56,8 +56,6 @@
 It is well known that some events might spark people's interest to fly to different destinations. In particular news events or sports events can quite easily make people search for a specific destination - for example the Champions League Quarter final draw increased the number of flight searches from Glasgow to Spain 6 times.\\
 For this project we have collected vast amounts of Twitter data. With this dataset and the flight search dataset provided by Skyscanner it was possible to build a classifier that predicts flight search demand based on what's happening on Twitter. This is a noble approach to predicting flight search volumes utilising the vastness of Social data available. \\
 The potential applications of this are generic prediction of flight search volumes, predicting new events for better marketing and also anomaly detection in traffic caused by events.
-%The main goal of this project is to collect Twitter data initially and possibly several other news sources and extract the available event data. Afterwards we'd want to split it into two groups - those who spark people's interest and those don't.
-%This can later be used to detect when people want to go somewhere based on the news channels around the world.
 }
 
 \maketitle
@@ -72,9 +70,61 @@ Another thank you goes to Ewan Nicolson for helping with the project and giving 
 
 \pagenumbering{arabic}
 
+\chapter{Introduction}
+
+There aren't that many flight search companies with the global outreach required to collect and aggregate massive volumes of flight search data. And there are even fewer ones that are making some or the whole of their datasets available for research. When you consider that and the fact that online travel is a niche area in itself, one starts to understand why a project of this kind would have been quite hard if not impossible to do up until this date. However as some of those companies grow, they are trying to employ more sophisticated ways of predicting demand and as a result of that their plan capacity or just use that data for revenue forecasting. With the rise of social media, the next logical step would be to start exploring different ways of adding exogenous factors such as twitter data into their models to better their prediction. 
 
 
-\chapter{Background}
+In this project you will the first attempt that someone has made to actually try to use the social element to predict flight searches. As a consequence of that the effect of social media over online travel can be measured. We will try to show that using this dataset (\textasciitilde 480GB at the time of writing) we can employ text mining and try to build a classifier that can predict upward and downward shifts in demand for a group of destinations - countries and cities as of the first part. With NLP we will hopefully gain better understanding on how to predict demand and therefore this could be useful not just to flight search companies, but also to airlines and airports. 
+
+
+It will be impossible not to say anything about Skyscanner, since they have kindly provided the flight search data, which I am using in this project. \footnote{\textbf{Dislaimer}: I am an employee of the company and have been working there since 2011} It's an Edinburgh-based company with offices around the whole world, which is slowly but surely positioning itself as a leader in travel search online. It is in the phase of rapid growth and it has been doubling in size and valuation for the past couple of years, which helped secure an investment from Sequioa Capital. \cite{seqcap}
+
+
+Due to the fact it processed billions and billions of user searches it is quite important to be able to predict roughly how tomorrow is going to like like - it affects capacity, website performance and costs in general. This has made Skyscanner transform from a flight search company into a data-driven company. With "Big data" comes big responsibility - you need to get the maximum value out of your data rather than just store it on disk. In order to utilise all of it they have developed and deployed a lot of in-house algorithms for anomaly detection, prediction and any other KPI (Key Performance Indicator) that can be measured. However there are still some things that you can predict from just looking at past data and learning from it.
+
+
+This particular project was spurred after a discussion that social media could be harnessed to produce some form of aggregation of counts that will allow us to see whether there are going to be any expected spikes to any destinations. Of course that will not be a "one size fits all" approach, since some places such as London, Paris and New York will see steady very high number of search volumes to them. The destinations that are more likely to be better predicted by the classifier with Twitter are the ones that are not constant all year round - Ibiza, Alicante, Dubrovnik and many others. Those destinations have a particular seasonality with spikes around holidays and some events, which the Twitter counts will hopefully capture.
+
+
+The way I envisioned it in the beginning was to mine the vast quantities of Twitter data in a particular way (all ways described in chapter \ref{chap:method} on page \pageref{chap:method}) and then take the numbers aggregated on a daily level to produce what we will call in this dissertation the "Twitter counts" for a parcitular city or overall. The in-house classifier for predicting the searches will hopefully be beaten by the new improved classifier with Twitter factored in. The approach described here could be used to develop a system that monitors the social streams and is can be used as a weight in a system of classifiers for predicting the future based on Twitter.
+
+
+In the first part of the project I have decided to be as pragmatic as possible and explored the most practical of all potential uses - predicting search volumes for every city or country that has been mentioned on Twitter with the Twitter counts and a list of features that are automatically extracted from the Twitter stream. Then based on those numbers we are building a classifier with historical data as well and outputting the numbers for the future!
+
+
+When the project is extended to be a more real-time system in its second phase, I expect that with the help of some TDT the potential applications of it arre quickly s. In theory, one can monitor what is happening and what is trending and as soon as something relevant is seen - event in a different country/city or in general something happening in a country one can action in a multitude of ways:
+\begin{itemize}
+\item "X is happening, why not fly there to see it?"
+\item Develop it further to monitor social media in order to predict spikes in traffic. Appearance on Italian TV caused half an hour outage in 2011!
+\item If cross-referenced with a capable Customer Relationship Management system you could use the results from this project as a data source for a real time marketing solution. 
+\end{itemize}
+
+
+These are the all reasons that made me pick this particular topic for research for my project. It's an interesting mixture of Machine Learning and Natural language processing. It's a brilliant opportunity to learn how real life ML and NLP can be used and applied to a big data set and what are the potential benefits of doing so. Of course, it's worth mentioning that this has a practical aspect of building a solution that could be used to power a solution for predicting search volumes and also anomaly detections with some slight tweaks. 
+
+
+
+\textbf{Note} - All the aggregated datasets are made available in the GitHub repository. \cite{code} The full Twitter dataset will be made available on request. Of course because of confidentiality I can't publish the dataset which has the Skyscanner searches, since that might break my employee code of conduct. Instead I have anonymised it by normalising as described in the methodology. 
+
+\section{Overview of what was achieved}
+
+As previously mentioned, this is a completely novel task, so I had to think a lot of the best approach on how to tackle this problem. Planning was an important part and the whole process is detailed in the next chapter. 
+
+But in terms what I achieved here is a bullet summary:
+\begin{itemize}
+\item Managed to find a performant and maintainable way of storing the data.
+\item Explored a few different ways to process the data and found the most efficient way reducing the processing time from 3 days to 15 hours. 
+\item Build a plethora of models to predict the features.
+\item 
+\end{itemize}
+
+
+\section{Synopsis of results}
+
+Derp
+
+\chapter{Background and discussion of related work}
 
 
 With millions and some with billions of users, Social Networks are becoming an increasingly more important in our lives. A big proportion of people use it as their primary way of communicating with the outside world - people will "tweet" about anything, post to Facebook, check in on FourSquare, instagram their food and so on. We have become perfectly fine with externalising our lives and posting every minute detail about our lives online and thusly making it available to everyone else. 
@@ -93,13 +143,8 @@ In order to get more familiar with the trending events I have done read a few pa
 The only thing that has been researched in the online travel sector is what is the optimal time to book an airline flight taking into account all the different factors. \cite{Hamletkdd03} \cite{ijcai} 
 Both of the referenced papers are using small sets of data which aim to predict what is the optimal time to book. What is written there is the other part of the puzzle - when should you book, but in this particular project we are more interested in when ARE people looking for flights.
 
-\section{Brief outline}
-
 
 Due to the lack of any research in this particular area setting the objectives for this project was very difficult. Planning on how to approach and tackle was in itself a challenge. There is no current proposed method of doing this, so there was no gold standard against which I could benchmark. That made it particularly hard to see whether the classifier is right or wrong and what should I strive to beat.
-
-
-In the Introduction chapter \ref{chap:intro} on page \pageref{chap:intro} the problem is set out in detail as are the main reasons for this undertaking all together. There is also a synopsis of the results and an overview of what was done and achieved during this 1st phase. 
 
 
 The Methodology can be found in chapter \ref{chap:method} on page \pageref{chap:method} split by all the main subtasks that had to be carried out. The subtasks are described in detail and each one of the sections includes an overview of what was done, how it was done and what difficulties were encountered and how I overcame them. 
@@ -111,65 +156,14 @@ Chapter \ref{chap:model} on page \pageref{chap:model} explains what are the Mach
 In chapter \ref{chap:future-work} on page \pageref{chap:future-work} I discuss all the future work that will be carried out for this project both for next year and if someone is to pick it up and start developing on top. In order to do that I have included links to the source code for this project and all the pre-aggregated data sets from Twitter in the repository.
 
 
-
-\chapter{Introduction and synopsis}
-\label{chap:intro}
-
-
-\section{Introduction}
-
-
-There aren't that many flight search companies that aggregate massive volumes of data. And even further ones that are making some or all of their data sets available for research. When you consider that and the fact that online travel is a niche area in itself, one might start to understand why a project of this kind would be quite hard if not impossible to do. However as most of those companies grow, they are trying to employ more sophisticated ways of predicting demand and as a result of that their capacity. With the rise of social media, the next logical step for some of them start to explore different ways of adding exogenous factors such as twitter data their predictions. 
-
-
-This project is the first time that someone has actually tried to correlate these two distinct types of data sources together and use social media to measure the effect it has on online travel. We will try to show that using this dataset (\textasciitilde 480GB at the time of writing) we can employ text mining and try to build a classifier that can predict upward and downward shifts in dement on certain airline routes. That will allow more flexibility and give a better understanding of what actually drives demand, so it could be useful not just to Skyscanner, but to airlines and airports as well.
-
-
-It will be impossible not to say anything about Skyscanner, since my 2nd dataset is from it.  \footnote{\textbf{Dislaimer}: I am an employee of the company and have been working there since 2011} It's an Edinburgh-based company with offices around the whole world. It has been in a phase of rapid growth in the past couple of years doubling in size every year.
-Skyscanner has always been a data-driven company. It's one of the few in this industry that are actually growing instead of stagnation. The growth of the data they generate and store follows a similar pattern, but the increase there is even bigger - the company is serving billions of searches every month. 
-
-
-This particular project was spurred after a discussion that social media could be harnessed to produce aggregate numbers which will allow us to see whether there are going to be any expected spike to any destinations. Of course that will not be a "one size fits all" approach, since some places such as London, Paris and New York will see steady very high number of search volumes to them. The destinations that are thought to be better predicted by the classifier with Twitter are the ones that are not constant all year round - Ibiza, Alicante, Dubrovnik and many others. Those destinations have a particular seasonality with spikes around holidays and some events. 
-
-
-The proposed way of taking this is to mine the vast quantities of Twitter data collected in a particular fashion (all ways described in chapter \ref{chap:method} on page \pageref{chap:method}) and take the numbers produces as the what we will call the "Twitter counts" for a particular city or overall. We will aim to beat the classifier for those more seasonal destinations that are not as well predicted by the in-house standard method. The approach described here could be used to develop a system that monitors the social streams and is can be used as a weight in the in-house predictors.
-
-
-In the first part of the project I have taken a pragmatic approach and explored the most practical use - predicting search volumes for all the destinations mentioned on Twitter with the Twitter counts and a features which are automatically picked from the Twitter Stream. All the datasets are made available in the GitHub repository. \cite{code} Of course because of confidentiality I can't publish the dataset which has the Skyscanner searches, since that might break my employee code of conduct. Instead I have anonymised it by normalising as described in the methodology. 
-
-
-When the project is extended to be a more real-time system with some TDT the potential applications of it are quickly increasing in numbers. In theory, one can monitor what is happening and what is trending and as soon as something relevant is seen - event in a different country/city or in general something happening in a country one can action in a multitude of ways:
-\begin{itemize}
-\item "X is happening, why not fly there to see it?"
-\item Develop it further to monitor social media in order to predict spikes in traffic. Appearance on Italian TV caused half an hour outage in 2011!
-\item If cross-referenced with a capable Customer Relationship Management system you could use the results from this project as a data source for a real time marketing solution. 
-\end{itemize}
-
-
-These are the all reasons that made me pick this particular topic for research for my project. It's an interesting mixture of Machine Learning and Natural language processing. It's a brilliant opportunity to learn how real life ML and NLP can be used and applied to a big data set and what are the potential benefits of doing so. Of course, it's worth mentioning that this has a practical aspect of building a solution that could be used to power a solution for predicting search volumes and also anomaly detections with some slight tweaks. 
-
-
-\section{Overview of what was achieved}
-
-As previously mentioned, this is a completely novel task, so I had to think a lot of the best approach on how to tackle this problem. Planning was an important part and the whole process is detailed in the next chapter. 
-
-But in terms what I achieved here is a bullet summary:
-\begin{itemize}
-\item Derp
-\end{itemize}
-
-
-\section{Synopsis of results}
-
-Derp
-
-
 \chapter{Methodology}
 \label{chap:method}
 
 The problem we have at hand is completely new. The fact that there is no previous work and little to none understanding of how it could be tackled left me with a lot of room to manoeuvre. I decided that I'd have to get accustomed to the Twitter dataset and explore and see what can be extracted and how. 
 
+
 That task wasn't as trivial as I expected because of the sheer size of the data. The daily rate at which I am consuming the data is 3.5 GBs (reduced from 6GBs/day), which is not small by any means. So far I have amassed 420 gigabytes of data, which I am using. I have described in detail the attributes I collected in \ref{sec:dc} on page \pageref{sec:dc}. 
+
 
 The sheer volume of the data gathered imposed a few challenges which I had to tackle:
 \begin{enumerate}
@@ -431,6 +425,10 @@ With those I'll be able to better the model and reduce the RMSE across the whole
 
 \begin{thebibliography}{10}
 
+\bibitem{seqcap}
+	BBC, \emph{Sequoia Capital investment values Skyscanner at \$800m}, \\
+	{\url{http://www.bbc.co.uk/news/uk-scotland-scotland-business-24380126}}
+	
 \bibitem{TwitterNewsWire}
 	Twitter, \emph{Twitter as a news-wire}, \\
 	{\url{https://blog.twitter.com/2008/twitter-news-wire}}

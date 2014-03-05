@@ -20,7 +20,7 @@ class LASSOOverallPredictor(object):
         self.go_and_classify()
         self.output_errors()
 
-    
+
     def get_fridays(self, data):
         fridays = []
         def conversion(date):
@@ -115,8 +115,8 @@ class LASSOOverallPredictor(object):
         data = data.merge(data_fridays, on='Date', how='outer')
         data = data[36:]
         data = data.fillna(0)
-        
-        
+
+
         data_sf = df.copy(deep=True)
         data_sf = data_sf.merge(data_compfriday, on='Date', how='outer')
         data_sf = data_sf[36:]
@@ -177,14 +177,15 @@ class LASSOOverallPredictor(object):
                 pass
             #data.to_csv('tidydata/predictions/%s-dynamic-%s.csv'%(city, alpha))
 
-            self.errors['%s-dynamic-%s'%(city,str(alpha))] = {"RMSE Twitter with Dynamic Fridays": rmse_twitter,
+            self.errors[city] = {"RMSE Twitter with Dynamic Fridays": rmse_twitter,
                         "RMSE Twitter with Static Fridays": rmse_static,
                         "RMSE_L4F": rmse_l4f,
                         "R^2_twitter": clf.score(Xinput[130:], actual[130:]),
                         "Twitter weight": clf.coef_[0],
                         "Fridays weight": clf.coef_[1],
+                        "Alpha": alpha,
                         }
-                
+
     def output_errors(self):
         error_df = p.DataFrame.from_dict(self.errors, orient="index")
         error_df.to_csv('results/lasso-static-and-dynamic.csv')
