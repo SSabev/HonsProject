@@ -20,8 +20,8 @@ class ExtendedFeaturesLasso(object):
         self.errors = {}
         self.weights = {}
         self.writer = p.ExcelWriter('results/extendedLassoResults.xlsx')
-        self.classify()
-        #self.output_errors()
+        self.go_and_classify()
+        self.output_errors()
 
 
     def get_fridays(self, data):
@@ -94,10 +94,12 @@ class ExtendedFeaturesLasso(object):
         data_compfriday = p.DataFrame(data_compound_friday, \
               columns = ['Date', 'Fridays'])
 
-        return data_fridays #, data_compfriday
+        return data_fridays, data_compfriday
 
-    def classify(self):
+    def go_and_classify(self):
         def predict_last_4_fridays(row):
+            cutoff_date = dt.datetime.strptime('2013-09-25 00:00:00', \
+                                                '%Y-%m-%d %H:%M:%S')
             if row['Date'] > cutoff_date:
                 ps = 0.675*row['Friday1'] + 0.225*row['Friday2'] + \
                         0.075*row['Friday3'] + 0.025*row['Friday4']
@@ -105,91 +107,128 @@ class ExtendedFeaturesLasso(object):
             else:
                 return 0
 
+        for placename in self.features:
+            i = r'tidydata/joined/%s.csv'%placename
+            j = r'tidydata/rawfeatures/%s.csv'%placename
+            data = p.read_csv(i)
+            features = p.read_csv(j)
+            if 'Unnamed: 0' in features.columns:
+                features['Date'] = features['Unnamed: 0']
+                del features['Unnamed: 0']
+            if 'Unnamed: 0' in data.columns:
+                del data['Unnamed: 0']
+
+            merged = data.merge(features, on='Date', how='outer')
+            merged = merged.fillna(merged.mean())
+            placename = i.split('/')[-1].replace('.csv','')
+
+            fridays, comp_fridays = self.get_fridays(data)
+
+            data = data.merge(fridays, on='Date', how='outer')
+            data = data[36:188]
+            merged = merged[36:188]
+            dict_of_features = {i: merged[i].tolist() for i in merged.columns if i not in ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4', 'Exits', 'Searches'
+                'NSearches']}
+            dict_of_items = {i: data[i].tolist() for i in data.columns if i in [ 'Friday1', 'Friday2', 'Friday3', 'Friday4']}
+            dict_of_all = dict(dict_of_features.items() + dict_of_items.items())
+            Xinput = p.DataFrame.from_dict(dict_of_all)
+            Xinput = Xinput.fillna(0)
+
+            #print Xinput.columns
+            try:
+                del Xinput['Searches']
+                del Xinput['NSearches']
+                del Xinput['Exits']
+
+            except KeyError:
+                pass
+
+            #Xinput.to_csv('tidydata/withfeatures/%s.csv'%placename)
+            Youtput = data.Searches.tolist()
+
+            data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
+
+            X2 = Xinput.copy(deep=True)
+            del X2['Friday1']
+            del X2['Friday2']
+            del X2['Friday3']
+            del X2['Friday4']
+
+            X2['Fridays'] = comp_fridays.Fridays
+            X2 = X2.fillna(0)
+
+            actual = data.Searches[130:].tolist()
+            #data.to_csv('tidydata/withfeatures/%s_with_prediction.csv'%placename)
+
+            self.classify(placename, Xinput, X2, data['LF4Predicted'], \
+                          Youtput, actual)
+
+    def output_weights(self, input,coef, placename, alpha, typeo):
+        wdata = zip(input.columns, coef)
+        wdata = p.DataFrame.from_dict(dict(wdata), orient='index')
+        wdata = wdata.reset_index()
+        wdata.columns = ['Word', 'Weight']
+        wdata = wdata[wdata.Weight != 0]
+        if typeo == 'LassoW':
+            wdata.to_csv('tidydata/weights/DynamicFridays/%s-%s.csv'\
+                          %(placename, alpha))
+        else:
+            wdata.to_csv('tidydata/weights/CompoundFridays/%s-%s.csv'\
+                          %(placename, alpha))
+
+    def output_predictions(self, data, placename):
+        data = p.DataFrame(data, columns=['TwitterDF', 'TwitterCF', \
+                            'L4F', 'Actual'])
+        try:
+            del data['X']
+        except KeyError:
+            pass
+        data.to_csv('tidydata/predictions/%s.csv'%placename, index=False)
+
+    def classify(self, placename, Xinput, X2, l4f, Youtput, actual):
         for alpha in self.alphas:
             print alpha
-            for placename in self.features:
-                print placename
-                i = r'tidydata/joined/%s.csv'%placename
-                j = r'tidydata/rawfeatures/%s.csv'%placename
+            print placename
+
+            clf = Lasso(alpha=alpha, max_iter = 500)
+            clf.fit(Xinput[:130].values, Youtput[:130])
+            #print placename, clf.coef_
+            self.output_weights(Xinput, clf.coef_, placename, alpha, 'LassoW')
+
+            clf2 = Lasso(alpha=alpha, max_iter = 500)
+            clf2.fit(X2[:130].values, Youtput[:130])
+            #print placename, clf.coef_
+
+            self.output_weights(X2, clf2.coef_, placename, alpha, 'L4FW')
 
 
-                data = p.read_csv(i)
-                features = p.read_csv(j)
-                if 'Unnamed: 0' in features.columns:
-                    features['Date'] = features['Unnamed: 0']
-                    del features['Unnamed: 0']
-                if 'Unnamed: 0' in data.columns:
-                    del data['Unnamed: 0']
+            predicted_w_t = clf.predict(Xinput[130:].values)
+            predicted_tw_s_f = clf2.predict(X2[130:].values)
+            predicted_l4f = l4f[130:]
 
-                merged = data.merge(features, on='Date', how='outer')
-                merged = merged.fillna(merged.mean())
-                placename = i.split('/')[-1].replace('.csv','')
+            self.output_predictions(zip(predicted_w_t, predicted_tw_s_f,
+                            predicted_l4f, actual), placename)
 
-                fridays = self.get_fridays(data)
+            rmse_twitter = mean_squared_error(actual, predicted_w_t)
+            rmse_twitter = math.sqrt(rmse_twitter)
+            rmse_cf = mean_squared_error(actual, predicted_tw_s_f)
+            rmse_cf = math.sqrt(rmse_cf)
+            rmse_l4f = mean_squared_error(actual, predicted_l4f)
+            rmse_l4f = math.sqrt(rmse_l4f)
 
-                data_fridays = p.DataFrame(fridays, columns = ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
-                data = data.merge(data_fridays, on='Date', how='outer')
-                data = data[36:188]
-                merged = merged[36:188]
 
-                dict_of_features = {i: merged[i].tolist() for i in merged.columns if i not in ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4', 'Exits', 'Searches'
-                    'NSearches']}
-                dict_of_items = {i: data[i].tolist() for i in data.columns if i in [ 'Friday1', 'Friday2', 'Friday3', 'Friday4']}
-                dict_of_all = dict(dict_of_features.items() + dict_of_items.items())
-                Xinput = p.DataFrame.from_dict(dict_of_all)
 
-                #print Xinput.columns
-                try:
-                    del Xinput['Searches']
-                    del Xinput['NSearches']
-                    del Xinput['Exits']
-
-                except KeyError:
-                    pass
-
-                Xinput = Xinput.fillna(0)
-                Youtput = data.Searches.tolist()
-
-                Xinput.to_csv('tidydata/withfeatures/%s.csv'%placename)
-
-                clf = Lasso(alpha=alpha, max_iter = 500)
-                clf.fit(Xinput[:120].values, Youtput[:120])
-                #print placename, clf.coef_
-
-                wdata = zip(Xinput.columns, clf.coef_)
-                wdata = p.DataFrame.from_dict(dict(wdata), orient='index')
-                wdata = wdata.reset_index()
-                wdata.columns = ['Word', 'Weight']
-                wdata.to_csv('tidydata/weights/%s-%s.csv'%(placename, alpha))
-
-                cutoff_date = dt.datetime.strptime('2013-09-25 00:00:00', '%Y-%m-%d %H:%M:%S')
-
-                data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
-
-                predicted_w_t = clf.predict(Xinput[120:].values)
-                predicted_l4f = data.LF4Predicted[120:]
-
-                actual = data.Searches[120:]
-
-                data.to_csv('tidydata/withfeatures/%s_with_prediction.csv'%placename)
-                #print actual, predicted_w_t
-                rmse_twitter = mean_squared_error(actual, predicted_w_t)
-                rmse_twitter = math.sqrt(rmse_twitter)
-
-                #print "RMSE from Model with Twitter is %s"%str(rmse_twitter)
-
-                rmse_l4f = mean_squared_error(actual, predicted_l4f)
-                rmse_l4f = math.sqrt(rmse_l4f)
-
-                #print "RMSE from L4F is %s"%str(rmse_l4f)
-                placeerror = self.errors.get(placename, [])
-                placeerror.append({"Aplha": alpha,
-                                  "RMSE_Twitter": rmse_twitter,
-                                  "RMSE_L4F": rmse_l4f,
-                                  "R^2_twitter": clf.score(Xinput[120:].values, actual),
-                                  "Non0Weights": sum([1 for i in clf.coef_ if i!=0])
-                                  })
-                self.errors[placename] = placeerror
+            #print "RMSE from L4F is %s"%str(rmse_l4f)
+            placeerror = self.errors.get(placename, [])
+            placeerror.append({"Aplha": alpha,
+                        "RMSE_T_DF": rmse_twitter,
+                        "RMSE_T_CF": rmse_cf,
+                        "RMSE_L4F": rmse_l4f,
+        #"R^2_twitter": clf.score(Xinput[130:].values, actual),
+                        "Non0WeightsDF": sum([1 for i in clf.coef_ if i!=0]),
+                        "Non0WeightsCF": sum([1 for i in clf2.coef_ if i!=0]),
+                        })
+            self.errors[placename] = placeerror
 
     def output_errors(self):
           for place in self.errors:
@@ -199,8 +238,9 @@ class ExtendedFeaturesLasso(object):
           self.writer.save()
 
 if __name__ == '__main__':
-    list_of_feature_files = ['Australia'] #[i.split('/')[-1].replace('.csv', '') for i in glob.glob('tidydata/rawfeatures/*.csv')]
-    print list_of_feature_files
-    alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500]
+    list_of_feature_files = [i.split('/')[-1].replace('.csv', '') \
+                for i in glob.glob('tidydata/rawfeatures/*.csv')]
+    alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000, 2000, \
+                4000, 8000, 16000, 32000]
 
     a = ExtendedFeaturesLasso(alphas, list_of_feature_files)
