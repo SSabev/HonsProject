@@ -1,5 +1,5 @@
 library(ggplot2)
-
+library(reshape)
 #RMSE Scatter
 
 data <- read.csv('../results/results.csv')
@@ -40,3 +40,26 @@ ggplot(data=data, aes(x=Date, y=NSearches)) +
   xlab("Month") + ylab("Normalised searches") + 
   ggtitle("Plot of searches to Ibiza over time") 
   # +  scale_x_date(labels = date_format("%m-%Y"))
+
+
+df <- read.csv('../tidydata/predictions/australia.csv')
+
+#df$TwitterCF <- df$TwitterCF/max(df$TwitterCF)
+#df$TwitterDF <- df$TwitterDF/max(df$TwitterDF)
+#df$L4F <- df$L4F/max(df$L4F)
+#df$Actual <- df$Actual/max(df$Actual)
+
+df <- melt(df, id.vars=c("Actual"))
+
+ggplot(data=df, aes(x=Actual, y=value, group=variable, colour=variable)) +
+  geom_point(size=3) + 
+  scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
+  xlab("True searches") + ylab("Predicted searches") + 
+  ggtitle("Scatter plot of all the different predictios against the actual values") +
+  
+  theme(axis.line=element_blank(),
+      axis.text.x=element_blank(),
+      axis.text.y=element_blank(),
+      axis.ticks=element_blank()
+)
+  
