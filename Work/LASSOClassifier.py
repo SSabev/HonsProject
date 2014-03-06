@@ -198,4 +198,4 @@ class LASSOOverallPredictor(object):
 
 
 if __name__ == '__main__':
-    a = LASSOOverallPredictor([0.1, 2, 50, 100, 1000, 32000, 100000])
+    a = LASSOOverallPredictor([1])
