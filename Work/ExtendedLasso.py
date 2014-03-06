@@ -21,7 +21,7 @@ class ExtendedFeaturesLasso(object):
         self.weights = {}
         self.writer = p.ExcelWriter('results/extendedLassoResults.xlsx')
         self.classify()
-        self.output_errors()
+        #self.output_errors()
 
 
     def get_fridays(self, data):
@@ -107,10 +107,10 @@ class ExtendedFeaturesLasso(object):
 
         for alpha in self.alphas:
             print alpha
-            for cityname in self.features:
-                print cityname
-                i = r'tidydata/joined/%s.csv'%cityname
-                j = r'tidydata/rawfeatures/%s.csv'%cityname
+            for placename in self.features:
+                print placename
+                i = r'tidydata/joined/%s.csv'%placename
+                j = r'tidydata/rawfeatures/%s.csv'%placename
 
 
                 data = p.read_csv(i)
@@ -123,7 +123,7 @@ class ExtendedFeaturesLasso(object):
 
                 merged = data.merge(features, on='Date', how='outer')
                 merged = merged.fillna(merged.mean())
-                cityname = i.split('/')[-1].replace('.csv','')
+                placename = i.split('/')[-1].replace('.csv','')
 
                 fridays = self.get_fridays(data)
 
@@ -150,17 +150,17 @@ class ExtendedFeaturesLasso(object):
                 Xinput = Xinput.fillna(0)
                 Youtput = data.Searches.tolist()
 
-                Xinput.to_csv('tidydata/withfeatures/%s.csv'%cityname)
+                Xinput.to_csv('tidydata/withfeatures/%s.csv'%placename)
 
-                clf = Lasso(alpha=alpha, max_iter = 300)
+                clf = Lasso(alpha=alpha, max_iter = 500)
                 clf.fit(Xinput[:120].values, Youtput[:120])
-                #print cityname, clf.coef_
+                #print placename, clf.coef_
 
                 wdata = zip(Xinput.columns, clf.coef_)
                 wdata = p.DataFrame.from_dict(dict(wdata), orient='index')
                 wdata = wdata.reset_index()
                 wdata.columns = ['Word', 'Weight']
-                wdata.to_csv('tidydata/weights/%s-%s.csv'%(cityname, alpha))
+                wdata.to_csv('tidydata/weights/%s-%s.csv'%(placename, alpha))
 
                 cutoff_date = dt.datetime.strptime('2013-09-25 00:00:00', '%Y-%m-%d %H:%M:%S')
 
@@ -171,8 +171,8 @@ class ExtendedFeaturesLasso(object):
 
                 actual = data.Searches[120:]
 
-                data.to_csv('tidydata/withfeatures/%s_with_prediction.csv'%cityname)
-                print actual, predicted_w_t
+                data.to_csv('tidydata/withfeatures/%s_with_prediction.csv'%placename)
+                #print actual, predicted_w_t
                 rmse_twitter = mean_squared_error(actual, predicted_w_t)
                 rmse_twitter = math.sqrt(rmse_twitter)
 
@@ -182,26 +182,25 @@ class ExtendedFeaturesLasso(object):
                 rmse_l4f = math.sqrt(rmse_l4f)
 
                 #print "RMSE from L4F is %s"%str(rmse_l4f)
-                cityerror = self.errors.get(cityname, [])
-                cityerror.append({"Aplha": alpha,
+                placeerror = self.errors.get(placename, [])
+                placeerror.append({"Aplha": alpha,
                                   "RMSE_Twitter": rmse_twitter,
                                   "RMSE_L4F": rmse_l4f,
                                   "R^2_twitter": clf.score(Xinput[120:].values, actual),
                                   "Non0Weights": sum([1 for i in clf.coef_ if i!=0])
                                   })
-                self.errors[cityname] = cityerror
+                self.errors[placename] = placeerror
 
     def output_errors(self):
-          for city in self.errors:
-              error_df = p.DataFrame.from_dict(self.errors[city], orient="index")
-              error_df.to_excel(self.writer,'%s.csv'%city)
+          for place in self.errors:
+              error_df = p.DataFrame.from_records(self.errors[place])
+              error_df.to_excel(self.writer,'%s'%place)
 
           self.writer.save()
 
 if __name__ == '__main__':
-    errors = {}
-    list_of_feature_files = [i.split('/')[-1].replace('.csv', '') for i in glob.glob('tidydata/rawfeatures/*.csv')]
+    list_of_feature_files = ['Australia'] #[i.split('/')[-1].replace('.csv', '') for i in glob.glob('tidydata/rawfeatures/*.csv')]
     print list_of_feature_files
-    alphas = [0.5, 1, 2,5, 10, 20, 50,]# 125, 250, 500]
+    alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500]
 
     a = ExtendedFeaturesLasso(alphas, list_of_feature_files)

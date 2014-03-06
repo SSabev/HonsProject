@@ -68,7 +68,7 @@ class TwitterExtractor(object):
             self.counts[i] = {}
 
 
-        for twfile in self.all_the_files[:20]:
+        for twfile in self.all_the_files[:5]:
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
             filename_current = twfile.split('/')[-1]

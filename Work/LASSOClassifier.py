@@ -95,13 +95,13 @@ class LASSOOverallPredictor(object):
 
     def go_and_classify(self):
         for i in glob.glob('tidydata/joined/*.csv'):
-            city = i.split('/')[-1].replace('.csv', '')
+            place = i.split('/')[-1].replace('.csv', '')
             data = p.read_csv(i)
             df1, df2 = self.get_fridays(data)
-            self.classify(data, city, df1, df2)
+            self.classify(data, place, df1, df2)
 
 
-    def classify(self, df, city, data_fridays, data_compfriday):
+    def classify(self, df, place, data_fridays, data_compfriday):
         def predict_last_4_fridays(row):
             if row['Date'] > cutoff_date:
                 f1_w, f2_w, f3_w, f4_w = 0.675, 0.225, 0.075, 0.025
@@ -144,7 +144,7 @@ class LASSOOverallPredictor(object):
             #print clf2.coef_
 
 
-            self.weights['%s-dynamic-%s'%(city, str(alpha))] = {'Twitter': clf.coef_[0],
+            self.weights['%s-dynamic-%s'%(place, str(alpha))] = {'Twitter': clf.coef_[0],
                     'F1': clf.coef_[1],
                     'F2': clf.coef_[2],
                     'F3': clf.coef_[3],
@@ -175,9 +175,9 @@ class LASSOOverallPredictor(object):
                 del data['Unnamed: 0']
             except KeyError:
                 pass
-            #data.to_csv('tidydata/predictions/%s-dynamic-%s.csv'%(city, alpha))
+            #data.to_csv('tidydata/predictions/%s-dynamic-%s.csv'%(place, alpha))
 
-            self.errors[city] = {"RMSE Twitter with Dynamic Fridays": rmse_twitter,
+            self.errors[place] = {"RMSE Twitter with Dynamic Fridays": rmse_twitter,
                         "RMSE Twitter with Static Fridays": rmse_static,
                         "RMSE_L4F": rmse_l4f,
                         "R^2_twitter": clf.score(Xinput[130:], actual[130:]),
