@@ -60,11 +60,11 @@ The potential applications of this are generic prediction of flight search volum
 
 \maketitle
 
-\section*{Acknowledgements}
+%\section*{Acknowledgements}
 
-I would like to thank Charles Sutton for his support while supervising this project.\\
-\\
-Another thank you goes to Ewan Nicolson for helping with the project and giving access to data storage and the Skyscanner dataset used in this project.
+%I would like to thank Charles Sutton for his support while supervising this project and for all the suggestions that made it possible.\\
+%\\
+%Another thank you goes to Ewan Nicolson for helping with the project and giving access to data storage and the Skyscanner dataset used in this project.
 
 \tableofcontents
 
@@ -93,36 +93,178 @@ The way I envisioned it in the beginning was to mine the vast quantities of Twit
 In the first part of the project I have decided to be as pragmatic as possible and explored the most practical of all potential uses - predicting search volumes for every city or country that has been mentioned on Twitter with the Twitter counts and a list of features that are automatically extracted from the Twitter stream. Then based on those numbers we are building a classifier with historical data as well and outputting the numbers for the future!
 
 
-When the project is extended to be a more real-time system in its second phase, I expect that with the help of some TDT the potential applications of it arre quickly s. In theory, one can monitor what is happening and what is trending and as soon as something relevant is seen - event in a different country/city or in general something happening in a country one can action in a multitude of ways:
+When the project is extended to be a more real-time system in its second phase, I expect that with the help of some TDT the potential applications of the work here are going to find many applications. In theory, one can easily plug in to a social network public stream and monitor what is happening and what is trending and as soon as something relevant is seen - event in a different country/city or in general something happening in a country one can action in a multitude of ways:
+
 \begin{itemize}
 \item "X is happening, why not fly there to see it?"
 \item Develop it further to monitor social media in order to predict spikes in traffic. Appearance on Italian TV caused half an hour outage in 2011!
-\item If cross-referenced with a capable Customer Relationship Management system you could use the results from this project as a data source for a real time marketing solution. 
+\item If cross-referenced with a capable Customer Relationship Management system you could use the methods described in this project and the results as a data source for a real time marketing solution
 \end{itemize}
 
 
-These are the all reasons that made me pick this particular topic for research for my project. It's an interesting mixture of Machine Learning and Natural language processing. It's a brilliant opportunity to learn how real life ML and NLP can be used and applied to a big data set and what are the potential benefits of doing so. Of course, it's worth mentioning that this has a practical aspect of building a solution that could be used to power a solution for predicting search volumes and also anomaly detections with some slight tweaks. 
-
+The incredible breadth, the opportunity to work with big datasets and the fact that I could work on something novel were the main reasons that made me pick this particular topic for research in my project. It's a very interesting mixture of Machine Learning and Natural language processing. It has also presented a brilliant opportunity to learn how real life ML and NLP can be used and applied to a big data set and what are the potential benefits of doing so. Of course, it's worth mentioning that there is also the practical aspect of building a solution that could be used to power a solution for predicting search volumes and also anomaly detections with some slight tweaks. 
 
 
 \textbf{Note} - All the aggregated datasets are made available in the GitHub repository. \cite{code} The full Twitter dataset will be made available on request. Of course because of confidentiality I can't publish the dataset which has the Skyscanner searches, since that might break my employee code of conduct. Instead I have anonymised it by normalising as described in the methodology. 
 
-\section{Overview of what was achieved}
 
-As previously mentioned, this is a completely novel task, so I had to think a lot of the best approach on how to tackle this problem. Planning was an important part and the whole process is detailed in the next chapter. 
-
-But in terms what I achieved here is a bullet summary:
-\begin{itemize}
-\item Managed to find a performant and maintainable way of storing the data.
-\item Explored a few different ways to process the data and found the most efficient way reducing the processing time from 3 days to 15 hours. 
-\item Build a plethora of models to predict the features.
-\item 
-\end{itemize}
-
+%\section{Overview of what was achieved}
+%
+%As previously mentioned, this is a completely novel task, so I had to think a lot of the best approach on how to tackle this problem. Planning was an important part and the whole process is detailed in the next chapter. 
+%
+%But in terms what I achieved here is a bullet summary:
+%\begin{itemize}
+%\item Managed to find a performant and maintainable way of storing the data.
+%\item Explored a few different ways to process the data and found the most efficient way reducing the processing time from 3 days to 15 hours. 
+%\item Build, tested and benchmarked multiple classifiers on the datasets.
+%\item 
+%\end{itemize}
 
 \section{Synopsis of results}
 
-Derp
+
+As hypothesised, there are two types of destinations:
+
+
+\begin{itemize}
+\item One that have a constant search volume to them which doesn't change too much over the course of the year - those are the big cities such as London, New York, Paris and to some extent the searches to some countries. 
+\item Smaller places such as Ibiza, Alicante, Faro and more exotic destinations such as Lusaka, Tobago and many others that have highly seasonal demand.
+\end{itemize}
+
+
+The difference in the two is graphically represented on the next page in Figure 1.1 and 1.2. 
+
+
+\begin{figure}[]
+\begin{center}
+\includegraphics[scale=0.4]{london-searches}
+\end{center}
+\caption{Searches to London - as we can see the trundling is going to be almost parallel to the X axis. The holes in the data are due to some data problems at Skyscanner and the slight dup between days 100 and 140 is because of the December, which is a bad month for the industry as a whole.}
+\end{figure}
+
+
+\begin{figure}[]
+\begin{center}
+\includegraphics[scale=0.4]{ibiza-searches}
+\end{center}
+\caption{Searches to Ibiza - in this plot we can get the idea of seasonality. The dips is observed as soon as enter autumn and then in January the searches to such destinations pick up again as people are starting to plan their summer holidays}
+\end{figure}
+
+Naturally, because of the constant and not so changing nature of the first group my classifier performs better on the second group. The Root mean squared error from my models on the 2nd group is always smaller or roughly the same as the error generated by the in-house algorithm. It's  "Last 4 Fridays" and it what it essentially is a slightly tweaked version of an exponentially weighted moving average, which takes into account seasonality and all the spikes big spikes in the graphs. A more detailed discussion as to why this was picked as the baseline can be found in Chapter \ref{sec:baseline} on page \pageref{sec:baseline}.
+
+\section{Results for the first iteration of the algorithm}
+
+In order to get started with this problem and generate a first set of results I had to identify a good way of modelling the problem and how to predict the output from some inputs. The first things suggested by my supervisor was to use LASSO \cite{lasso} in order to determine the weights for all of my inputs. The way the first model works is the following - you still have all the last 4 fridays, but the Twitter counts are also included. Instead of fixing their weights, I chose to let LASSO determine all the weights for the inputs. This way we get an incremental improvement over the Last 4 Fridays, that is taking into account one of the many exogenous factors that could influence the search volumes either upwards or downwards. I expected that to yield better results for the 2nd group of destinations and possibly for some from group 1.
+
+Overall, I was pleasantly surprised by the results. The ones generated by the first iteration of my model were better on 447 of the destinations. On the other hand the in-house champion Last 4 Fridays performed better on 427 of the destinations. In order to illustrate that difference there is a scatter plot of the RMSEs in Figure 1.3.
+
+
+In it we can see that there are some destinations where the Twitter model performs much worse than the L4F one (dots far below y=x line). The ones, which are better classified by my model are destinations with a low-medium number of flight searches, since these are the destinations where exogenous factors, such as events can drastically increase or even decrease demand for flights.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{RMSE}
+\end{center}
+\caption{Scatter plot of RMSE Twitter Model and RMSE Last 4 Fridays. To put things into perspective, I've also plotted the y=x line to make it easier to visualise the border between the two. Anything above the line is where my classifier performs better and anything below is where the in-house model excels.  }
+\end{figure}
+
+
+\newpage
+
+Here are some picked results which illustrate the best gains and where there could be more improvements:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ l | c | c | r}
+Place & RMSE Twitter & RMSE L4F & Improvement \\
+\hline
+Lesotho & 11.32 & 34.68 & 206.42 \% \\ 
+Casper & 10.00 & 19.72 & 97.32 \% \\ 
+Bismarck & 16.88 & 32.40 & 91.88 \% \\ 
+Gaborone & 36.61 & 67.56 & 84.56 \% \\ 
+Niger & 17.61 & 32.48 & 84.41 \% \\ 
+Burundi & 39.84 & 72.58 & 82.19 \% \\ 
+Yakima & 4.15 & 7.46 & 79.98 \% \\ 
+Djibouti & 39.82 & 64.33 & 61.56 \% \\ 
+Botswana & 62.16 & 94.90 & 52.66 \% \\ 
+Benin & 54.59 & 82.02 & 50.24 \% \\ 
+\end{tabular}
+\end{center}
+\caption{Results for destinations that yielded the best improvement in percentage terms when classified with the model from this project in comparison to the in-house one. As we can see they are fairly small niche destinations where it seems that people tweeting about it likely to result in a flight search to that place.}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ l | c | c | r}
+Place & RMSE Twitter & RMSE L4F & Improvement \\
+\hline
+Munich & 16260.40 & 3703.94 & -539.00 \% \\
+Kefalonia & 322.39 & 79.97 & -503.12 \% \\
+Paros & 149.36 & 38.91 & -483.91 \% \\
+Maastricht & 260.93 & 68.07 & -483.32 \% \\
+Tajikistan & 506.65 & 142.88 & -454.61 \% \\
+Lampedusa & 274.17 & 79.50 & -444.87 \% \\
+Tampere & 272.07 & 89.80 & -402.97 \% \\
+Rimini & 301.40 & 101.29 & -397.56 \% \\
+Ljubljana & 469.44 & 161.30 & -391.04 \% \\
+Avignon & 108.91 & 37.44 & -390.86 \% \\
+\end{tabular}
+\end{center}
+\caption{Results for destinations that yielded the biggest negative improvement. This is quite a surprising mix of popular and unpopular destinations. }
+\end{table}
+
+
+If we look at the top 10 destinations in terms of RMSE (and in flight searches) in Table 1.3 we see something quite surprising, but also very nice. The improvement is positive in 7 out of the 10 examples. Even though it's small, the very fact that there is an improvement, means that taking into account exogenous factors is quite important and can contribute positively to the quality of the prediction.
+
+
+\begin{table}[]
+\begin{center}
+\begin{tabular}{ l | c | c | r}
+Place & RMSE Twitter & RMSE L4F & Improvement \\
+\hline
+Spain & 48927.26 & 50698.84 & 3.62 \% \\ 
+Italy & 30941.11 & 31872.10 & 3.01 \% \\ 
+Russia & 24164.78 & 23845.65 & -1.32 \% \\ 
+London & 30107.41 & 23280.96 & -22.67 \% \\ 
+Germany & 20316.62 & 20926.03 & 3.00 \% \\ 
+France & 19240.95 & 19839.66 & 3.11 \% \\ 
+Thailand & 17551.33 & 17528.52 & -0.13 \% \\ 
+Turkey & 16765.25 & 17170.89 & 2.42 \% \\ 
+Greece & 13666.88 & 13826.56 & 1.17 \% \\ 
+Australia & 11822.31 & 12188.49 & 3.10 \% \\
+\end{tabular}
+\end{center}
+\caption{Results for the top destinations by RMSE error of L4F. 7/10 have lower RMSEs with the Twitter model}
+\end{table}
+
+
+\section{Results for the algorithm with more features}
+
+The next iteration of the model didn't limit itself with just twitter counts and searches from previous dates. For this I removed all the stop words and weird emoji characters and used them as features in my classifier. 
+
+In Table 1.4 you can see the improvement in RMSE of the classifier for different values of the penalisation factor $\alpha$, the number of non-zero weights and also the RMSE for L4F, which is constant, since that is not tweaked. Overall we can see quite a significant improvement in the error as we discard more and more junk features, but it's still not as good as the simple model that is in the first version. 
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ l | c | c | r}
+Alpha & RMSE Twitter & RMSE L4F & Improvement \\
+\hline
+Spain & 48927.26 & 50698.84 & 3.62 \% \\ 
+Italy & 30941.11 & 31872.10 & 3.01 \% \\ 
+Russia & 24164.78 & 23845.65 & -1.32 \% \\ 
+London & 30107.41 & 23280.96 & -22.67 \% \\ 
+Germany & 20316.62 & 20926.03 & 3.00 \% \\ 
+France & 19240.95 & 19839.66 & 3.11 \% \\ 
+Thailand & 17551.33 & 17528.52 & -0.13 \% \\ 
+Turkey & 16765.25 & 17170.89 & 2.42 \% \\ 
+Greece & 13666.88 & 13826.56 & 1.17 \% \\ 
+Australia & 11822.31 & 12188.49 & 3.10 \% \\
+\end{tabular}
+\end{center}
+\caption{Results for the top destinations by RMSE error of L4F. 7/10 have lower RMSEs with the Twitter model}
+\end{table}
+
+
 
 \chapter{Background and discussion of related work}
 
@@ -336,6 +478,7 @@ We might have to add a certain "lag" factor to this, which will offset the tweet
 \label{chap:model}
 
 \section{The baseline model}
+\label{sec:baseline}
 
 The baseline model for predicting the number of redirects Skyscanner has on a daily basis is called Last 4 Fridays. 
 It works in the following way:
@@ -428,6 +571,14 @@ With those I'll be able to better the model and reduce the RMSE across the whole
 \bibitem{seqcap}
 	BBC, \emph{Sequoia Capital investment values Skyscanner at \$800m}, \\
 	{\url{http://www.bbc.co.uk/news/uk-scotland-scotland-business-24380126}}
+
+\bibitem{code}
+	Stefan Sabev, Code for Inf Project,\\
+	{\url{https://github.com/SSabev/HonsProject/}}
+	
+\bibitem{lasso}
+	Wikipedia, \emph{Lasso (statistics)}, \\
+	{\url{http://en.wikipedia.org/wiki/Lasso_(statistics)#Lasso_method}}
 	
 \bibitem{TwitterNewsWire}
 	Twitter, \emph{Twitter as a news-wire}, \\
@@ -455,9 +606,6 @@ With those I'll be able to better the model and reduce the RMSE across the whole
 	William Groves and Maria Gini, \emph{Optimal Airline Ticket Purchasing Using Automated User-Guided Feature Selection}
 	{\url{http://ijcai.org/papers13/Papers/IJCAI13-032.pdf}}
 
-\bibitem{code}
-	Stefan Sabev, Code for Inf Project,\\
-	{\url{https://github.com/SSabev/HonsProject/}}
 
 \end{thebibliography}
 
