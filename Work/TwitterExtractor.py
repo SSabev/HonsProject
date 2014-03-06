@@ -68,7 +68,7 @@ class TwitterExtractor(object):
             self.counts[i] = {}
 
 
-        for twfile in self.all_the_files[:5]:
+        for twfile in self.all_the_files[:20]:
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
             filename_current = twfile.split('/')[-1]
@@ -120,7 +120,7 @@ class TwitterExtractor(object):
                 df = p.DataFrame(list(temp.iteritems()), \
                 columns=['Date', 'Count']).sort(columns=['Date'], ascending=False)
                 city_formatted = str(key)
-                df.to_csv('pcounts/%s.csv'%(city_formatted.capitalize()))
+                df.to_csv('pcounts/%s.csv'%(city_formatted.capitalize().replace('/', '')))
 
 
     def rebalance_counts(self):
