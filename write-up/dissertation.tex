@@ -16,7 +16,6 @@
 \usepackage{amsmath}
 \newcommand{\BigO}[1]{\ensuremath{\operatorname{O}\bigl(#1\bigr)}}
 
-
 \usepackage{listings}
 \usepackage{color}
 
@@ -40,7 +39,6 @@
   breakatwhitespace=true
   tabsize=4
 }
-
 
 \begin{document}
 \title{Modelling search volumes as a dynamic system responding to external events}
@@ -240,7 +238,7 @@ Australia & 11822.31 & 12188.49 & 3.10 \% \\
 
 \section{Results for the algorithm with more features}
 
-The next iteration of the model didn't limit itself with just twitter counts and searches from previous dates. For this I removed all the stop words and weird emoji characters and used them as features in my classifier. 
+In the next iteration of the model I didn't limit it to just twitter counts and searches from previous dates. For this particular model I've used all the words co-occurring with a place name as features. Of course, there is a lot of junk, so I removed all the emoji characters and all the stop words in order to prevent overwhelming the LASSO with a lot of junk features.
 
 In Table 1.4 you can see the improvement in RMSE of the classifier for different values of the penalisation factor $\alpha$, the number of non-zero weights and also the RMSE for L4F, which is constant, since that is not tweaked. Overall we can see quite a significant improvement in the error as we discard more and more junk features, but it's still not as good as the simple model that is in the first version. 
 
@@ -305,8 +303,6 @@ During the 2nd phase of the project, I will focus on retrieving only the most re
 
 
 
-
-
 \chapter{Background and discussion of related work}
 
 
@@ -325,11 +321,17 @@ In order to get more familiar with the trending events I have done read a few pa
 
 %PREDICTING THE FUTURE FROM TWITTER HERE
 
-As it's been said many times "Predicting is hard, especially about the future".  Add a noisy channel as a source of input and one is only making things worse.
+As it's been said many times "Predicting is hard, especially about the future".  Add a noisy channel as a source of input and one is only making things worse. There have been several attempts to predict something based on Twitter - stock markets \cite{twitstock},  flu outbreaks \cite{twitflu}, results for the NFL \cite{twitnfl} and poll results \cite{twitpoll} being the most prominent published papers.
+
+In the "Twitter mood predicts the stock market" paper \cite{twitstock}, the authors try to use the cutting edge of the real-time twitter data in order to classify the overall mood and from that to predict whether the DIJA \cite{dija} is going to go up or down. In order to achieve it they use OpinionFinder \cite{opfind}
 
 
 
-The only thing that has been researched in the online travel sector is what is the optimal time to book an airline flight taking into account all the different factors. \cite{Hamletkdd03} \cite{ijcai} 
+
+
+
+
+On the other hand, the only thing that has been researched in the online travel sector is what is the optimal time to book an airline flight taking into account all the different factors. \cite{Hamletkdd03} \cite{ijcai} 
 Both of the referenced papers are using small sets of data which aim to predict what is the optimal time to book. What is written there is the other part of the puzzle - when should you book, but in this particular project we are more interested in when ARE people looking for flights.
 
 
@@ -343,6 +345,24 @@ Chapter \ref{chap:model} on page \pageref{chap:model} explains what are the Mach
 
 
 In chapter \ref{chap:future-work} on page \pageref{chap:future-work}, I discuss all the future work that will be carried out for this project both for next year and if someone is to pick it up and start developing on top. In order to do that I have included links to the source code for this project and all the pre-aggregated data sets from Twitter in the repository.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \chapter{Methodology}
@@ -641,18 +661,46 @@ With those I'll be able to better the model and reduce the RMSE across the whole
 	{\url{http://homepages.inf.ed.ac.uk/miles/sm-papers.html}}
 	
 \bibitem{Petrovic2012}
-  	\emph{Real-time Event Detection in Massive Streams, Sasa Petrovic}, 2012, School of Informatics, University of Edinburgh \\
+	Sasa Petrovic
+  	\emph{Real-time Event Detection in Massive Streams 2012} ,\\
+	School of Informatics, University of Edinburgh \\
 	{\url{http://homepages.inf.ed.ac.uk/s0894589/petrovic-thesis.pdf}}
-  
+
+\bibitem{twitstock}
+	Johan Bollen, Huina Mao and Xiao-Jun Zeng, \\
+	\emph{Twitter mood predicts the stock market}, \\
+	{\url{http://arxiv.org/pdf/1010.3003v1.pdf}}
+
+\bibitem{twitnfl}
+	Shiladitya Sinha, Chris Dyer , Kevin Gimpel, and Noah A. Smith, \\
+	\emph{Twitter mood predicts the stock market}, \\
+	{\url{http://arxiv.org/pdf/1010.3003v1.pdf}}
+
+\bibitem{twitflu}
+	Michael J. Paul and Mark Dredze,  \\
+	\emph{You Are What You Tweet: Analyzing Twitter for Public Health}, \\
+	{\url{http://www.cs.jhu.edu/~mdredze/publications/twitter_health_icwsm_11.pdf}}
+
+\bibitem{twitpoll}
+	Brendan O?Connory,  Ramnath Balasubramanyany, Bryan R. Routledgex, Noah A. Smith, \\  
+	\emph{From Tweets to Polls: Linking Text Sentiment to Public Opinion Time Series}, \\
+	{\url{http://www.cs.cmu.edu/~nasmith/papers/oconnor+balasubramanyan+routledge+smith.icwsm10.pdf}}
+
+\bibitem{dija}
+	Wikipedia, \emph{Dow Jones Industrial Average}, \\
+	{\url{http://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average}}
+
+\bibitem{opfind}
+	OpinionFinder, \\
+	{\url{http://mpqa.cs.pitt.edu/opinionfinder/}}
   
 \bibitem{Hamletkdd03}
  	Etzionni, Tuchinda, Knoblock and Yates, \emph{To Buy or Not to Buy: Mining Airfare Data to Minimize Ticket Purchase Price}, 2003, \\
   	{\url{http://knight.cis.temple.edu/~yates/papers/hamlet-kdd03.pdf}}
 	
 \bibitem{ijcai}
-	William Groves and Maria Gini, \emph{Optimal Airline Ticket Purchasing Using Automated User-Guided Feature Selection}
+	William Groves and Maria Gini, \emph{Optimal Airline Ticket Purchasing Using Automated User-Guided Feature Selection} \\
 	{\url{http://ijcai.org/papers13/Papers/IJCAI13-032.pdf}}
-
 
 \end{thebibliography}
 
