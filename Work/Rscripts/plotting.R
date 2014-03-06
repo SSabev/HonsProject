@@ -4,8 +4,8 @@ library(ggplot2)
 data <- read.csv('../results/results.csv')
 
 max.val = max(data$RMSE_Twitter)
-nx = seq(1, max.val-1, by=max.val/468)
-ny = seq(1, max.val-1, by=max.val/468)
+nx = seq(1, max.val-1, by=max.val/874)
+ny = seq(1, max.val-1, by=max.val/874)
 
 ggplot(data=data, aes(x=RMSE_Twitter, y=RMSE_L4F)) +
   geom_point(fill ='blue', size=1) + 
@@ -17,3 +17,12 @@ ggplot(data=data, aes(x=RMSE_Twitter, y=RMSE_L4F)) +
   ylab("Root mean squared error from the L4F regression") + 
   ggtitle("RMSE scatter plot of classifiers") + 
   guides(fill = guide_legend(reverse=FALSE))
+
+data <- read.csv('../tidydata/joined/London.csv')
+data$Date <- as.Date(data$Date,format="%Y-%m-%d")
+
+ggplot(data=data, aes(x=Date, y=NSearches)) + 
+  geom_line(colour = 'blue', size=1) +
+  xlab("Month") + ylab("Normalised searches") + 
+  ggtitle("Plot of searches to London over time") 
+  # +  scale_x_date(labels = date_format("%m-%Y"))
