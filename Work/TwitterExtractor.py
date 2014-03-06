@@ -140,10 +140,15 @@ class TwitterExtractor(object):
                         data['Date'] = data.Datetime
                         del data['Datetime'], data['KeyWord']
 
-                    del new_data['Unnamed: 0']
                     data = data.append(new_data)
                     new = data.groupby(['Date'])
                     df = new.sum()
+                    for i in range(0, 5):
+                        try:
+                            del df['Unnamed: %s'%str(i)]
+                            del df['Unnamed: 0.%s'%str(i)]
+                        except ValueError:
+                            pass
                     df.to_csv(j)
 
 if __name__ == '__main__':
