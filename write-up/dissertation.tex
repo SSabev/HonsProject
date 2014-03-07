@@ -154,7 +154,7 @@ Naturally, because of the constant and not so changing nature of the first group
 
 In order to get started with this problem and generate a first set of results I had to identify a good way of modelling the problem and how to predict the output from some inputs. The first things suggested by my supervisor was to use LASSO \cite{lasso} in order to determine the weights for all of my inputs. The way the first model works is the following - you still have all the last 4 fridays, but the Twitter counts are also included. Instead of fixing their weights, I chose to let LASSO determine all the weights for the inputs. This way we get an incremental improvement over the Last 4 Fridays, that is taking into account one of the many exogenous factors that could influence the search volumes either upwards or downwards. I expected that to yield better results for the 2nd group of destinations and possibly for some from group 1. I called the model TwitterDF.
 
-Overall, I was pleasantly surprised by the results. On the full set of 987 destinations, the first iteration of my model generated better predictions and scored lower RMSE on 614 of the destinations. On the other hand the in-house champion Last 4 Fridays performed better on 373 of the destinations. In order to illustrate that difference there is a scatter plot of the RMSEs in Figure 1.3. That means that my model is better on 62\% of all the destinations.
+Overall, I was pleasantly surprised by the results. On the full set of 1372 destinations, the first iteration of my model generated better predictions and scored lower RMSE on 1034 of the destinations. On the other hand the in-house champion Last 4 Fridays performed better on 338 of the destinations. In order to illustrate that difference there is a scatter plot of the RMSEs in Figure 1.3. That means that my model is better on 62\% of all the destinations.
 
 
 In it we can see that there are some destinations where the Twitter model performs much worse than the L4F one (dots far below y=x line). The ones, which are better classified by my model are destinations with a low to medium number of flight searches, since these are the destinations where exogenous factors, such as events can drastically increase or even decrease demand for flights.
@@ -250,9 +250,9 @@ Here is a scatter plot of how the RMSEs looked for the 2 models:
 \begin{tabular}{ l | r }
 Method & NumBest \\
 \hline
-L4F & 377 \\
-TwitterCF & 338 \\
-TwitterDF & 272 \\
+L4F & 343 \\
+TwitterCF & 624 \\
+TwitterDF & 405 \\
 \end{tabular}
 \end{center}
 \caption{Comparison of the three methods and who had the best results on the dataset of 987 points. As we can see L4F is still better individually, but the two Twitter classifiers are better on 610 of the destinations.}
@@ -268,7 +268,7 @@ In Table 1.4 you can see the improvement in RMSE of the classifier for different
 \begin{table}[pt]
 \begin{center}
 \begin{tabular}{ l | r | r | r | r | r}
-Aplha & $>$ 0 Weights CF & RMSE TCF & $>$ 0 Weights DF & RMSE TDF & RMSE L4F  \\
+Aplha & $>$ 0 W CF & RMSE TCF & $>$ 0 W DF & RMSE TDF & RMSE L4F  \\
 \hline
 0.5 & 180 & 12504.91 & 192  & 36323.13 & 1296.62  \\
 1 & 162 & 13288.62 & 160  & 30995.75 & 1296.62  \\
@@ -281,6 +281,7 @@ Aplha & $>$ 0 Weights CF & RMSE TCF & $>$ 0 Weights DF & RMSE TDF & RMSE L4F  \\
 250 & 24 & 2610.64 & 32 & 3230.88 & 1296.62 \\
 500 & 17 & 2334.97 & 15 & 3513.25 & 1296.62 \\
 1000 & 8 & 1742.20 & 10 & 3662.42 & 1296.62 \\
+\hline
 2000 & 4 & 1231.04 & 8  & 3541.44 & 1296.62 \\
 4000 & 3 & 1231.93 & 6 & 3446.65 & 1296.62 \\
 8000 & 2 & 1237.07 & 5 & 3288.45 & 1296.62 \\
@@ -288,7 +289,7 @@ Aplha & $>$ 0 Weights CF & RMSE TCF & $>$ 0 Weights DF & RMSE TDF & RMSE L4F  \\
 32000 & 1 & 1247.21 & 4 & 3198.78 & 1296.62 \\
 \end{tabular}
 \end{center}
-\caption{Improvement in RMSE with the expanded feature set for Palma, which is in 2nd group of destinations.  As you can see in terms of absolute value, the RMSE for the Twitter classifier with compound fridays (RMSE TCF) has decreased 10.7 time. At $\alpha=2000$ the compound friday classifier beats Twitter with 4 features. The features with non zee weights decrease from 180 down to 4 to make the better prediction.  The RMSE for the classifier with all weights picked by Lasso (RMSE TDF) has decreased 11.3 times, however that is still not as good as the L4F predictor.}
+\caption{Improvement in RMSE with the expanded feature set for Palma, which is in 2nd group of destinations.  As you can see in terms of absolute value, the RMSE for the Twitter classifier with compound fridays - RMSE TCF - has decreased 10.7 time. At $\alpha=2000$ the compound friday classifier beats Twitter with 4 features (horizontal line). The features with non zee weights decrease from 180 down to 4 to make the better prediction.  The RMSE for the classifier with all weights picked by Lasso - RMSE TDF- has decreased 11.3 times, however that is still not as good as the L4F predictor.}
 \end{table}
 
 As we can see the more the junk features are penalised the classification improves significantly. However that is still just the beginning. Next year I will apply more NLP on the Twitter dataset trying to capture only the relevant tweets that will result in an improvement of the overall RMSE for the classifier. 
@@ -342,7 +343,7 @@ As you can see in Figure 1.5 the overall volume of searches is not as volatile a
 
 \section{Conclusion}
 
-The previous results have demonstrated that there is definitely a gain, albeit small, in including exogenous factors such as Twitter in the prediction. With the first level of filtering described in chapter \ref{sec:tweettext} on page \pageref{sec:tweettext} we have achieved better prediction on slightly more than 50\% of all the destinations.  
+The previous results have demonstrated that there is definitely a gain, albeit small, in including exogenous factors such as Twitter in the prediction. With the first level of filtering described in chapter \ref{sec:tweettext} on page \pageref{sec:tweettext} we have achieved better prediction on slightly more than 74\% of all the destinations.  
 
 
 During the 2nd phase of the project, I will focus on retrieving only the most relevant tweets from the Twitter dataset and doing better feature extraction that will allow to remove junk features that bring the RMSE up. With that in mind, I am hopeful that I will be able to build the next version of the model that is going to perform just as well on the first group of destinations. 
@@ -370,8 +371,9 @@ In order to get more familiar with the trending events I have done read a few pa
 As it's been said many times "Predicting is hard, especially about the future".  Add a noisy channel as a source of input and one is only making things worse. There have been several attempts to predict something based on Twitter - stock markets \cite{twitstock},  flu outbreaks \cite{twitflu}, results for the NFL \cite{twitnfl} and poll results \cite{twitpoll} being the most prominent published papers.
 
 In the "Twitter mood predicts the stock market" paper \cite{twitstock}, the authors try to use the cutting edge of the real-time twitter data in order to classify the overall mood and from that to predict whether the DIJA \cite{dija} is going to go up or down. In order to achieve it they use OpinionFinder \cite{opfind}, which can measure opinion classifying it into negative or positive. To capture the complexity of human moods, they created their own system called GPOMS, which can capture up to 6 states. 
-In order to make the OF and GPMOS time series comparable, they used their z-scores. 
+In order to make the OF and GPMOS time series comparable, they used their z-scores. Then they haven the time series of DIJA deltas ( change in comparison to the previous day ) and perform Granger causality analysis \cite{granger} to see whether the two time series are related.
 
+\textbf{more background here on the other cited papers here}
 
 
 On the other hand, the only thing that has been researched in the online travel sector is what is the optimal time to book an airline flight taking into account all the different factors. \cite{Hamletkdd03} \cite{ijcai} 
@@ -736,6 +738,10 @@ With those I'll be able to better the model and reduce the RMSE across the whole
 \bibitem{opfind}
 	OpinionFinder, \\
 	{\url{http://mpqa.cs.pitt.edu/opinionfinder/}}
+	
+\bibitem{granger}
+	Granger causality, \\
+	{\url{http://en.wikipedia.org/wiki/Granger_causality}}
   
 \bibitem{Hamletkdd03}
  	Etzionni, Tuchinda, Knoblock and Yates, \emph{To Buy or Not to Buy: Mining Airfare Data to Minimize Ticket Purchase Price}, 2003, \\
