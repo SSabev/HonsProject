@@ -3,7 +3,7 @@ import glob
 import pandas as p
 import datetime as dt
 
-    
+
 def join_files(city,filenames):
     s_file, t_file = filenames
     searches = p.read_csv(s_file)
@@ -18,7 +18,7 @@ def join_files(city,filenames):
         return temp.strftime('%Y-%m-%d')
     #print searches[0:2]
     #print tweets[0:2]a
-    
+
     searches.Date = searches.Date.apply(conversion)
     tweets.Date = tweets.Date.apply(conversion)
     searches_and_tweets = searches.merge(tweets, on='Date', how='outer')
@@ -32,20 +32,20 @@ def join_files(city,filenames):
 def tidy_up():
     tweet_files = glob.glob(r'tidydata/twitter/*.csv')
     ss_files = glob.glob(r'tidydata/se/*.csv')
-    
+
     city_dict = {}
     for i in ss_files:
         city_name = i.replace('.csv','').split('/')[-1]
         tweet_file = None
         for j in tweet_files:
             other_name = j.replace('.csv','').split('/')[-1]
-            if city_name == other_name:
+            if city_name.lower() == other_name.lower():
                 city_dict[city_name] = (i,j)
 
 
     tweets_files_names = [i.replace('.csv', '').split('/')[-1] for i in tweet_files]
     ss_files_names = [i.replace('.csv', '').split('/')[-1] for i in ss_files]
-    
+
     print "Unmatched: "
     print set(tweets_files_names).difference(set(ss_files_names))
     return city_dict
@@ -58,4 +58,3 @@ if __name__ == '__main__':
         join_files(i, city_dict[i])
 
     print len(city_dict)
-

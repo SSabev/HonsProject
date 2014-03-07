@@ -18,7 +18,7 @@ class FeatureExtractor(object):
         with open('tidydata/file_status', 'r') as f:
             for line in f:
                 self.processed.append(line.rstrip())
-        
+
         self.to_process = todo
         print self.to_process
         print "Processed %s files so far"%str(len(self.processed))
@@ -64,7 +64,7 @@ class FeatureExtractor(object):
         self.punctuation = string.punctuation.replace('#', '')
         self.punctuation += '\r\n\t'
         print self.punctuation
-        
+
         for twfile in self.all_the_files:
             self.counts = {}
             for city in self.to_process:
@@ -77,7 +77,7 @@ class FeatureExtractor(object):
                     tweet = json.loads(line)
                 except ValueError:
                     print "Faulty tweet"
-                    
+
                 if tweet:
                     temp = tweet['text'].encode('utf-8').lower().replace('\n', ' ')
                     dt_stamp = datetime.datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
@@ -91,7 +91,7 @@ class FeatureExtractor(object):
                                     dictemp = self.counts[city].get(token, {})
                                     dictemp[dt_key] = dictemp.get(dt_key, 0) + 1
                                     self.counts[city][token] = dictemp
-            
+
             #print self.counts.keys()
             for key in self.counts:
                 to_keep = {}
@@ -100,17 +100,17 @@ class FeatureExtractor(object):
                         temp = i
                         translated = temp.translate(None, self.punctuation)
                         to_keep[translated] = self.counts[key][i]
-                
+
                 #print key, self.counts.get(key).keys()[:10]
                 #print len(self.counts.get(key).keys())
                 #print len(to_keep.keys())
                 data = p.DataFrame.from_dict(to_keep)
                 data.to_csv('rawfeatures/%s-%s.csv'%(key, twfile.split('-')[-1]))
-            
+
                 #h, m, s = self.convert_timedelta(datetime.datetime.now() - self.starttime)
                 #print '{} took {}h,{}m,{}s to process'.format(key, h, m, s)
                 #self.startime = datetime.datetime.now()
-            
+
             h, m, s = self.convert_timedelta(datetime.datetime.now() - self.starttime)
             print '{} took {}h,{}m,{}s to process'.format(twfile, h, m, s)
 
@@ -125,7 +125,7 @@ class FeatureExtractor(object):
                 print i
                 data = data.append(p.read_csv(i))
             data['Date'] = data['Unnamed: 0']
-            try: 
+            try:
                 del data['Unnamed: 0']
                 del data['Unnamed: 1']
             except ValueError:
@@ -133,15 +133,15 @@ class FeatureExtractor(object):
             data = data.groupby(['Date'])
             data = data.sum()
             data.to_csv('tidydata/rawfeatures/%s.csv'%city)
-    
+
     def output_processed(self):
         with open('tidydata/file_status', 'w') as f:
             for i in self.processed:
                 f.write('%s\n'%i)
-    
+
 if __name__ == '__main__':
-    basepath2 = '/Volumes/Samsung/traveltweets_expanded'
-    basepath = "traveltweets_expanded"
+    basepath2 = '/Volumes/Samsung/traveltweets'
+    basepath = "traveltweets"
 
     places = []
     with open('tidydata/places_list') as f:
@@ -149,4 +149,3 @@ if __name__ == '__main__':
             places.append(line.rstrip().lower())
     print places
     a = FeatureExtractor(basepath, places)
-

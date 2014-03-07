@@ -12,16 +12,17 @@ data$RMSE.TwitterCF <- as.numeric(data$RMSE.TwitterCF)
 data$RMSE_L4F <- as.numeric(data$RMSE_L4F)
 
 max.val <- max(data$RMSE.TwitterCF)
-nx = seq(1, max.val-1, by=max.val/982)
-ny = seq(1, max.val-1, by=max.val/982)
+nx = seq(1, max.val-1, by=max.val/1367)
+ny = seq(1, max.val-1, by=max.val/1367)
 
-keeps <- c("RMSE.TwitterCF", "RMSE.TwitterDF", "RMSE_L4F")
+keeps <- c( "RMSE.TwitterDF", "RMSE_L4F", "RMSE.TwitterCF")
 data <- data[(names(data) %in% keeps)]
 
 data <- melt(data, id.vars=c("RMSE_L4F"))
 
 ggplot(data=data, aes(x=RMSE_L4F, y=value, group=variable, colour=variable)) +
   geom_point(size=3) + facet_grid(. ~ variable) +
+  #geom_line(aes(x=nx, y=ny), colour="#4B0082")+ 
   scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
   xlab("Root mean squared error from the L4F regression") + 
   ylab("Root mean squared error from the Twitter regressions") + 

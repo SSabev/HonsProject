@@ -114,7 +114,7 @@ class LASSOOverallPredictor(object):
         data = df.copy(deep=True)
         data = data.merge(data_fridays, on='Date', how='outer')
         data = data[36:]
-        print data
+        #print data
         data = data.fillna(0)
 
 
