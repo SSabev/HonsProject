@@ -42,7 +42,7 @@ ggplot(data=data, aes(x=Date, y=NSearches)) +
   # +  scale_x_date(labels = date_format("%m-%Y"))
 
 
-df <- read.csv('../tidydata/predictions/australia.csv')
+df <- read.csv('../tidydata/predictions/london.csv')
 
 #df$TwitterCF <- df$TwitterCF/max(df$TwitterCF)
 #df$TwitterDF <- df$TwitterDF/max(df$TwitterDF)
@@ -52,14 +52,15 @@ df <- read.csv('../tidydata/predictions/australia.csv')
 df <- melt(df, id.vars=c("Actual"))
 
 ggplot(data=df, aes(x=Actual, y=value, group=variable, colour=variable)) +
-  geom_point(size=3) + 
+   geom_point(size=3) + facet_grid(. ~ variable) +
   scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
   xlab("True searches") + ylab("Predicted searches") + 
-  ggtitle("Scatter plot of all the different predictios against the actual values") +
-  
+  ggtitle("Scatter plot of all the different predictions against the actual values") +
+  stat_smooth(method='lm') +
   theme(axis.line=element_blank(),
       axis.text.x=element_blank(),
       axis.text.y=element_blank(),
       axis.ticks=element_blank()
-)
+  )
+  
   

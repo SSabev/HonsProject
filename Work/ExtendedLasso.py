@@ -125,10 +125,10 @@ class ExtendedFeaturesLasso(object):
             fridays, comp_fridays = self.get_fridays(data)
 
             data = data.merge(fridays, on='Date', how='outer')
-            data = data[36:188]
-            merged = merged[36:188]
-            dict_of_features = {i: merged[i].tolist() for i in merged.columns if i not in ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4', 'Exits', 'Searches'
-                'NSearches']}
+            data = data[36:195]
+            merged = merged[36:195]
+            dict_of_features = {i: merged[i].tolist() for i in merged.columns \
+            if i not in ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4', 'Searches', 'NSearches']}
             dict_of_items = {i: data[i].tolist() for i in data.columns if i in [ 'Friday1', 'Friday2', 'Friday3', 'Friday4']}
             dict_of_all = dict(dict_of_features.items() + dict_of_items.items())
             Xinput = p.DataFrame.from_dict(dict_of_all)

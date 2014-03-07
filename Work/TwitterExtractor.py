@@ -68,7 +68,7 @@ class TwitterExtractor(object):
             self.counts[i] = {}
 
 
-        for twfile in self.all_the_files[:5]:
+        for twfile in self.all_the_files:
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
             filename_current = twfile.split('/')[-1]
@@ -147,7 +147,7 @@ class TwitterExtractor(object):
                         try:
                             del df['Unnamed: %s'%str(i)]
                             del df['Unnamed: 0.%s'%str(i)]
-                        except ValueError:
+                        except KeyError:
                             pass
                     df.to_csv(j)
 

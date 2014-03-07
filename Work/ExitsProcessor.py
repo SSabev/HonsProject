@@ -26,7 +26,7 @@ class ExitsProcessor(object):
 
     def load_single(self):
         self.data = p.read_csv(self.filenames)
-        self.original = self.data
+        self.original = self.data.copy(deep=True)
         print self.data
 
     def list_cities(self):
@@ -40,9 +40,9 @@ class ExitsProcessor(object):
         del self.data['ToCountry']
         for i in iter(self.uniques):
             if (i in self.cities):
-                print i
+                print self.cities[i]
                 df = self.data[self.data['ToCity'] == i]
-                if sum(df['Exits'])>100:
+                if sum(df['Searches'])>100:
                     df = df.groupby(['Date','ToCity'])
                     new_df = df.agg({'Searches': np.sum, 'Exits': np.sum}).reset_index()
                     del new_df['ToCity']
@@ -54,13 +54,21 @@ class ExitsProcessor(object):
                         new_df = new_df[new_df.Date != temp]
                         st += relativedelta(days = 1)
 
-                    new_df = new_df[new_df.Date != '2013-12-12']
+                    omit = ['2013-11-11', '2013-11-18', '2013-11-19',
+                    '2013-11-21', '2013-11-28', '2013-11-26', '2013-11-25',
+                    '2013-11-14', '2013-11-13', '2013-11-20', '2013-11-21',
+                    '2013-11-12', '2013-11-22']
+
+                    for j in omit:
+                        new_df = new_df.query('new_df.Date != j')
+
+                    del new_df['Exits']
+
                     a = Analyser(new_df)
                     a.backfill('Searches')
-                    a.backfill('Exits')
                     a.results.Searches = a.results.Searches.astype('int')
-                    a.results.Exits = a.results.Exits.astype('int')
                     del a.results['Forecast']
+
                     a.results.to_csv('%s/%s.csv'%(self.directory,self.cities[i].replace('/', '')), index=False)
                     #print "Finished successfully %s"%self.cities[i]
                     good += 1
@@ -75,7 +83,7 @@ class ExitsProcessor(object):
         for i in iter(set(self.original['ToCountry'])):
             print i
             df = self.original[self.original['ToCountry'] == i]
-            if sum(df['Exits'])>100:
+            if sum(df['Searches'])>100:
                 df = df.groupby(['Date','ToCountry'])
                 new_df = df.agg({'Searches': np.sum, 'Exits': np.sum}).reset_index()
                 del new_df['ToCountry']
@@ -88,17 +96,18 @@ class ExitsProcessor(object):
                         new_df = new_df[new_df.Date != temp]
                         st += relativedelta(days = 1)
 
-                    new_df = new_df[new_df.Date != '2013-12-12']
-                    new_df = new_df[new_df.Date != '2013-11-11']
-                    new_df = new_df[new_df.Date != '2013-11-18']
-                    new_df = new_df[new_df.Date != '2013-11-21']
-                    new_df = new_df[new_df.Date != '2013-11-28']
+                    omit = ['2013-11-11', '2013-11-18', '2013-11-19',
+                    '2013-11-21', '2013-11-28', '2013-11-26', '2013-11-25',
+                    '2013-11-14', '2013-11-13', '2013-11-20', '2013-11-21',
+                    '2013-11-12', '2013-11-22']
 
+                    for j in omit:
+                        new_df = new_df.query('new_df.Date != j')
+
+                    del new_df['Exits']
                     a = Analyser(new_df)
                     a.backfill('Searches')
-                    a.backfill('Exits')
                     a.results.Searches = a.results.Searches.astype('int')
-                    a.results.Exits = a.results.Exits.astype('int')
                     del a.results['Forecast']
                     a.results.to_csv('%s/%s.csv'%(self.directory,i), index=False)
                     #print "Finished successfully %s"%self.cities[i]
@@ -114,5 +123,5 @@ if __name__ == '__main__':
     directory = 'tidydata/se'
     a = ExitsProcessor(f, directory)
     a.list_cities()
-    #a.make_extracts_for_cities()
-    a.make_extracts_for_countries()
+    a.make_extracts_for_cities()
+    #a.make_extracts_for_countries()
