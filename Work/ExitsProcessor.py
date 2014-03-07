@@ -42,7 +42,7 @@ class ExitsProcessor(object):
             if (i in self.cities):
                 print self.cities[i]
                 df = self.data[self.data['ToCity'] == i]
-                if sum(df['Searches'])>100:
+                if sum(df['Searches'])>10000:
                     df = df.groupby(['Date','ToCity'])
                     new_df = df.agg({'Searches': np.sum, 'Exits': np.sum}).reset_index()
                     del new_df['ToCity']
@@ -83,7 +83,7 @@ class ExitsProcessor(object):
         for i in iter(set(self.original['ToCountry'])):
             print i
             df = self.original[self.original['ToCountry'] == i]
-            if sum(df['Searches'])>100:
+            if sum(df['Searches'])>10000:
                 df = df.groupby(['Date','ToCountry'])
                 new_df = df.agg({'Searches': np.sum, 'Exits': np.sum}).reset_index()
                 del new_df['ToCountry']

@@ -114,6 +114,7 @@ class LASSOOverallPredictor(object):
         data = df.copy(deep=True)
         data = data.merge(data_fridays, on='Date', how='outer')
         data = data[36:]
+        print data
         data = data.fillna(0)
 
 
@@ -176,14 +177,26 @@ class LASSOOverallPredictor(object):
             except KeyError:
                 pass
             #data.to_csv('tidydata/predictions/%s-dynamic-%s.csv'%(place, alpha))
+            winner = ''
+            if rmse_l4f > rmse_twitter:
+                if rmse_twitter > rmse_static:
+                    winner = 'TwitterCF'
+                else:
+                    winner = 'TwitterDF'
+            else:
+                winner = 'L4F'
 
-            self.errors[place] = {"RMSE Twitter with Dynamic Fridays": rmse_twitter,
-                        "RMSE Twitter with Static Fridays": rmse_static,
+            winner2 = 'L4F' if rmse_l4f < rmse_twitter else 'Twitter'
+
+            self.errors[place] = {"RMSE TwitterDF": rmse_twitter,
+                        "RMSE TwitterCF": rmse_static,
                         "RMSE_L4F": rmse_l4f,
                         "R^2_twitter": clf.score(Xinput[130:], actual[130:]),
                         "Twitter weight": clf.coef_[0],
                         "Fridays weight": clf.coef_[1],
                         "Alpha": alpha,
+                        "Winner": winner,
+                        "WinnerBin": winner2
                         }
 
     def output_errors(self):

@@ -68,7 +68,7 @@ class TwitterExtractor(object):
             self.counts[i] = {}
 
 
-        for twfile in self.all_the_files:
+        for twfile in self.all_the_files[:7]:
             self.starttime = datetime.datetime.now()
             print "I have just started %s"%twfile
             filename_current = twfile.split('/')[-1]
@@ -154,4 +154,4 @@ class TwitterExtractor(object):
 if __name__ == '__main__':
     basepath2 = '/Volumes/Samsung/TwitterData'
     basepath = "/Volumes/Tweets/Data"
-    a = TwitterExtractor(basepath)
+    a = TwitterExtractor(basepath2)

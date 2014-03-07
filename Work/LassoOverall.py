@@ -20,8 +20,7 @@ class LASSOOverallPredictor(object):
         self.get_fridays()
         self.errors = {}
         self.weights = {}
-        self.classify_with_dynamic_fridays()
-        self.classify_with_static_fridays()
+        self.classify(self.data, self.data_fridays, self.data_compfriday)
         self.output_errors()
 
 
@@ -43,7 +42,7 @@ class LASSOOverallPredictor(object):
 
     def get_fridays(self):
         fridays = []
-        for forecastdate in self.data['Date'][36:]:
+        for forecastdate in self.data['Date'][35:]:
             tm1 = forecastdate - relativedelta(days = 7)
             tm2 = forecastdate - relativedelta(days =14)
             tm3 = forecastdate - relativedelta(days =21)
@@ -107,7 +106,7 @@ class LASSOOverallPredictor(object):
         self.data_compfriday = p.DataFrame(data_compound_friday, \
               columns = ['Date', 'Fridays'])
 
-    def classify_with_dynamic_fridays(self):
+    def classify(self, df, data_fridays, data_compfriday):
         def predict_last_4_fridays(row):
             if row['Date'] > cutoff_date:
                 f1_w, f2_w, f3_w, f4_w = 0.675, 0.225, 0.075, 0.025
@@ -117,23 +116,38 @@ class LASSOOverallPredictor(object):
             else:
                 return 0
 
-        data = self.data.copy(deep=True)
-        data = data.merge(self.data_fridays, on='Date', how='outer')
+        data = df.copy(deep=True)
+        data = data.merge(data_fridays, on='Date', how='outer')
         data = data[36:]
         data = data.fillna(0)
+
+
+        data_sf = df.copy(deep=True)
+        data_sf = data_sf.merge(data_compfriday, on='Date', how='outer')
+        data_sf = data_sf[36:]
+        data_sf = data_sf.fillna(0)
+
 
         Xinput = p.DataFrame(zip(data.Count.tolist(), data.Friday1.tolist(), \
                 data.Friday2.tolist(),data.Friday3.tolist(),data.Friday4.tolist()),\
                 columns = ['Count', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
+
+        X2 = p.DataFrame(zip(data_sf.Count.tolist(), data_sf.Fridays.tolist()),\
+                columns = ['Count', 'Fridays'])
+
 
         Youtput = data.Searches.tolist()
 
         for alpha in self.alphas:
             clf = Lasso(alpha=alpha)
             clf.fit(Xinput[:130].values, Youtput[:130])
-            print clf.coef_
+            #print clf.coef_
 
-            self.weights['OVERALL-%s'%str(alpha)] = {'Twitter': clf.coef_[0],
+            clf2 = Lasso(alpha=alpha)
+            clf2.fit(X2[:130].values, Youtput[:130])
+            #print clf2.coef_
+
+            self.weights['Overall-dynamic-%s'%(str(alpha))] = {'Twitter': clf.coef_[0],
                     'F1': clf.coef_[1],
                     'F2': clf.coef_[2],
                     'F3': clf.coef_[3],
@@ -144,12 +158,18 @@ class LASSOOverallPredictor(object):
 
             data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
 
-            predicted_w_t_by_lass = clf.predict(Xinput[130:].values)
+            predicted_tw_d_f = clf.predict(Xinput[130:].values)
+            predicted_tw_s_f = clf2.predict(X2[130:].values)
+
             predicted_l4f = data.LF4Predicted
             actual = data.Searches
 
-            rmse_twitter = mean_squared_error(actual[130:].tolist(), predicted_w_t_by_lass)
+            rmse_twitter = mean_squared_error(actual[130:].tolist(), predicted_tw_d_f)
             rmse_twitter = math.sqrt(rmse_twitter)
+
+            rmse_static = mean_squared_error(actual[130:].tolist(), predicted_tw_s_f)
+            rmse_static = math.sqrt(rmse_static)
+
 
             rmse_l4f = mean_squared_error(actual[130:].tolist(), predicted_l4f[130:])
             rmse_l4f = math.sqrt(rmse_l4f)
@@ -158,66 +178,35 @@ class LASSOOverallPredictor(object):
                 del data['Unnamed: 0']
             except KeyError:
                 pass
-            data.to_csv('tidydata/overall prediction/OVERALL-dynamic-%s.csv'%alpha)
+            #data.to_csv('tidydata/predictions/%s-dynamic-%s.csv'%(place, alpha))
+            winner = ''
+            if rmse_l4f > rmse_twitter:
+                if rmse_twitter > rmse_static:
+                    winner = 'TwitterCF'
+                else:
+                    winner = 'TwitterDF'
+            else:
+                winner = 'L4F'
 
-            self.errors['Overall-dynamic-%s'%str(alpha)] = {"RMSE_Twitter": rmse_twitter,
+            winner2 = 'L4F' if rmse_l4f < rmse_twitter else 'Twitter'
+
+            self.errors[alpha] = {"RMSE TwitterDF": rmse_twitter,
+                        "RMSE TwitterCF": rmse_static,
                         "RMSE_L4F": rmse_l4f,
                         "R^2_twitter": clf.score(Xinput[130:], actual[130:]),
+                        "Twitter weight": clf.coef_[0],
+                        "Fridays weight": clf.coef_[1],
+                        "Alpha": alpha,
+                        "Winner": winner,
+                        "WinnerBin": winner2
                         }
-            del clf
-
-    def classify_with_static_fridays(self):
-        data = self.data.copy(deep=True)
-        data = data.merge(self.data_compfriday, on='Date', how='outer')
-        data = data[35:]
-        data = data.fillna(0)
-
-        Xinput = p.DataFrame(zip(data.Count.tolist(), data.Fridays.tolist()),
-                columns = ['Count', 'Fridays'])
-        Youtput = data.Searches.tolist()
-
-        for alpha in self.alphas:
-            clf = Lasso(alpha=alpha)
-            clf.fit(Xinput[:130].values, Youtput[:130])
-            print clf.coef_
-
-            self.weights['OVERALL-%s'%str(alpha)] = {'Twitter': clf.coef_[0],
-                    'Fridays': clf.coef_[1]
-                    }
-
-            cutoff_date = dt.datetime.strptime('2013-09-24 00:00:00', '%Y-%m-%d %H:%M:%S')
-
-            predicted_w_t_by_lass = clf.predict(Xinput[130:].values)
-            actual = data.Searches
-
-            rmse_twitter = mean_squared_error(actual[130:].tolist(), predicted_w_t_by_lass)
-            rmse_twitter = math.sqrt(rmse_twitter)
-
-            rmse_l4f = mean_squared_error(actual[130:].tolist(), data.Fridays.tolist()[130:])
-            rmse_l4f = math.sqrt(rmse_l4f)
-
-            try:
-                del data['Unnamed: 0']
-            except KeyError:
-                pass
-            data.to_csv('tidydata/overall prediction/OVERALL-static-%s.csv'%alpha)
-
-            self.errors['Overall-static-%s'%str(alpha)] = {"RMSE_Twitter": rmse_twitter,
-                        "RMSE_L4F": rmse_l4f,
-                        "R^2_twitter": clf.score(Xinput[130:], actual[130:]),
-                        }
-            del clf
 
     def output_errors(self):
         error_df = p.DataFrame.from_dict(self.errors, orient="index")
-        error_df.to_csv('results/OVERALLLassos.csv')
+        error_df.to_csv('results/overalllasso.csv')
 
-        weights_df = p.DataFrame.from_dict(self.weights, orient='index')
-        weights_df.to_csv('results/OVERALLweights.csv')
-
-
-
-
+        #weights_df = p.DataFrame.from_dict(self.weights, orient='index')
+        #weights_df.to_csv('results/overalllassoweights.csv')
 
 if __name__ == '__main__':
 

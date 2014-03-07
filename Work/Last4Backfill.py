@@ -39,8 +39,6 @@ class Analyser:
             "Date" : daterange})
         self.results['Forecast'] = 0.0
         self.results = self.results.merge(self.df, how="outer")
-        print self.results[70:100]
-
 
     def backfill(self, variable):
         self.forecastdates = self.results[(self.results.Forecast == 0)
@@ -114,8 +112,7 @@ class Analyser:
 
 
             f = (v1 * 0.675 + v2 * 0.225 + v3 * 0.075 + v4 * 0.025)
-            print forecastdate, f
-            #print self.results.ix[self.results.Date == forecastdate]
+              #print self.results.ix[self.results.Date == forecastdate]
             self.results.ix[self.results.Date == forecastdate, '%s'%variable] = f
             #print self.results.ix[self.results.Date == forecastdate]
 
