@@ -2,22 +2,31 @@ library(ggplot2)
 library(reshape)
 #RMSE Scatter
 
-data <- read.csv('../results/results.csv')
+data <- read.csv('../results/lasso-static-and-dynamic.csv')
 
-max.val = max(data$RMSE_Twitter)
-nx = seq(1, max.val-1, by=max.val/874)
-ny = seq(1, max.val-1, by=max.val/874)
+data <- data[complete.cases(data), ]
+data <- do.call(data,lapply(data, function(x) replace(x, is.infinite(x),NA)))
 
-ggplot(data=data, aes(x=RMSE_Twitter, y=RMSE_L4F)) +
-  geom_point(colour="#9932CC", size=1) + 
-  #geom_smooth(method=lm) + 
-  geom_line(aes(x=nx, y = ny), colour = '#00BFFF', size=0.5) + 
-  scale_x_log10()  +
-  xlab("Root mean squared error from the Twitter regression") + 
-  scale_y_log10() +
-  ylab("Root mean squared error from the L4F regression") + 
-  ggtitle("RMSE scatter plot of classifiers") + 
-  guides(fill = guide_legend(reverse=FALSE))
+data$RMSE.TwitterDF <- as.numeric(data$RMSE.TwitterDF)
+data$RMSE.TwitterCF <- as.numeric(data$RMSE.TwitterCF)
+data$RMSE_L4F <- as.numeric(data$RMSE_L4F)
+
+max.val <- max(data$RMSE.TwitterCF)
+nx = seq(1, max.val-1, by=max.val/982)
+ny = seq(1, max.val-1, by=max.val/982)
+
+keeps <- c("RMSE.TwitterCF", "RMSE.TwitterDF", "RMSE_L4F")
+data <- data[(names(data) %in% keeps)]
+
+data <- melt(data, id.vars=c("RMSE_L4F"))
+
+ggplot(data=data, aes(x=RMSE_L4F, y=value, group=variable, colour=variable)) +
+  geom_point(size=3) + facet_grid(. ~ variable) +
+  scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
+  xlab("Root mean squared error from the L4F regression") + 
+  ylab("Root mean squared error from the Twitter regressions") + 
+  ggtitle("RMSE scatter plot of classifiers") +
+  stat_smooth(method='lm')
 
 # OVERALL
 
@@ -42,25 +51,31 @@ ggplot(data=data, aes(x=Date, y=NSearches)) +
   # +  scale_x_date(labels = date_format("%m-%Y"))
 
 
-df <- read.csv('../tidydata/predictions/london.csv')
+destinations = c('alicante',  'amsterdam',  'athens',  'australia',  'austria',  'bangkok',  'barcelona',  'berlin',  'china',  'cuba',  'cyprus',  'dubai',  'dublin',  'faro',  'france',  'geneva',  'germany',  'greece',  'havana',  'ibiza',  'iceland',  'india',  'istanbul',  'italy',  'lanzarote',  'London',  'madrid',  'malaga',  'manchester',  'milan',  'morocco',  'Moscow',  'munich',  'netherlands',  'palma',  'paris',  'portugal',  'rome',  'russia',  'spain',  'switzerland',  'tenerife',  'thailand',  'thessaloniki',  'turkey',  'vietnam')
 
-#df$TwitterCF <- df$TwitterCF/max(df$TwitterCF)
-#df$TwitterDF <- df$TwitterDF/max(df$TwitterDF)
-#df$L4F <- df$L4F/max(df$L4F)
-#df$Actual <- df$Actual/max(df$Actual)
+for (i in destinations){
+  file = paste('../tidydata/predictions/', i, sep='')
+  file = paste(file, '.csv',sep='')
+  
+  df <- read.csv(file)
+  df <- melt(df, id.vars=c("Actual"))
+  
+  ggobj = ggplot(data=df, aes(x=Actual, y=value, group=variable, colour=variable)) +
+    geom_point(size=3) + facet_grid(. ~ variable) +
+    scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
+    xlab("True searches") + ylab("Predicted searches") + 
+    ggtitle("Scatter plot of all the different predictions against the actual values") +
+    stat_smooth(method='lm') +
+    theme(axis.line=element_blank(),
+          axis.text.x=element_blank(),
+          axis.text.y=element_blank(),
+          axis.ticks=element_blank()
+    )
+  
+  print(ggobj)
+  ggsave(sprintf("../../write-up/plots/%s.pdf", i))
+}
 
-df <- melt(df, id.vars=c("Actual"))
 
-ggplot(data=df, aes(x=Actual, y=value, group=variable, colour=variable)) +
-   geom_point(size=3) + facet_grid(. ~ variable) +
-  scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
-  xlab("True searches") + ylab("Predicted searches") + 
-  ggtitle("Scatter plot of all the different predictions against the actual values") +
-  stat_smooth(method='lm') +
-  theme(axis.line=element_blank(),
-      axis.text.x=element_blank(),
-      axis.text.y=element_blank(),
-      axis.ticks=element_blank()
-  )
   
   
