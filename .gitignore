@@ -1,5 +1,4 @@
-StreamingAPI/*.pyc
-StreamingAPI/data-dump-*
+*.pyc
 *.csv
 *.swp
 Work/tbcities.dat
