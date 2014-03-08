@@ -17,12 +17,19 @@ def join_files(city,filenames):
         #temp = temp + relativedelta(days = 1)
         return temp.strftime('%Y-%m-%d')
     #print searches[0:2]
-    #print tweets[0:2]a
+    #print tweets[0:2]
+
 
     searches.Date = searches.Date.apply(conversion)
     tweets.Date = tweets.Date.apply(conversion)
+    #searches['Delta'] = (searches['Searches']-searches['Searches'].shift()).fillna(0)
+
     searches_and_tweets = searches.merge(tweets, on='Date', how='outer')
 
+    try:
+        del searches_and_tweets['Unnamed: 0.1']
+    except KeyError:
+        pass
     try:
         searches_and_tweets['NSearches'] = searches_and_tweets['Searches']/float(max(searches_and_tweets['Searches']))
         searches_and_tweets.to_csv('tidydata/joined/%s.csv'%city)

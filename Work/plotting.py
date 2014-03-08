@@ -15,7 +15,12 @@ def plot_both(city):
                 return dt.datetime.strptime(row, '%Y-%m-%d %H:%M:%S')
             else:
                 return dt.datetime.strptime(row, '%Y-%m-%d')
-        data['Date'] = data['Date'].apply(apply_dt) 
+        data['Date'] = data['Date'].apply(apply_dt)
+        plt.scatter(data['Count'], data['NSearches'])
+        plt.title('Scatter of twitter counts against searches for %s'%city)
+        plt.xlabel(r"Twitter counts", fontsize = 12)
+        plt.ylabel(r"Search count (Normalised)", fontsize = 12)
+        plt.show()
 
         plt.figure(1)
         plt.subplot(211)
@@ -31,6 +36,7 @@ def plot_both(city):
         plt.ylabel(r"Twitter counts", fontsize = 12)
         plt.show()
 
+        plt.subplot(213)
         plt.scatter(data['Count'], data['NSearches'])
         plt.title('Scatter of twitter counts against searches for %s'%city)
         plt.xlabel(r"Twitter counts", fontsize = 12)
@@ -39,7 +45,7 @@ def plot_both(city):
     except IOError:
         print "no such place"
 
-    
+
 
 def plot_exits(city):
     """
@@ -65,5 +71,3 @@ if __name__ == '__main__':
     for i, j in top_n[:20]:
         print "%s %s"%(j, i)
         plot_both(j)
-
-
