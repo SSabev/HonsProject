@@ -1,4 +1,7 @@
 *.pyc
 *.csv
 *.swp
+*.aux
+*.log
+*.bbl
 Work/tbcities.dat
