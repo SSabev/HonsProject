@@ -42,7 +42,7 @@ ggplot(data=data, aes(x=Date, y=NSearches)) +
 
 # Destiaation
 
-data <- read.csv('../tidydata/joined/Ibiza.csv')
+data <- read.csv('../tidydata/joined/ibiza.csv')
 data$Date <- as.Date(data$Date,format="%Y-%m-%d")
 
 ggplot(data=data, aes(x=Date, y=NSearches)) + 
@@ -52,7 +52,16 @@ ggplot(data=data, aes(x=Date, y=NSearches)) +
   # +  scale_x_date(labels = date_format("%m-%Y"))
 
 
-destinations = c('alicante',  'amsterdam',  'athens',  'australia',  'austria',  'bangkok',  'barcelona',  'berlin',  'china',  'cuba',  'cyprus',  'dubai',  'dublin',  'faro',  'france',  'geneva',  'germany',  'greece',  'havana',  'ibiza',  'iceland',  'india',  'istanbul',  'italy',  'lanzarote',  'London',  'madrid',  'malaga',  'manchester',  'milan',  'morocco',  'Moscow',  'munich',  'netherlands',  'palma',  'paris',  'portugal',  'rome',  'russia',  'spain',  'switzerland',  'tenerife',  'thailand',  'thessaloniki',  'turkey',  'vietnam')
+destinations = c('alicante',  'amsterdam',  'athens',  
+ 'australia',  'austria',  'bangkok',  'barcelona',  
+ 'berlin',  'china',  'cuba',  'cyprus',  'dubai', 
+ 'dublin',  'faro',  'france',  'geneva',  'germany', 
+ 'greece',  'havana',  'ibiza',  'iceland',  'india',  
+ 'istanbul',  'italy',  'lanzarote',  'London', 
+ 'madrid',  'malaga',  'manchester',  'milan',  'morocco', 
+ 'Moscow',  'munich',  'netherlands',  'palma',  'paris', 
+ 'portugal',  'rome',  'russia',  'spain',  'switzerland',  
+ 'tenerife',  'thailand',  'thessaloniki',  'turkey',  'vietnam')
 
 for (i in destinations){
   file = paste('../tidydata/predictions/', i, sep='')
@@ -77,6 +86,17 @@ for (i in destinations){
   ggsave(sprintf("../../write-up/plots/%s.pdf", i))
 }
 
+# SCATTER COUNT / SEARCHES
 
-  
-  
+df_scatter <- read.csv('../tidydata/joined/Grand Canyon.csv')
+
+keeps <- c( "Unnamed..0.1")
+df_scatter <- df_scatter[!(names(df_scatter) %in% keeps)]
+df_scatter <- df_scatter[complete.cases(df_scatter), ]
+
+ggplot(data=df_scatter, aes(x=Count, y=NSearches)) +
+  geom_point(size=3, colour = "#4B0082") +
+  xlab("Twitter counts") + 
+  ylab("Searches") + 
+  ggtitle("Searches against Twitter counts for London") +
+  stat_smooth(method='lm', colour="#FF6347")

@@ -178,13 +178,14 @@ class LASSOOverallPredictor(object):
                 pass
             #data.to_csv('tidydata/predictions/%s-dynamic-%s.csv'%(place, alpha))
             winner = ''
-            if rmse_l4f > rmse_twitter:
-                if rmse_twitter > rmse_static:
-                    winner = 'TwitterCF'
-                else:
-                    winner = 'TwitterDF'
-            else:
+            errors = [rmse_l4f, rmse_static, rmse_twitter]
+
+            if rmse_l4f == min(errors):
                 winner = 'L4F'
+            elif rmse_twitter == min(errors):
+                winner = 'TDF'
+            else:
+                winner = 'TCF'
 
             winner2 = 'L4F' if rmse_l4f < rmse_twitter else 'Twitter'
 

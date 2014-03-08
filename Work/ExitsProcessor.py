@@ -123,5 +123,5 @@ if __name__ == '__main__':
     directory = 'tidydata/se'
     a = ExitsProcessor(f, directory)
     a.list_cities()
-    a.make_extracts_for_cities()
-    #a.make_extracts_for_countries()
+    #a.make_extracts_for_cities()
+    a.make_extracts_for_countries()

@@ -73,22 +73,22 @@ The potential applications of this are generic prediction of flight search volum
 There aren't that many flight search companies with the global outreach required to collect and aggregate massive volumes of flight search data. And there are even fewer ones that are making some or the whole of their datasets available for research. When you consider that and the fact that online travel is a niche area in itself, one starts to understand why a project of this kind would have been quite hard if not impossible to do up until this date. However as some of those companies grow, they are trying to employ more sophisticated ways of predicting demand and as a result of that their plan capacity or just use that data for revenue forecasting. With the rise of social media, the next logical step would be to start exploring different ways of adding exogenous factors such as twitter data into their models to better their prediction. 
 
 
-In this project you will the first attempt that someone has made to actually try to use the social element to predict flight searches. As a consequence of that the effect of social media over online travel can be measured. We will try to show that using this dataset (\textasciitilde 480GB at the time of writing) we can employ text mining and try to build a classifier that can predict upward and downward shifts in demand for a group of destinations - countries and cities as of the first part. With NLP we will hopefully gain better understanding on how to predict demand and therefore this could be useful not just to flight search companies, but also to airlines and airports. 
+In this project you will find the first attempt that someone has made to try using and incorporating social media to predict flight searches. As a consequence of that the effect of social media over online travel can be measured. We will try to show that using this dataset (\textasciitilde 480GB at the time of writing, 500 million tweets) we can employ text mining and try to build a classifier that can predict upward and downward shifts in demand for a group of destinations - countries and cities as of the first part. With NLP we will hopefully gain better understanding on how to predict demand and therefore this could be useful not just to flight search companies, but also to airlines and airports. 
 
 
 It will be impossible not to say anything about Skyscanner, since they have kindly provided the flight search data, which I am using in this project. \footnote{\textbf{Dislaimer}: I am an employee of the company and have been working there since 2011} It's an Edinburgh-based company with offices around the whole world, which is slowly but surely positioning itself as a leader in travel search online. It is in the phase of rapid growth and it has been doubling in size and valuation for the past couple of years, which helped secure an investment from Sequioa Capital. \cite{seqcap}
 
 
-Due to the fact it processed billions and billions of user searches it is quite important to be able to predict roughly how tomorrow is going to like like - it affects capacity, website performance and costs in general. This has made Skyscanner transform from a flight search company into a data-driven company. With "Big data" comes big responsibility - you need to get the maximum value out of your data rather than just store it on disk. In order to utilise all of it they have developed and deployed a lot of in-house algorithms for anomaly detection, prediction and any other KPI (Key Performance Indicator) that can be measured. However there are still some things that you can predict from just looking at past data and learning from it.
+Due to the fact it processes billions of user searches on a monthly basis it is quite important to be able to predict roughly how tomorrow is going to like like - it affects capacity, website performance and costs in general. This has made Skyscanner transform from a flight search company into a data-driven company. With "Big data" comes big responsibility - you need to get the maximum value out of your data rather than just store it on disk. In order to utilise all of it they have developed and deployed a lot of in-house algorithms for anomaly detection, prediction and any other KPI (Key Performance Indicator) that can be measured. However there are still some things that you can't predict from just looking at past data and learning from it.
 
 
 This particular project was spurred after a discussion that social media could be harnessed to produce some form of aggregation of counts that will allow us to see whether there are going to be any expected spikes to any destinations. Of course that will not be a "one size fits all" approach, since some places such as London, Paris and New York will see steady very high number of search volumes to them. The destinations that are more likely to be better predicted by the classifier with Twitter are the ones that are not constant all year round - Ibiza, Alicante, Dubrovnik and many others. Those destinations have a particular seasonality with spikes around holidays and some events, which the Twitter counts will hopefully capture.
 
 
-The way I envisioned it in the beginning was to mine the vast quantities of Twitter data in a particular way (all ways described in chapter \ref{chap:method} on page \pageref{chap:method}) and then take the numbers aggregated on a daily level to produce what we will call in this dissertation the "Twitter counts" for a parcitular city or overall. The in-house classifier for predicting the searches will hopefully be beaten by the new improved classifier with Twitter factored in. The approach described here could be used to develop a system that monitors the social streams and is can be used as a weight in a system of classifiers for predicting the future based on Twitter.
+The way I envisioned it in the beginning was to mine the vast quantities of Twitter data in a particular way (all ways described in chapter \ref{chap:method} on page \pageref{chap:method}) and then take the numbers aggregated on a daily level to produce what we will call in this dissertation the "Twitter counts" for a particular city or overall. The in-house classifier for predicting the searches will hopefully be beaten by the new improved classifier with Twitter factored in. The approach described here could be used to develop a system that monitors the social streams and can be used as a weight in a system of classifiers for predicting the future based on Twitter.
 
 
-In the first part of the project I have decided to be as pragmatic as possible and explored the most practical of all potential uses - predicting search volumes for every city or country that has been mentioned on Twitter with the Twitter counts and a list of features that are automatically extracted from the Twitter stream. Then based on those numbers we are building a classifier with historical data as well and outputting the numbers for the future!
+In the first part of the project I have decided to be as pragmatic as possible and explored the most practical of all potential uses - predicting search volumes for every city or country that has been mentioned on Twitter with the the counts and a list of features that are automatically extracted from the public stream. Then based on those numbers a classifier is trained on historical data and then we will also make a prediction for the future. 
 
 
 When the project is extended to be a more real-time system in its second phase, I expect that with the help of some TDT the potential applications of the work here are going to find many applications. In theory, one can easily plug in to a social network public stream and monitor what is happening and what is trending and as soon as something relevant is seen - event in a different country/city or in general something happening in a country one can action in a multitude of ways:
@@ -133,137 +133,144 @@ As hypothesised, there are two types of destinations:
 The difference in the two is graphically represented on the next page in Figure 1.1 and 1.2. 
 
 
-\begin{figure}[]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.4]{london-searches}
 \end{center}
-\caption{Searches to London - as we can see the trundling is going to be almost parallel to the X axis. The holes in the data are due to some data problems at Skyscanner and the slight dup between days 100 and 140 is because of the December, which is a bad month for the industry as a whole.}
+\caption{Searches to London - as we can see the trundling is going to be almost parallel to the X axis.The slight dip in December is due to seasonality. That is noticed across the industry as a whole}
 \end{figure}
 
 
-\begin{figure}[]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.4]{ibiza-searches}
 \end{center}
 \caption{Searches to Ibiza - in this plot we can get the idea of seasonality. The dips is observed as soon as enter autumn and then in January the searches to such destinations pick up again as people are starting to plan their summer holidays}
 \end{figure}
 
-Naturally, because of the constant and not so changing nature of the first group my classifier performs better on the second group. The Root mean squared error from my models on the 2nd group is always smaller or roughly the same as the error generated by the in-house algorithm. It's  "Last 4 Fridays" and it what it essentially is a slightly tweaked version of an exponentially weighted moving average, which takes into account seasonality and all the spikes big spikes in the graphs. A more detailed discussion as to why this was picked as the baseline can be found in Chapter \ref{sec:baseline} on page \pageref{sec:baseline}.
+Naturally, because of the constant and not so changing nature of the first group my classifier is expected to perform better on the second group. The Root Mean Squared Error from my models on the 2nd group should be smaller or roughly the same as the error generated by the in-house algorithm. It's called  "Last 4 Fridays" and essentially it is a slightly tweaked version of an exponentially weighted moving average, which takes into account seasonality. A more detailed discussion as to why this was picked as the baseline can be found in Chapter \ref{sec:baseline} on page \pageref{sec:baseline}.
+
 
 \section{Results for the first iteration of the algorithm}
 
+
 In order to get started with this problem and generate a first set of results I had to identify a good way of modelling the problem and how to predict the output from some inputs. The first things suggested by my supervisor was to use LASSO \cite{lasso} in order to determine the weights for all of my inputs. The way the first model works is the following - you still have all the last 4 fridays, but the Twitter counts are also included. Instead of fixing their weights, I chose to let LASSO determine all the weights for the inputs. This way we get an incremental improvement over the Last 4 Fridays, that is taking into account one of the many exogenous factors that could influence the search volumes either upwards or downwards. I expected that to yield better results for the 2nd group of destinations and possibly for some from group 1. I called the model TwitterDF.
+
 
 Overall, I was pleasantly surprised by the results. On the full set of 1372 destinations, the first iteration of my model generated better predictions and scored lower RMSE on 1034 of the destinations. On the other hand the in-house champion Last 4 Fridays performed better on 338 of the destinations. In order to illustrate that difference there is a scatter plot of the RMSEs in Figure 1.3. That means that my model is better on 62\% of all the destinations.
 
 
 In it we can see that there are some destinations where the Twitter model performs much worse than the L4F one (dots far below y=x line). The ones, which are better classified by my model are destinations with a low to medium number of flight searches, since these are the destinations where exogenous factors, such as events can drastically increase or even decrease demand for flights.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.5]{RMSE}
+\includegraphics[scale=0.4]{RMSE}
 \end{center}
 \caption{Scatter plot of RMSE Twitter Model and RMSE Last 4 Fridays. To put things into perspective, I've also plotted the y=x line to make it easier to visualise the border between the two. Anything above the line is where my classifier performs better and anything below is where the in-house model excels.  }
 \end{figure}
 
-Here are some picked results which illustrate the best gains and where there could be more improvements:
+In Table 1.1 and 1.2 you can find some picked which illustrate the worst performing classifiers and best performing ones.
 
-\begin{table}[h]
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{ l | r | r | r}
-Place & RMSE Twitter & RMSE L4F & Improvement \\
+Place & RMSE L4F & RMSE Twitter & Improvement \\
 \hline
-Lesotho & 11.32 & 34.68 & 206.42 \% \\ 
-Casper & 10.00 & 19.72 & 97.32 \% \\ 
-Bismarck & 16.88 & 32.40 & 91.88 \% \\ 
-Gaborone & 36.61 & 67.56 & 84.56 \% \\ 
-Niger & 17.61 & 32.48 & 84.41 \% \\ 
-Burundi & 39.84 & 72.58 & 82.19 \% \\ 
-Yakima & 4.15 & 7.46 & 79.98 \% \\ 
-Djibouti & 39.82 & 64.33 & 61.56 \% \\ 
-Botswana & 62.16 & 94.90 & 52.66 \% \\ 
-Benin & 54.59 & 82.02 & 50.24 \% \\ 
+Parkersburg & 3.99 & 1.82 & 54.38\% \\
+Bismarck & 33.41 & 19.53 & 41.54\% \\
+Marshall Islands & 41.63 & 24.99 & 39.98\% \\
+Cayo Coco & 70.44 & 44.10 & 37.38\% \\
+Yakima & 7.44 & 4.94 & 33.65\% \\
+Jonesboro & 3.40 & 2.34 & 31.11\% \\
+Casper & 20.30 & 14.14 & 30.34\% \\
+Barrow & 5.28 & 3.76 & 28.81\% \\
+Niue & 12.50 & 9.02 & 27.82\% \\
+Cedar City & 5.08 & 3.71 & 26.91\% \\
+Sudbury & 8.89 & 6.56 & 26.24\% \\
 \end{tabular}
 \end{center}
 \caption{Results for destinations that yielded the best improvement in percentage terms when classified with the model from this project in comparison to the in-house one. As we can see they are fairly small niche destinations where it seems that people tweeting about it likely to result in a flight search to that place.}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{ l | r | r | r}
-Place & RMSE Twitter & RMSE L4F & Improvement \\
+Place & RMSE L4F & RMSE Twitter & Improvement \\
 \hline
-Munich & 16260.40 & 3703.94 & -539.00 \% \\
-Kefalonia & 322.39 & 79.97 & -503.12 \% \\
-Paros & 149.36 & 38.91 & -483.91 \% \\
-Maastricht & 260.93 & 68.07 & -483.32 \% \\
-Tajikistan & 506.65 & 142.88 & -454.61 \% \\
-Lampedusa & 274.17 & 79.50 & -444.87 \% \\
-Tampere & 272.07 & 89.80 & -402.97 \% \\
-Rimini & 301.40 & 101.29 & -397.56 \% \\
-Ljubljana & 469.44 & 161.30 & -391.04 \% \\
-Avignon & 108.91 & 37.44 & -390.86 \% \\
+Hayman Island & 0.12 & 3.06 & -2511.33\% \\
+Airlie Beach & 0.65 & 10.17 & -1456.42\% \\
+Venezuela & 701.98 & 3277.16 & -366.85\% \\
+Crooked Creek & 0.20 & 0.93 & -362.78\% \\
+Pereira & 74.94 & 248.77 & -231.97\% \\
+Launceston & 122.28 & 404.13 & -230.49\% \\
+Jodhpur & 30.80 & 74.05 & -140.40\% \\
+Manaus & 295.66 & 707.50 & -139.30\% \\
+Del Rio & 5.89 & 13.42 & -127.63\% \\
+Trondheim & 257.36 & 573.07 & -122.68\%
 \end{tabular}
 \end{center}
-\caption{Results for destinations that yielded the biggest negative improvement. This is quite a surprising mix of popular and unpopular destinations. }
+\caption{Results for destinations that yielded the biggest negative improvement. Quite an interesting mix destinations. The Venezula result is attributed to Venezuela trending lately, because of the civil uprisings. Eliminating such "negative" influences is one of my goals for next year.}
 \end{table}
 
 
-If we look at the top 10 destinations in terms of RMSE (and in flight searches) in Table 1.3 we see something quite surprising, but also very nice. The improvement is positive in 7 out of the 10 examples. Even though it's small, the very fact that there is an improvement, means that taking into account exogenous factors is quite important and can contribute positively to the quality of the prediction.
+If we look at the top 10 destinations in terms of RMSE (and in flight searches) in Table 1.3 we see something quite surprising, but also very nice. The improvement is positive in 9 out of the 10 examples. Even though it's small, the very fact that there is an improvement, means that taking into account exogenous factors is quite important and can contribute positively to the quality of the prediction.
 
-\begin{table}[h]
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{ l | r | r | r}
-Place & RMSE Twitter & RMSE L4F & Improvement \\
+Place & RMSE L4F & RMSE TwitterDF & Improvement \\
 \hline
-Spain & 48927.26 & 50698.84 & 3.62 \% \\ 
-Italy & 30941.11 & 31872.10 & 3.01 \% \\ 
-Russia & 24164.78 & 23845.65 & -1.32 \% \\ 
-London & 30107.41 & 23280.96 & -22.67 \% \\ 
-Germany & 20316.62 & 20926.03 & 3.00 \% \\ 
-France & 19240.95 & 19839.66 & 3.11 \% \\ 
-Thailand & 17551.33 & 17528.52 & -0.13 \% \\ 
-Turkey & 16765.25 & 17170.89 & 2.42 \% \\ 
-Greece & 13666.88 & 13826.56 & 1.17 \% \\ 
-Australia & 11822.31 & 12188.49 & 3.10 \% \\
+Spain & 85843.77 & 78424.46 & 8.64 \% \\
+United States & 78479.89 & 74782.49 & 4.71\% \\
+United Kingdom & 68705.88 & 66334.87 & 3.45\% \\
+Italy & 54803.71 & 53779.50 & 1.87\% \\
+London & 40128.75 & 39553.87 & 1.43\% \\
+Russia & 38711.83 & 36033.21 & 6.92\% \\
+Germany & 36113.08 & 35671.83 & 1.22\% \\
+France & 34020.12 & 33393.17 & 1.84\% \\
+Thailand & 29997.31 & 30700.72 & -2.34\% \\
+Turkey & 29616.37 & 28912.17 & 2.38\% \\
 \end{tabular}
 \end{center}
-\caption{Results for the top destinations by RMSE error of L4F. 7/10 have lower RMSEs with the Twitter model}
+\caption{Results for the top destinations by RMSE error of L4F. 9/10 have lower RMSEs with the Twitter model. Using the compound weights has played a drastically big role in decreasing the prediction error.}
 \end{table}
+
 
 \newpage
 \section{Results for the 2nd iteration}
 
-The 2nd iteration, was to fix the weights of the last 4 fridays and use the exponential weighting scheme that we use in the L4F classifier. I called that model TwitterCF and it yielded quite interesting results.
-
-Here is a scatter plot of how the RMSEs looked for the 2 models:
+The 2nd iteration, was to fix the weights of the last 4 fridays and use the exponential weighting scheme that we use in the L4F classifier. I called that model TwitterCF and it yielded quite interesting results. The scatter comparison for the two models is in Figure 1.4. In Table 1.4 is the overall comparison of which classifier has the lowest RMSE for how many of the total classifiers. 
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.5]{rmse_scatter_by_reg}
+\includegraphics[scale=0.4]{rmse_scatter_by_reg}
 \end{center}
 \caption{The two models compared. TwitterCF stands for compound Friday - taking all of the previous Fridays with predetermined weights and using them as a single weight in the regression. TwitterDF is leaving everything to LASSO.}
 \end{figure}
 
-\begin{table}[]
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{ l | r }
 Method & NumBest \\
 \hline
-L4F & 343 \\
-TwitterCF & 624 \\
+L4F & 226 \\
+TwitterCF & 741 \\
 TwitterDF & 405 \\
+\hline
+\textbf{Total} & \textbf{1372}
 \end{tabular}
 \end{center}
-\caption{Comparison of the three methods and who had the best results on the dataset of 987 points. As we can see L4F is still better individually, but the two Twitter classifiers are better on 610 of the destinations.}
+\caption{Comparison of the three methods and who had the best results on the dataset of 1372 points. As we can see, the Twitter classifiers have got a definite majority. 83\%+ of the results have the lowest RMSE with the Twitter classifiers}
 \end{table}
 
-\newpage
+Funnily enough, it's not always the case that the Twitter CF classifier wins over Twitter DF.
+
+
 \section{Results for the algorithm with more features}
 
 In the next iteration of the model I didn't limit it to just twitter counts and searches from previous dates. For this particular model I've used all the words co-occurring with a place name as features. Of course, there is a lot of junk, so I removed all the emoji characters and all the stop words in order to prevent overwhelming the LASSO with a lot of junk features.
 
-In Table 1.4 you can see the improvement in RMSE of the classifier for different values of the penalisation factor $\alpha$, the number of non-zero weights and also the RMSE for L4F, which is constant, since that is not tweaked. Overall we can see quite a significant improvement in the error as we discard more and more junk features, but it's still not as good as the simple model that is in the first version. 
+In Table 1.5 you can see the improvement in RMSE of the classifier for different values of the penalisation factor $\alpha$, the number of non-zero weights and also the RMSE for L4F, which is constant, since that is not tweaked. Overall we can see quite a significant improvement in the error as we discard more and more junk features, but it's still not as good as the simple model that is in the first version. 
 
 \begin{table}[pt]
 \begin{center}
@@ -320,15 +327,15 @@ Another interesting benchmark was how it performs on the overall search volumes.
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{ l | r | r | r | r}
- & RMSE TwitterDF & RMSE Twitter CF & RMSE L4F & Difference \\
+ & RMSE TwitterDF & Twitter CF & RMSE L4F & Difference \\
 \hline
-Overall & 819931.84 & 833258.15  & 786886.67 & -4.2 \% \\
+Overall & 1 640 116.72 & 1 621 390.54  & 1 674 129.97 & 3.1 \% \\
 \end{tabular}
 \end{center}
-\caption{Results on the tweet counts for all destinations and searches to all destinations. The difference is how much worse is the best Twitter prediction in comparison to the in-house one. }
+\caption{RMSE on the tweet counts for all destinations and searches to all destinations. Difference is the percentage improvement of the best of the twitter classifiers.}
 \end{table}
 
-As you can see in Figure 1.5 the overall volume of searches is not as volatile as the destinations in group 2, so it would fall into group 1, hence the slightly worse result on the Twitter classifier.
+As you can see in Figure 1.5 the overall volume of searches is not as volatile as the destinations in group 2, so it would fall into group 1, but surprisingly enough the Twitter classifiers do a marginally better job at predicting.
 
 \begin{figure}[h!]
 \begin{center}
@@ -343,7 +350,7 @@ As you can see in Figure 1.5 the overall volume of searches is not as volatile a
 
 \section{Conclusion}
 
-The previous results have demonstrated that there is definitely a gain, albeit small, in including exogenous factors such as Twitter in the prediction. With the first level of filtering described in chapter \ref{sec:tweettext} on page \pageref{sec:tweettext} we have achieved better prediction on slightly more than 74\% of all the destinations.  
+The previous results have demonstrated that there is definitely a gain, even though not as great as I expected, in including exogenous factors such as Twitter in the prediction. With the first level of filtering described in chapter \ref{sec:tweettext} on page \pageref{sec:tweettext} we have achieved better prediction on slightly more than 83\% of all the destinations.  
 
 
 During the 2nd phase of the project, I will focus on retrieving only the most relevant tweets from the Twitter dataset and doing better feature extraction that will allow to remove junk features that bring the RMSE up. With that in mind, I am hopeful that I will be able to build the next version of the model that is going to perform just as well on the first group of destinations. 
@@ -365,15 +372,19 @@ A particularly interesting one of that new generation of networks is Twitter. Wi
 
 In order to get more familiar with the trending events I have done read a few papers on Topic Detection and Tracking and First News Detection in order to see if I could use and extend it for my case. I'd like to mention Sasa Petrovic's PhD thesis as an excellent paper on the matter. \cite{Petrovic2012} However after careful investigation into the complexity of TDT I decided that this will be implemented in the 2nd part of the project, since I needed to familiarise myself with the dataset, try to see if there is more intelligent filters on the data stream and see how exactly they can be correlated to my 2nd dataset.
 
-% non-parametric mention?
-%PREDICTING THE FUTURE FROM TWITTER HERE
 
 As it's been said many times "Predicting is hard, especially about the future".  Add a noisy channel as a source of input and one is only making things worse. There have been several attempts to predict something based on Twitter - stock markets \cite{twitstock},  flu outbreaks \cite{twitflu}, results for the NFL \cite{twitnfl} and poll results \cite{twitpoll} being the most prominent published papers.
 
-In the "Twitter mood predicts the stock market" paper \cite{twitstock}, the authors try to use the cutting edge of the real-time twitter data in order to classify the overall mood and from that to predict whether the DIJA \cite{dija} is going to go up or down. In order to achieve it they use OpinionFinder \cite{opfind}, which can measure opinion classifying it into negative or positive. To capture the complexity of human moods, they created their own system called GPOMS, which can capture up to 6 states. 
-In order to make the OF and GPMOS time series comparable, they used their z-scores. Then they haven the time series of DIJA deltas ( change in comparison to the previous day ) and perform Granger causality analysis \cite{granger} to see whether the two time series are related.
 
-\textbf{more background here on the other cited papers here}
+In order to predict the stock markets \cite{twitstock}, the authors try to use the cutting edge of the real-time twitter data in order to classify the overall mood and from that to predict whether the DIJA \cite{dija} is going to go up or down. In order to achieve it they use OpinionFinder \cite{opfind}, which can measure opinion classifying it into negative or positive. To capture the complexity of human moods, they created their own system called GPOMS, which can capture up to 6 states. 
+In order to make the OF and GPMOS time series comparable, they used their z-scores. They have proven that the GPOMS values are more descriptive of public moods than the OF binary sentiment. However correlation does not imply causation and in order to check whether there is any they use the Granger causality analysis \cite{granger}. It rests on the assumption that if X causes Y then changes in X will systematically occur before changes in Y. However in this case they are not testing whether there is actual causation, but rather there is predictive information in the public mood time series that can describe the time deltas in DIJA. Out of all the different mood values Calm has the highest predictive value. After determining that there is definitely a gain in using the Calm values to predict the DIJA delta they use a Self-Organising Fuzzy Neural Network (SOFNN) \cite{sofnn}, which is a five-layer hybrid neural network, which has the ability to organise its neurons during the learning process by itself. After tuning and predicting the values on their dataset, they confirmed that Calm has the best predictive value. 
+
+However, in their discussion they not that they are not really filtering their users on any particular geographical, language or cultural level. In this project, we have only taken \emph{tweets} from the United Kingdom, which allows us to try to predict where people from the UK want to fly to. As far as their methods are concerned, working with Neural networks is certainly one of the options that I'd like to investigate next year, but because of the fine tuning and additional overhead of using and training and possibly implementing it, I decided to leave this more complicated method for next year. 
+
+
+On the other hand you can do simpler things when you are trying to predict public opinion on a certain topic \cite{twitpoll}. The authors make a strong argument that using Twitter you can replace the expensive time inefficient polls. They use public sentiment in order to predict ups and downs in the consumer confidence rating. In order to remove any massive outliers and because of the volatile nature of public sentiment they use something they call "Moving average aggregate sentiment", which smoothers out the daily variations. 
+
+%\textbf{more background here on the other cited papers here}
 
 
 On the other hand, the only thing that has been researched in the online travel sector is what is the optimal time to book an airline flight taking into account all the different factors. \cite{Hamletkdd03} \cite{ijcai} 
@@ -390,13 +401,6 @@ Chapter \ref{chap:model} on page \pageref{chap:model} explains what are the Mach
 
 
 In chapter \ref{chap:future-work} on page \pageref{chap:future-work}, I discuss all the future work that will be carried out for this project both for next year and if someone is to pick it up and start developing on top. In order to do that I have included links to the source code for this project and all the pre-aggregated data sets from Twitter in the repository.
-
-
-
-
-
-
-
 
 
 
@@ -742,6 +746,11 @@ With those I'll be able to better the model and reduce the RMSE across the whole
 \bibitem{granger}
 	Granger causality, \\
 	{\url{http://en.wikipedia.org/wiki/Granger_causality}}
+
+\bibitem{sofnn}
+	Gang Leng, Girijesh Prasad, Thomas Martin McGinnity
+	\emph{An on-line algorithm for creating self-organizing fuzzy neural networks}
+	{\url{http://www.sciencedirect.com/science/article/pii/S0893608004001698}}
   
 \bibitem{Hamletkdd03}
  	Etzionni, Tuchinda, Knoblock and Yates, \emph{To Buy or Not to Buy: Mining Airfare Data to Minimize Ticket Purchase Price}, 2003, \\
