@@ -94,7 +94,7 @@ class LASSOOverallPredictor(object):
         return data_fridays, data_compfriday
 
     def go_and_classify(self):
-        for i in glob.glob('tidydata/joined/*.csv'):
+        for i in glob.glob('tidydata/1dayshift/*.csv'):
             place = i.split('/')[-1].replace('.csv', '')
             data = p.read_csv(i)
             df1, df2 = self.get_fridays(data)
@@ -202,10 +202,10 @@ class LASSOOverallPredictor(object):
 
     def output_errors(self):
         error_df = p.DataFrame.from_dict(self.errors, orient="index")
-        error_df.to_csv('results/lasso-static-and-dynamic.csv')
+        error_df.to_csv('results/lasso-static-and-dynamic-shift-one.csv')
 
         weights_df = p.DataFrame.from_dict(self.weights, orient='index')
-        weights_df.to_csv('results/static-and-dynamic.csv')
+        weights_df.to_csv('results/static-and-dynamic-shift-one.csv')
 
 
 

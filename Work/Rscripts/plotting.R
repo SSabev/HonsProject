@@ -15,10 +15,21 @@ max.val <- max(data$RMSE.TwitterCF)
 nx = seq(1, max.val-1, by=max.val/1367)
 ny = seq(1, max.val-1, by=max.val/1367)
 
+ggplot(data=data, aes(x=RMSE_L4F, y=RMSE.TwitterDF)) +
+  geom_point(size=2, colour = "#EE82EE") + 
+  geom_line(aes(x=nx, y=ny), size=1, colour="#4B0082")+ 
+  #scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) +
+  scale_x_log10() + scale_y_log10() +
+  xlab("Root mean squared error from the L4F") + 
+  ylab("Root mean squared error from TwitterDF") + 
+  ggtitle("RMSE scatter plot of classifiers")
+#stat_smooth(method='lm')
+
 keeps <- c( "RMSE.TwitterDF", "RMSE_L4F", "RMSE.TwitterCF")
 data <- data[(names(data) %in% keeps)]
 
 data <- melt(data, id.vars=c("RMSE_L4F"))
+
 
 ggplot(data=data, aes(x=RMSE_L4F, y=value, group=variable, colour=variable)) +
   geom_point(size=3) + facet_grid(. ~ variable) +
@@ -42,26 +53,36 @@ ggplot(data=data, aes(x=Date, y=NSearches)) +
 
 # Destiaation
 
-data <- read.csv('../tidydata/joined/ibiza.csv')
+data <- read.csv('../tidydata/joined/New York.csv')
+data <- data[complete.cases(data), ]
 data$Date <- as.Date(data$Date,format="%Y-%m-%d")
 
-ggplot(data=data, aes(x=Date, y=NSearches)) + 
-  geom_line(colour = '#00BFFF', size=1) +
-  xlab("Month") + ylab("Normalised searches") + 
-  ggtitle("Plot of searches to Ibiza over time") 
-  # +  scale_x_date(labels = date_format("%m-%Y"))
+keeps <- c( "Count", "Date", "NSearches")
+data <- data[(names(data) %in% keeps)]
+
+df <- melt(data, id.vars=c("Date"))
+
+ggplot(data=df, aes(x=Date, y=value, colour = varible, group=variable))+
+  geom_line(colour = '#00BFFF', size=1) + facet_grid(variable ~ ., scales="free") +
+  scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
+  ggtitle("Plot of New York tweets and searches over time") +
+  ylab("Searches and Tweets") + 
+  xlab('Normalised searches to New York and tweets about New York')
+  #  scale_x_date(labels = date_format("%m-%Y"))
 
 
-destinations = c('alicante',  'amsterdam',  'athens',  
- 'australia',  'austria',  'bangkok',  'barcelona',  
- 'berlin',  'china',  'cuba',  'cyprus',  'dubai', 
- 'dublin',  'faro',  'france',  'geneva',  'germany', 
- 'greece',  'havana',  'ibiza',  'iceland',  'india',  
- 'istanbul',  'italy',  'lanzarote',  'London', 
- 'madrid',  'malaga',  'manchester',  'milan',  'morocco', 
- 'Moscow',  'munich',  'netherlands',  'palma',  'paris', 
- 'portugal',  'rome',  'russia',  'spain',  'switzerland',  
- 'tenerife',  'thailand',  'thessaloniki',  'turkey',  'vietnam')
+destinations = c('Prague','Lisbon','Morocco','Los Angeles','Dubai','Tenerife',
+                 'Austria','Singapore','Tokyo','Sweden','South Korea','Mexico',
+                 'Hungary','Hong Kong','Palma','Vietnam','Manchester','Budapest',
+                 'Alicante','Frankfurt','Norway','Croatia','Belgium','Kuala Lumpur','New Zealand',
+                 'Phuket','Seoul','Denmark','Brussels','Cyprus','Vienna','Venice','Miami',
+                 'Stockholm','St Petersburg','Copenhagen','Spain','United States','United Kingdom',
+                 'Italy','London','Russia','Germany','France','Thailand','Turkey',
+                 'Greece','New York','Australia','Bangkok','Paris','Barcelona','Portugal',
+                 'India','Netherlands','Istanbul','Rome','Brazil','China','Amsterdam',
+                 'Munich','Moscow','Indonesia','Japan','Milan','Canada','Ireland',
+                 'Madrid','Sochi','Poland','Berlin','Switzerland','Dublin','Czech Republic',
+                 'United Arab Emirates','Malaga','Philippines','Athens','Malaysia')
 
 for (i in destinations){
   file = paste('../tidydata/predictions/', i, sep='')
@@ -75,7 +96,7 @@ for (i in destinations){
     scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
     xlab("True searches") + ylab("Predicted searches") + 
     ggtitle("Scatter plot of all the different predictions against the actual values") +
-    stat_smooth(method='lm') +
+    stat_smooth(method='loess') +
     theme(axis.line=element_blank(),
           axis.text.x=element_blank(),
           axis.text.y=element_blank(),
@@ -88,7 +109,7 @@ for (i in destinations){
 
 # SCATTER COUNT / SEARCHES
 
-df_scatter <- read.csv('../tidydata/joined/Grand Canyon.csv')
+df_scatter <- read.csv('../tidydata/joined/Indonesia.csv')
 
 keeps <- c( "Unnamed..0.1")
 df_scatter <- df_scatter[!(names(df_scatter) %in% keeps)]
@@ -98,5 +119,18 @@ ggplot(data=df_scatter, aes(x=Count, y=NSearches)) +
   geom_point(size=3, colour = "#4B0082") +
   xlab("Twitter counts") + 
   ylab("Searches") + 
-  ggtitle("Searches against Twitter counts for London") +
+  ggtitle("Searches against Twitter counts for Sochi") +
   stat_smooth(method='lm', colour="#FF6347")
+
+# df_scatter <- read.csv('../tidydata/1dayshift/Dublin.csv')
+# 
+# keeps <- c( "Unnamed..0.1")
+# df_scatter <- df_scatter[!(names(df_scatter) %in% keeps)]
+# df_scatter <- df_scatter[complete.cases(df_scatter), ]
+# 
+# ggplot(data=df_scatter, aes(x=Count, y=NSearches)) +
+#   geom_point(size=3, colour = "#4B0082") +
+#   xlab("Twitter counts") + 
+#   ylab("Searches") + 
+#   ggtitle("Searches against Twitter counts for London") +
+#   stat_smooth(method='loess', colour="#FF6347")

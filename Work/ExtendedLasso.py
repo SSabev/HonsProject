@@ -216,7 +216,17 @@ class ExtendedFeaturesLasso(object):
             rmse_l4f = mean_squared_error(actual, predicted_l4f)
             rmse_l4f = math.sqrt(rmse_l4f)
 
+            winner = ''
+            errors = [rmse_l4f, rmse_cf, rmse_twitter]
 
+            if rmse_l4f == min(errors):
+                winner = 'L4F'
+            elif rmse_twitter == min(errors):
+                winner = 'TDF'
+            else:
+                winner = 'TCF'
+
+            winner2 = 'L4F' if rmse_l4f < rmse_twitter else 'Twitter'
 
             #print "RMSE from L4F is %s"%str(rmse_l4f)
             placeerror = self.errors.get(placename, [])
@@ -224,6 +234,8 @@ class ExtendedFeaturesLasso(object):
                         "RMSE_T_DF": rmse_twitter,
                         "RMSE_T_CF": rmse_cf,
                         "RMSE_L4F": rmse_l4f,
+                        "winner": winner,
+                        "WinnerBin": winner2,
         #"R^2_twitter": clf.score(Xinput[130:].values, actual),
                         "Non0WeightsDF": sum([1 for i in clf.coef_ if i!=0]),
                         "Non0WeightsCF": sum([1 for i in clf2.coef_ if i!=0]),
