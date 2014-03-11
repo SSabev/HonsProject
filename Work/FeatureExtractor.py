@@ -124,7 +124,11 @@ class FeatureExtractor(object):
             for i in csvs:
                 print i
                 data = data.append(p.read_csv(i))
-            data['Date'] = data['Unnamed: 0']
+
+            if 'Date' not in data.columns and 'Unnamed: 0' in data.columns:
+                data['Date'] = data['Unnamed: 0']
+            else:
+                data['Date'] = data[data.columns[0]]
             try:
                 del data['Unnamed: 0']
                 del data['Unnamed: 1']

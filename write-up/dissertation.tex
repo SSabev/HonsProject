@@ -2,6 +2,8 @@
 
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{wrapfig}
 
 %\usepackage{biblatex}
 %\usepackage[xetex]{graphicx}
@@ -303,6 +305,7 @@ Istanbul & 15,121 & 14,642 & 14,692 & TCF & 3.16\% & 0.34\%
 
 \newpage
 \section{Results for the algorithm with more features}
+\label{sec:features}
 
 In the next iteration of the model I didn't limit it to just twitter counts and searches from previous dates. For this particular model I've used all the words co-occurring with a place name as features. Of course, there is a lot of junk, so I removed all the emoji characters and all the stop words in order to prevent overwhelming the LASSO with a lot of junk features.
 
@@ -364,7 +367,7 @@ view & -10.86 \\
 \caption{Predictions vs actual for a destination from group 2 - Tenerife. For this group Twitter models make actual gains, albeit small.}
 \end{figure}
 
-\begin{table}[h!]
+\begin{table}[h!]]
 \begin{center}
 \begin{tabular}{ l | r | r | r | r | r | r}
 $\alpha$ & $>$ 0 W CF & RMSE TCF & $>$ 0 W DF & RMSE TDF & RMSE L4F & Best\\
@@ -416,6 +419,7 @@ sochi & -2.52\\
 \end{tabular}
 \end{center}
 \caption{Handpicked features for Sochi at $\alpha=500$. The total number of features is 44 and they are the ones picked by TwitterDF. Interestingly enough dog, sochi and hotel very negative weights. On the other hand there are a few positive weights that relate to the olympics.} 
+\label{tab:sochi-table}
 \end{table}
 
 
@@ -830,55 +834,76 @@ You can find the pseudo-Python code in Figure 4.2. For the multiword place names
 
 After performing that step on the full dataset we are left with  \textasciitilde  45 GB of data, which is 45 million tweets in the working dataset. The reduced dataset is still much smaller in comparison to the full one. However eliminating the duplication of work made it much easier to re-process the data in a more efficient way and it also allowed easy feature extraction later. 
 
-\section{Finding the correlation between those variables}
+\section{Exploring the correlation between the time series}
 
-Since now we have both of the time series, it was time to see whether the two time series are correlated. 
+Since now we have both of the time series, it was time to see whether the two time series are correlated. In order to do that there were several ways which would allow me to explore the relationship between the two. 
 
-After discovering that the volumes of twitter counts from the second method are not so noisy, I decided to proceed and explore the correlation between the two variables.
 
-The easiest way to test the statistical correlation between your data would be to carry out the Pearson test.
+The first and easiest way to do that would be to carry out the Pearson test in order to find out what is the relationship in the two. After carrying out the test for all the destinations the results for some were somewhat disappointing.  In Table 4.2 you will find the top and worst 10 destinations by absolute R value, which allows us to see which ones are correlated and which ones not.
 
-For London the numbers we got back from that are:
-\begin{quotation}
-In [39]: r\_row, p\_value
 
-Out [39]: (0.13, 0.28)
-\end{quotation}
+\begin{table}[p!]
+\begin{center}
+\begin{tabular}{ l | r | r | r}
+\textbf{Place} & \textbf{P value} & \textbf{R value} & \textbf{ABS R value}\\
+\hline
+Sochi & 0.00 & 0.78 & 0.78\\
+Manaus & 0.00 & 0.56 & 0.56\\
+Salamanca & 0.00 & -0.47 & 0.47\\
+Najaf & 0.00 & 0.47 & 0.47\\
+North Korea & 0.00 & 0.46 & 0.46\\
+Marshall Islands & 0.00 & 0.46 & 0.46\\
+Faisalabad & 0.00 & 0.42 & 0.42\\
+Fukuoka & 0.00 & 0.42 & 0.42\\
+Uruguay & 0.00 & 0.42 & 0.42\\
+Ukraine & 0.00 & -0.36 & 0.36 \\
+\hline
+\hline
+Des Moines & 1.00 & 0.00 & 0.00\\
+Parma & 1.00 & 0.00 & 0.00\\
+Burundi & 1.00 & 0.00 & 0.00\\
+Quito & 1.00 & 0.00 & 0.00\\
+Vieques & 1.00 & 0.00 & 0.00\\
+Algiers & 0.99 & 0.00 & 0.00\\
+Lampedusa & 0.99 & 0.00 & 0.00\\
+La Coruna & 0.99 & 0.00 & 0.00\\
+United Kingdom & 0.99 & 0.00 & 0.00\\
+Tamworth & 0.99 & 0.00 & 0.00\\
+\end{tabular}
+\end{center}
+\caption{Top 10 and worst 10 destination by absolute R value. Sochi and North Korea have a strong positive correlation, while Ukraine is very negative. As you can see for the worst 10 see it the P value for all of them is nearly 1, which means that for these place any uncorrelated system could produce very similar results as those. }
+\end{table}
 
-From this it seems that the situation is truly unrelated. After all a positive correlation of only 13\% is something that even a social scientist wouldn't report!
+\begin{figure}[p!]
+\begin{tabular}{cc}
+  \includegraphics[width=65mm]{London} &   \includegraphics[width=65mm]{Sochi} \\
+(a) London -- 0.003 & (b) Sochi -- 0.77 \\[6pt]
+ \includegraphics[width=65mm]{Ukraine} &   \includegraphics[width=65mm]{north_korea} \\
+(c) Ukraine -- -0.36 & (d) North Korea -- 0.46 \\[6pt]
+\end{tabular}
+\caption{Scatter plots and correlation coefficients for 4 destinations- London, Sochi, Ukraine and North Korea. Those particular ones were picked because they each represent a separate class of destinations. London is a constant one and tweets don't influence the prediction. For Sochi the Olympiad has bumped the correlation coefficient up to 0.77, because people were tweeting and wanted to go and see the Olympiad. Ukraine is interesting, because the recent protests decreased the number of searches even though people were tweeting a lot, therefore the recent events made them less likely to want to go there. North Korea is an interesting outlier. Tourist to North Korea is quite a niche market and even though the sentiment is usually negative, people want to go there nonetheless. }
+\end{figure}
 
-However, when you plot the two things we are trying to correlate something a bit more interesting comes up:
 
-\includegraphics[width=\textwidth]{London}
+All in all, 1282 of the places had an R value of less than 0.2 and the remaining 91 have a value of $>$ 0.2. A correlation of such small magnitude is not even worth reporting, however, since my task it not solely defined by predicting one attribute from another I wanted to include in order to give a perspective on the difficulty of the task. In Figure 4.3 there 4 examples of the subgroups of destinations. 
 
-There is definitely a relationship, even though not perfectly linear.
 
-We can observe that there is a well defined cluster where the twitter counts are big and the corresponding searches are relatively big as well. We can't say with great certainty that those two are perfectly correlated, because correlation does not imply causation. So what we needed to do was to delve even further and build a model that would work with those.
+The best correlation is for Sochi, which has a correlation coefficient of 0.78. For Sochi we can observe at the top right a cluster of dates which have high volumes of tweets, but also a proportionally high number of searches. As we saw in Table \ref{tab:sochi-table} on page \pageref{tab:sochi-table} quite a few of the features picked out by the model were to do with the olympics - both the positive and the negative aspect. Interestingly enough, North Korea has got a similar profile, even though the correlation is not as strong. The correlation for Ukraine is very negative and so is for Kiev, both caused because of the recent problems in the country.
 
-%So we can certainly say that those variables are correlated, but the outliers push the coefficient down quite a significant amount. The interesting part of this scatter plot for us is the top right corner. We are interested in those abnormal Twitter counts, which correspond to high number of redirects. Another interesting thing to explore would be to see if we correlate the mentions on the social network with the redirects from the next day. That will assume a certain lag factor, which is reasonable as sometimes an event should not effect the redirect counts till the next day when it's picked by all the major media. 
 
-Paris was one of the most popular destinations so it was quite interesting to see what the relation is there. The Pearson test yields the following values for Paris:
-\begin{quotation}
-In [24]: r\_value, p\_value
+For those who have a value higher than 0.2 there is definitely some correlation, which could be pushed lower by all the outliers and holes in the data. Fixing that requires some cleansing of those holes in the data. I've described everything that I did for the cleansing in section \ref{sec:cleansing} on page \pageref{sec:cleansing}.
 
-Out[24]: (-0.25, 0.0047)
-\end{quotation}
 
-And here is the scatter plot:
+These results mean that there is a knock-on impact on the models that need to be used in order to perform the prediction. I wouldn't be able to fit an easy linear regression, because that will give predictions that are far from accurate. It also means that when doing the model I wouldn't be able to make one that works just with Twitter or the Twitter features. A hybrid method would be needed. One that is using past search data as a component as well in order to ensure that we are balancing out the weights of all the features, since the initial idea is to use Twitter as an exogenous factor with some weight. The best model that could do that job is LASSO \cite{lasso}. Due to the very fact that every place is quite different - apart from those with no correlation whatsoever - I fitted a model for each one and one for the overall searches and tweets, which can be found in more detail in chapter \ref{chap:model} on page \pageref{chap:model}.
 
-\includegraphics[width=\textwidth]{Paris}
 
-Here we do see that indeed the correlation is relatively small and negative. 
+\section{Data cleansing}
+\label{sec:cleansing}
 
-As we can see each of the different cities shows a different behaviour. The implications of that are that the approach we take to building the model must be more versatile - we will aim to build one model for the overall numbers and models on a per city basis.
 
-\section{Cleansing the data}
-
-As mentioned, every time you depend a few external data source there will be some problems with the data, caused by several things. 
-
-In this project there were a couple of major sources of problems:
+As I have previously mentioned there were two data source which I was using for this project - data obtained from the Twitter Streaming API and the Skyscanner search volumes. Even with one you can always experience some outages and problems. In this project there were a couple of sources of risk:
 \begin{enumerate}
-\item The script that collects data from the Streaming API.
+\item The script that collects data from the Streaming API - sometimes the API just wouldn't work. 
 \item The searches data coming from Skyscanner being incorrect or partial - not spanning the full date range.
 \end{enumerate}
 
@@ -911,7 +936,7 @@ It works in the following way:
 \begin{enumerate}
 \item We want to predict the number of redirects/searches for this Friday.
 \item We take the number of redirects/searches Friday from last week, the week before, etc, until we have the counts form the previous 4 weeks for the corresponding day.
-\item We then assign weights to those 4 numbers and assign weights - the most recent one will get the highest weight, the one after about a half and so on. The exponential weighting scheme captures short term seasonality.
+\item We then assign weights to those 4 numbers and assign weights -- the most recent one will get the highest weight, the one after about a half and so on. The exponential weighting scheme captures short term seasonality.
 \end{enumerate}
 
 This model was tested out against more complex models like ARIMA and Autoregressive Vector Methods and it performed really well, but unlike the others it was many times simpler to program and maintain.
@@ -922,7 +947,7 @@ The first model I build was not a radical new approach, but rather an increment 
 
 I generated a list of tuples which contained the following information:
 \begin{itemize}
-\item Twitter count for the place - how many times it was mentioned in conjunction with a travel term.
+\item Twitter count for the place -- how many times it was mentioned in conjunction with a travel term.
 \item Same day of the week from last week
 \item Same day of the week from 2 weeks ago
 \item Same day of the week from 3 weeks ago
@@ -933,10 +958,10 @@ What this is is a version of Last 4 Fridays which now has Twitter Counts. Instea
 With LASSO I had weights for each of the 272 cities. After measuring the RMSEs for the L4F algorithm and expanded version with Twitter Counts the former performs better on 193 of the 272 cities. In the top 10 L4F+Twitter performs better on 2 out of 10. 
 
 Dublin which is in the 4th spot in terms of volumes is quite interesting. I plotted out the counts against searches just to see how it looks:
-
-\includegraphics[width=\textwidth]{Dublin}  
-
-\newpage
+%
+%\includegraphics[width=\textwidth]{Dublin}  
+%
+%\newpage
 \section{Results}
 
 And here are the results for the top 10 destinations by volume (they have the highest RMSEs).
@@ -1041,7 +1066,7 @@ With those I'll be able to better the model and reduce the RMSE across the whole
 	{\url{http://www.cs.jhu.edu/~mdredze/publications/twitter_health_icwsm_11.pdf}}
 
 \bibitem{twitpoll}
-	Brendan O?Connory,  Ramnath Balasubramanyany, Bryan R. Routledgex, Noah A. Smith, \\  
+	Brendan O'Connory,  Ramnath Balasubramanyany, Bryan R. Routledgex, Noah A. Smith, \\  
 	\emph{From Tweets to Polls: Linking Text Sentiment to Public Opinion Time Series}, \\
 	{\url{http://www.cs.cmu.edu/~nasmith/papers/oconnor+balasubramanyan+routledge+smith.icwsm10.pdf}}
 
@@ -1059,7 +1084,7 @@ With those I'll be able to better the model and reduce the RMSE across the whole
 
 \bibitem{sofnn}
 	Gang Leng, Girijesh Prasad, Thomas Martin McGinnity
-	\emph{An on-line algorithm for creating self-organizing fuzzy neural networks}
+	\emph{An on-line algorithm for creating self-organizing fuzzy neural networks} \\
 	{\url{http://www.sciencedirect.com/science/article/pii/S0893608004001698}}
   
 \bibitem{Hamletkdd03}

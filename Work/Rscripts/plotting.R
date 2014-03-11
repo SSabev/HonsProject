@@ -110,7 +110,7 @@ for (i in destinations){
 # SCATTER COUNT / SEARCHES
 
 
-city <- 'London'
+city <- 'Russia'
 file <- paste(city, '.csv',sep='')
 file <- paste('../tidydata/joined/', file, sep='')
 title <- paste("Scatter of searches against Twitter counts for ", city, sep='')
@@ -125,8 +125,8 @@ ggplot(data=df_scatter, aes(x=Count, y=NSearches)) +
   geom_point(size=3, colour = "#4B0082") +
   xlab("Twitter counts") + 
   ylab("Searches") + 
-  ggtitle(title)
-  #+ stat_smooth(method='lm', colour="#FF6347")
+  scale_x_log10() +
+  ggtitle(title) + stat_smooth(method='lm', colour="#FF6347")
 
 # df_scatter <- read.csv('../tidydata/1dayshift/Dublin.csv')
 # 
