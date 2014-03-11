@@ -73,7 +73,7 @@ The potential applications of this are generic prediction of flight search volum
 There aren't that many flight search companies with the global outreach required to collect and aggregate massive volumes of flight search data. And there are even fewer ones that are making some or the whole of their datasets available for research. When you consider that and the fact that online travel is a niche area in itself, one starts to understand why research of this kind would have been quite hard if not impossible to do up until this date. However as some of those companies grow, they are trying to employ more sophisticated ways of predicting demand and as a result of that plan their hardware capacity better or just use that data for revenue forecasting. With the rise of social media, the next logical step would be to start exploring different ways of adding exogenous factors such as data extracted from Twitter into their models to better their prediction. 
 
 
-In this project you will find the first attempt that someone has made to try using and incorporating social media to predict flight searches. As a consequence of that the effect of social media over online travel can be measured. We will try to show that using this dataset (\textasciitilde 480GB at the time of writing, 500 million tweets) we can employ text mining and try to build a model that can predict upward and downward shifts in demand for a group of destinations - countries and cities as of the first part. With NLP we will hopefully gain better understanding on how to predict demand and therefore this could be useful not just to flight search companies, but also to airlines and airports. 
+In this project you will find the first attempt that someone has made to try using and incorporating social media to predict flight searches. As a consequence of that the effect of social media over online travel can be measured. We will try to show that using this dataset (\textasciitilde 500GB at the time of writing, 565 million tweets as time of writing) we can employ text mining and try to build a model that can predict upward and downward shifts in demand for a group of destinations - countries and cities as of the first part. With NLP we will hopefully gain better understanding on how to predict demand and therefore this could be useful not just to flight search companies, but also to airlines and airports. 
 
 
 It will be impossible not to say anything about Skyscanner, since they have kindly provided the flight search data, which I am using in this project. \footnote{\textbf{Dislaimer}: I am an employee of the company and have been working there since 2011} It's an Edinburgh-based company with offices around the whole world, which is slowly, but surely positioning itself as a leader in travel search online. It is in the phase of rapid growth and it has been doubling in size and valuation for the past couple of years, which helped secure an investment from Sequioa Capital. \cite{seqcap}
@@ -569,7 +569,8 @@ As said earlier, this problem is something that no one has researched before. Th
 In order to get started with the whole project I thought that the most logical first step would to explore both of my datasets. Since that is quite a fuzzy term I wanted to see what information both of them hold and what I can extract. As far as the searches data set was concerned, since I have been an employee of Skyscanner for some time, I knew exactly what the data is, what it means and I could spot when a number just felt wrong. So the Skyscanner dataset did not require any extra effort from me. 
 
 
-Twitter on the other hand was a challenge. The task of exploring the data was far from trivial, just because of the sheer size. The Sample stream (1\% of all tweets) which I used \cite{samplestream} was returning around 6 GBs of data a day, which is not small by any means. With some filtering and picking all the relevant attributes, I decreased the level of data to 3.5 GBs a day. I have described in detail the attributes I picked for this project section in \ref{sec:dc} on page \pageref{sec:dc}. That is roughly half of the original input, but that is the data I receive on a daily basis. As of the time of writing I have gathered about 500 GBs of data in total, which equals roughly around 550 million tweets. Since this is not an issue one encounters every day, I had to be very careful on how I structure my system in order to make sure it is as robust as possible and it's not going to buckle under the volumes of data coming in for processing. 
+Twitter on the other hand was a challenge. The task of exploring the data was far from trivial, just because of the sheer size. The Sample stream (1\% of all tweets) which I used \cite{samplestream} was returning around 6 GBs of data a day, which is not small by any means. With some filtering and picking all the relevant attributes, I decreased the level of data to 3.5 GBs a day. I have described in detail the attributes I picked for this project section in \ref{sec:dc} on page \pageref{sec:dc}. That is roughly half of the original input, but that is the data I receive on a daily basis. As of the time of writing I have gathered about 500 GBs of data in total, which equals roughly around 565 million tweets. Since this is not an issue one encounters every day, I had to be very careful on how I structure my system in order to make sure it is as robust as possible and it's not going to buckle under the volumes of data coming in for processing. 
+
 
 That left me with a few challenges, which were crucial to the success of this project:
 \begin{enumerate}
@@ -578,16 +579,12 @@ That left me with a few challenges, which were crucial to the success of this pr
 \item How do I build a scalable and performant system for data analysis of the tweets, that will allow me to perform experiments in a easy and reproducible fashion?
 \end{enumerate}
 
+
 All of these challenges have made me spend a roughly about 100 hours in designing, building and testing the system that performs all of the computation. All of the code can be found in the code repository on GitHub \cite{code}. The codebase includes separate classes which filter the data, process it and convert it to time series, combine the two datasets together and then perform the regression. That is roughly the flow for the first iteration of the model that uses just Twitter counts and search data. The 2nd iteration also uses as many features as possible, so it has a separate class, which process the filtered data and extracts all the relevant features for a particular destination. All of the data filtering is described in detail in part  \ref{sec:dp} on page \pageref{sec:dp}. The main aim of the filtering is to take the 500GB dataset of tweets and take only the relevant ones, making a small working set, which can reside on a local SSD, which enables very fast processing and aggregation, which is then fed into the model for the regression and evaluation. 
+
 
 In this chapter I will describe in detail every one of the main parts of the way I went from just gathering data to a full system for analysis and visualisation of the data and also how I solved any problems that I encountered.
 
-%I have shown what I am using and how I process the data in \ref{sec:dp} on page \pageref{sec:dp}. My implementation was fast enough, because of the reduction to a smaller working set and it was able to process the whole reduced dataset in about 20 minutes, which is fast enough for re-processing.
-%After collecting and preparing the data comes the next big question - what do I want to get out of this set? I have tried two ways of filtering it and trying to use it to predict the flight searches:
-%\begin{itemize}
-%\item Using hashtags which contain a country or city name and taking their counts.
-%\item Taking every tweet that has a city/country name in its text in a conduction with a travel related term from the list. 
-%\end{itemize}
 %Both of these methods have obvious advantages and disadvantages - taking only hashtags will be really fast, but not expressive and representative enough. They are both explored in  \ref{sec:hashtag} and \ref{sec:tweettext} respectively. 
 %Before building the models there was a final step that had to be done and that was cleansing the data. Because of some teething issues with problems with the Skyscanner data and the fact that the data collections process is not perfect, there are some holes in the data. 
 %For the Skyscanner data set I have used the Last 4 Fridays forecasting method to backfill and for Twitter I've just used the means to fill in the missing values. 
@@ -598,87 +595,244 @@ In this chapter I will describe in detail every one of the main parts of the way
 
 The first and most important set to any Machine Learning project is to collect all the data you can. In my case I had two different sets I had to work with - the data flowing in from the Twitter Public Stream and the search data coming in from Skyscanner. As said previously the data from Skyscanner didn't need any additional work in terms of familiarising myself, because I could easily pull it out with a SQL script and give myself all the necessary aggregations without any problem. 
 
-The first and most important part of this project was to start collecting the correct data, which was to be used in building the model later. Twitter offers quite a comprehensive API with a lot of attributes, however in order to reduce the daily volume of data I had to take the most relevant ones for me. 
+
+Twitter's Public Stream wasn't something that that I have previously worked with. My initial estimation was that I would be receiving roughly around 1.5 gigabytes of data a day. After running the collector script for a day that number turned out to be very close to 6.5 gigabytes. Since not all of it was data that I was particularly interested in - pictures, videos, interactive content - I decided that it was worth to have a read at the documentation and see what exactly is included in a tweet. \cite{tweetobject} After careful consideration I picked the attributes, which I needed now and the ones that could be beneficial in the future. By selecting those particular I managed to reduce the daily volume of data from \textasciitilde 6.5GB of data down to \textasciitilde 3.5GB/day, which is more manageable. In Table 4.1 you can see all the attributes that I have kept describing what they are in a bit more detail. The amount of data accumulated at the time of writing is \textasciitilde 500 GBs, which is around 550 million tweets. 
 
 
-\begin{table}[p]
+I have collected data since the 24th of September 2013 without any stopping, however due to some network outages, buffer overflows, etc, there are some holes in the data, so it's not as consistent as I'd like it to be, but I have dealt with that by cleansing the data prior to training and evaluating my models. 
+
+
+In the first phase of the project I have only collected tweets in English coming from the UK. The reasoning behind that is that I will be able to predict search volumes in the UK only for now. In the 2nd phase I might expand to the filter to capture tweets in English from all over the world or perhaps even tweets in any language at all. 
+
+%The second stage would be to develop the model even further and add multi-language and multi-country support and employ more sophisticated models such as ARIMA or Auto-regressive Vector Models.
+
+
+\begin{table}[]
 \begin{center}
 \begin{tabular}{ l | p{11cm} }
-Attribute & Explanation \\
+\textbf{Attribute} & \textbf{What is contained within the attribute} \\
 \hline
-Text & the text of the tweet is the most important one, perhaps. Quite a lot of information can be extracted from it alone \\
-Id & the tweet id. Useful if we want to screen scrape for any additional information or just to provide a tidy small dataset of ids. \\
+\hline
+Text & The text of the tweet itself. Perhaps the most important attribute \\
+\hline
+ID & The ID of the the tweet. Could be beneficial for providing a "tidy" version of the dataset for distribution or if I'd need to obtain additional data via screen scraping. \\
+\hline
 ID Str & String representation of the above. \\
-Source & What is used to post the tweet. The Twitter website is marked as "web". \\
+\hline
+Source & What platform/application has been used to post the tweet. The Twitter website is marked as "web". \\
+\hline
 Coordinates  & Representation of the geographical location of the Tweet as reported by the utility used to post the tweet. \\
-Entities & This include hashtags, user mentions and urls included in the tweet. Could be taken from the text, but it's nicer to have them ready. \\
-Retweet count & the number of times the tweet was retweeted. Useful for any future models.  \\
+\hline
+Entities & This include hashtags, user mentions and urls included in the tweet. Could be taken from the text, but it's computationally more efficient to have the pre-processed. \\
+\hline
+Retweet count & Number of times the tweet was retweeted. That could be incorporated into future \\
+\hline
 Favourited & Indicates whether the tweet was favourited by people - an analogy of this would be a Facebook like.  \\
-Language & The language of the tweet. We are capturing English language tweets at the moment, but put in place for future expansion into the multi-language domain  \\
-Filter level & indicates the level of filtering applied to the stream. \\
+\hline
+Language & The language of the tweet. We are capturing English language tweets at the moment, but useful in case we want to add more languages and capture more tweets\\
+\hline
 Place &  Shows where the tweet was tweeted from. Gives more detail than coordinates - country, city name, coordinates as well. Not necessarily available for all tweets. \\
 \end{tabular}
 \end{center}
-\caption{Attributes chosen to capture.}
+\caption{All of the attributes of a \emph{tweet} I have chosen to capture for this project. The list includes things that may not be necessarily needed now, but that could be beneficial for the next phase of the project. }
 \end{table}
 
-The first stage of the project is to look only at tweets in English coming from the UK. That will allows us to predict and model the flight search volumes in the UK based on the mentions in the Twitter Stream.
 
-The second stage would be to develop the model even further and add multi-language and multi-country support and employ more sophisticated models such as ARIMA or Auto-regressive Vector Models.
+As said, the 2nd dataset for this project is provided by Skyscanner. In order to obtain the data for the flight search volumes I used a custom SQL script, which queries the database containing all of their operational data. In order to ensure that there are no concerns with confidentiality I have anonymised the data. 
 
-By selecting those particular tweet attributes and using the Streaming API, I managed to reduce the daily volume of data from \textasciitilde 6GB of data down to \textasciitilde 3.5GB/day.
-The amount of data accumulated at the time of writing is \textasciitilde 380 GB. The collector has been running successfully from September 2013, however there are some holes of the data caused by network outages or the script interacting with the Twitter Streaming API crashing. 
 
-The data on flight search volumes is kindly provided by Skyscanner. In order to ensure that there are no concerns with confidentiality I have anonymised the data. 
+All in all, data collection was probably the easiest of all the different sub-tasks, but at the same time it was the most important one, because everything else in this project depends so much on the data I gather. I believe my solution was simple enough and it worked fine. In the moments where there were some interruptions to the collector it was either human error or network failures. 
+
+
+In order to capture more relevant data for next year I plan to perform a bit more analysis on feature selection and how to pick only the terms that are likely to affect my model positively. 
+
 
 \section{Data processing}
 \label{sec:dp}
 
-\section{Hashtags}
+
+With all of that data collected comes the next part - processing it and extracting everything relevant from it. In order to do so I had to investigate several different options of storing the data and processing it:
+\begin{itemize}
+\item Store everything into a relational database.
+\item Store it all in Hadoop and use Map Reduce
+\item Keep it in a flat file and use my own scripts to do everything.
+\end{itemize}
+
+
+Each of those options has obvious advantages and disadvantages, but in the end of it all I chose to stick to flat files and my own implementation for the following reasons:
+\begin{itemize}
+\item Relational databases are really bad when it comes to processing text. Since this is mostly text processing it would've been counter productive to store all of the data in one. 
+\item The cost of setting up a Hadoop cluster is too great and I didn't have the resource available to store all of the data in one. However the options is still present, since Hadoop essentially works with files, so if next year I get access to the cluster I could explore that options again. 
+\item Flat text files proved to be the most convenient and the easiest to work with. Python is able to crunch through the whole dataset of 500 gigabytes and produce all the counts in about 1.5 days.
+\end{itemize}
+
+Having all of that in mind, it was an easy enough decision - I didn't want to have the overhead of storing my data and processing it to be the most time consuming sub-task, since that's not what this project is about. 
+
+After successfully starting the data collection comes the next big question - what exactly do I use in order to get a time series, which I can relate to the flight search volumes? I have tried two ways of filtering it and trying to use it to predict the flight searches:
+\begin{itemize}
+\item Using hashtags which contain a country or city name and taking their counts.
+\item Taking every tweet that has a city/country name in its text in a conjunction with a travel related term.\end{itemize}
+
+Both of these approaches are described in the coming subsections. Hashtags proved to be very volatile and small in terms of volumes, while taking names with travel term proved to yield more interesting results.  
+
+At the end, I went for the former and used the counts produced by that in all of my models. For next year I will try to be even more restrictive in terms of what I include by using more NLP and something good for Feature Analysis. 
+
+\subsection{Using hashtags}
 \label{sec:hashtag}
 
-Hashtag is one of the most important constructs by Twitter. Here's an example tweet:
+Hashtag is probably one of the things that will remain in Twitter's legacy - just as the @. Here is a breakdown of a very simple hypothetical tweet, which does not deviate from what most people would tweet.
 
 \begin{quotation}
 @FunnyChap: Something witty and very well said \bf{\#jokeoftheweek}
 \end{quotation}
 
-The structure of the tweets is:
+In the tweet you can find the following: 
 \begin{enumerate}
 \item The name of the user is denoted with a @ before the username.
 \item The text itself.
 \item The hashtag (a special Twitter construct) is denoted with a \#.
 \end{enumerate}
 
-You can filter out and explore twitter content based on hashtags and usually every major event has its own hashtag. The ones which are most mentioned appear in a special section called "Trending".
 
-This option was considered, because if it had worked it would have been what we would call a "quick win". It doesn't require much processing, since what you'd need is just take the ready made list of hashtags and store all the results into a in-memory dictionary, which you'd then split by city/country. That reduced the overall size of the relevant tweets to \textasciitilde 3 GB. What was even greater is that we didn't really require the text information itself, which made the working dataset even smaller. 
+Since the hashtags are one of the things that has permeated into other social networks like Facebook I thought that they will be a good fit for an initial investigation of whether the task is feasible. The fact that almost every major event and thing had its own hashtag was also quite nice, since you could then use that for TDT if you'd want.
 
-However the overall counts were quite small and the distribution of the values was very noisy, which means that fitting a model to this would've been quite hard if not impossible.
 
-\section{Occurrences paired with travel terms} 
+The main thing that made me consider this option altogether is because the computation cost of finding those hashtags was minimal. Since they are already pre-processed and can be found in a separate attribute I didn't even had to look at the text. The implication of that was that I could easily reduce my dataset significantly, since I'll be throwing away most of the information. All in all the CSVs for every partition of my data are about 60 MBs, which is very small compared to the working set of 45 million tweets I had for the occurrences paired travel terms. 
+
+
+I was getting quite optimistic  in thinking that could be a very simple and easy way to solve my problem and get the time series I needed. To my great disappointment it turned out that the volumes of obtained were quite small and overall the data was very noisy, which would have training a model very hard and predictions from them would've been quite bad. 
+
+
+However that is not to say I did not use hashtags at all. They are incorporated in the 2nd version of the model where I am looking at all the words that co occur with a particular place name and using those as additional features. I am going to discuss that in more detail in chapter \ref{chap:model} on page \pageref{chap:model} describing how that is used and why it could be beneficial to do so. To conclude - hashtags are useful, but not as a single input, but rather as an additional feature we could use to enrich the model and build and train a more versatile model that takes as many inputs as possible. 
+
+
+
+\subsection{Occurrences paired with travel terms} 
 \label{sec:tweettext}
 
-The next slightly more expensive in computational terms option was to look at the actual tweet content and to count the number of times a city/country name appeared in conjunction with a one word form a list of travel-related words:
+Since the simplest solution I could think of did not work as I had previously planned, I had to go back to the drawing board and think of another way to get everything I need from the data. 
 
-\begin{quotation}
-terms = \\
-\{ "airport": "", \\
-"check-in": "", \\
-"fly": "", \\
-"land": "", \\ 
-"landing": "", \\
-"plane": "", \\ 
-"take off": "", \\
-"destination": "" \\
-... \}
-\end{quotation}
 
-The list is modelled as a dictionary, because dictionary lookups are \BigO{1}, so iterating over the words in the tweet and checking whether they appear in the city/country dictionary or the travel terms proved to be the most efficient combination.
+The next thing that came to mind was to start using the actual tweet text and do some processing on it in order to get counts for the place time series. In terms of computation that was much more expensive, because even though the tweet text is limited to 140 characters, when you have 565 million tweets it turns into a non-trivial task. I decided that I want to look at all the tweets that would co-occur with a travel word. In Figure 4.1 you can find some of those travel-related words which I used in order to perform the filtering. 
 
-That gives us about  \textasciitilde  10 GB of tweets to work with. The reduced dataset is still much smaller in comparison to the full one. Processing the whole usually takes about a day, because of the extensive lookups in the city/country dictionary and the travel terms one.
+
+\begin{figure}[p!]
+\begin{center}
+\begin{lstlisting}
+terms = {
+          "airport": "",
+          "check-in": "",
+          "fly": "",
+          "land": "",
+          "landing": "",
+          "plane": "",
+          "take off": "",
+          "destination": "",
+          "journey": "",
+          "passenger": "",
+          "route": "",
+          "travel": "",
+          "travel agent": "",
+          "trip": "",
+          "charger flight": "",
+          "cruise": "",
+          "excursion": "",
+          "hostel": "",
+          "hotel": "",
+          "luggage": "",
+          "motel": "",
+          "package holiday": "",
+          "self-catering holiday": "",
+          "sightseeing": "",
+          "go sightseeing": "",
+          "suitcase": "",
+          "tour": "",
+          "tourism": "",
+          "tourist": "",
+          "vacation": "",
+          "rail": "",
+          "go by rail": "",
+          "railway": "",
+          "railway station": "",
+          "road": "",
+          "voyage": "",
+          "board": "",
+          "go on board": "",
+	}
+\end{lstlisting}
+\end{center}
+\caption{Some of all the travel related terms I used in a dictionary. I used them as a very primitive additional filter to capture only the most relevant tweets. }
+\end{figure}
+
+
+Because of the fact that I had to a lot of substring checking - checking whether any of the words or any of the place names is in the tweet text, keeping counts of all of those, etc. That in itself is fairly hard to optimise and when working on big sets of data even the smallest improvement could mean a reduction of about half a day or even a day in processing time. 
+
+
+In my initial setup I had a few steps in order to get to the final time series:
+\begin{enumerate}
+\item Go through all of the items and take only the relevant tweets reducing the full set to a working set (around 10\% of the overall data set.
+\item Traverse the smaller set and generate the time series for a place by working through the working set. 
+\end{enumerate}
+
+
+That was not bad, but after doing the process a few times I realised that there is a very bad error I have made - every time there was a new data dump of the tweets I had to reprocess absolutely everything. That wasn't obvious at first, because while the dataset was less than 100GB the total working time was about 3-4 hours, however later it became obvious that this is an obvious bottleneck, since everything else depended on getting the data in a format that is easy to feed into the model.
+
+In order to mitigate I had to think of a better, more efficient and more scalable way of performing that step. My first decision was to combine the two steps. So instead of filtering first and traversing the data set, I now traverse the full data set and obtain the counts as I go through it. The working data set is kept, because I need it to extract the additional features later. 
+
+
+Another drawback of the first version was that every time the process stops halfway through I had to re-run it completely, because I did not store any partial counts up to date, but rather I was storing the full counts after I've gone through everything. In the second version I was storing partial counts for every place for a particular time period and at the end of each iteration of the algorithm those partial counts were merged with the count up to the slice in order to produce the full counts later. That allows me to traverse the data in an easy way and the whole of it is done in about half a day, while with the previous solution it was taking more than 2 days.
+
+\begin{figure}[]
+\begin{center}
+\begin{lstlisting}
+one_word_placenames = obtain_one_word_places()
+multiword_placenames = get_multiword()
+
+counts = {}
+
+for file in twitter_data_files:
+    for line in file:
+        tweet = parse_json(line)
+        for word in travelwords: 
+            if word in tweet:
+                travelWord = True
+                break
+                            
+        for i in multiword_placenames:
+             if i in tweet:
+                 seen_place = True
+                 counts[place][datetime] += 1
+                            
+        for token in tweet.split(' '): # split the text into words
+            if token in one_word_placenames:
+                seen_place = True
+                counts[place][datetime] += 1
+
+        if seen_place or travelWord:
+            writeToFile(tweet)
+
+for place in place_names:
+     data = load_file(twitter_counts)
+     partial_counts = counts[place]
+     data = data.append(partial_counts)
+     # group them by the date time and then sum them up
+     data.groupby('Datetime')
+     data.sum()
+     output(data)
+    
+\end{lstlisting}
+\end{center}
+\caption{Pseudocode for the filtering part. }
+\end{figure}
+
+You can find the pseudo-Python code in Figure 4.2. For the multiword place names I had to iterate over all of them, because I couldn't find a more efficient way of doing it. For the single word dictionary I do lookups against the dict that contains them all. Every lookup has been modelled as a lookup of a dictionary key, because amortised dictionary lookups are  \BigO{1}, while list lookups are  \BigO{n}. For small lists and dicts, that doesn't make a dramatic difference, but since we are iterating over the keys of the dictionary and in the third for loop we are checking whether the tweet words in the dict that makes a good improvement in the overall processing time. 
+
+
+After performing that step on the full dataset we are left with  \textasciitilde  45 GB of data, which is 45 million tweets in the working dataset. The reduced dataset is still much smaller in comparison to the full one. However eliminating the duplication of work made it much easier to re-process the data in a more efficient way and it also allowed easy feature extraction later. 
 
 \section{Finding the correlation between those variables}
+
+Since now we have both of the time series, it was time to see whether the two time series are correlated. 
 
 After discovering that the volumes of twitter counts from the second method are not so noisy, I decided to proceed and explore the correlation between the two variables.
 
@@ -709,7 +863,7 @@ In [24]: r\_value, p\_value
 
 Out[24]: (-0.25, 0.0047)
 \end{quotation}
-\newpage
+
 And here is the scatter plot:
 
 \includegraphics[width=\textwidth]{Paris}
@@ -919,6 +1073,10 @@ With those I'll be able to better the model and reduce the RMSE across the whole
 \bibitem{samplestream}
 	Twitter Sample Stream, \\
 	{\url{https://dev.twitter.com/docs/api/1.1/get/statuses/sample}}
+	
+\bibitem{tweetobject}
+	Twitter Developers Documentation, \emph{Tweets data and attributes},\\
+	{\url{https://dev.twitter.com/docs/platform-objects/tweets}}
 
 \end{thebibliography}
 

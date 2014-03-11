@@ -10,9 +10,9 @@ class KeyStats(object):
     This gives the data that is fed for the Aggregator.
 
     Word_counter is the one that does the words in text
-    
+
     """
-    
+
     def __init__(self, filename):
 
         self.filehandler = open(filename, 'rb')
@@ -20,7 +20,7 @@ class KeyStats(object):
         self.hashtags = {}
         self.get_keywords()
         # self.something_else
-    
+
     def get_keywords(self):
         for line in self.filehandler:
             try:
@@ -39,7 +39,7 @@ class KeyStats(object):
                             self.hashtags[text][dt_key] = self.hashtags[text].get(dt_key, 0) + 1
             except ValueError:
                 pass
-            
+
     def to_csv(self, filename):
         outfile = open(filename, 'wb')
         outwriter = csv.writer(outfile)
@@ -58,12 +58,10 @@ if __name__ == '__main__':
     all_the_files = [i for i in glob.glob(r'/Volumes/Tweets/Data/data-dump-with-*') if i != current]
     print all_the_files
 
-    all_the_files = 
-
     for i in all_the_files:
         filename = i.split('-')[-1]
         tags = KeyStats(i)
 
         delta = datetime.datetime.now() - tags.starttime
         tags.to_csv('counts/%s.csv'%str(filename))
-        print delta.seconds 
+        print delta.seconds
