@@ -6,7 +6,7 @@ from dateutil.relativedelta import relativedelta
 import datetime as dt
 import glob
 
-from sklearn.linear_model import Lasso
+from sklearn.linear_model import Lasso, Ridge
 from sklearn.metrics import mean_squared_error
 import math
 
@@ -94,7 +94,7 @@ class LASSOOverallPredictor(object):
         return data_fridays, data_compfriday
 
     def go_and_classify(self):
-        for i in glob.glob('tidydata/1dayshift/*.csv'):
+        for i in glob.glob('tidydata/joined/*.csv'):
             place = i.split('/')[-1].replace('.csv', '')
             data = p.read_csv(i)
             df1, df2 = self.get_fridays(data)
@@ -152,6 +152,8 @@ class LASSOOverallPredictor(object):
                     'F4': clf.coef_[4],
                     }
 
+            ridge1 = Ridge(alpha=alpha)
+
             cutoff_date = dt.datetime.strptime('2013-09-24 00:00:00', '%Y-%m-%d %H:%M:%S')
 
             data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
@@ -202,10 +204,10 @@ class LASSOOverallPredictor(object):
 
     def output_errors(self):
         error_df = p.DataFrame.from_dict(self.errors, orient="index")
-        error_df.to_csv('results/lasso-static-and-dynamic-shift-one.csv')
+        error_df.to_csv('results/lasso-static-and-dynamic.csv')
 
         weights_df = p.DataFrame.from_dict(self.weights, orient='index')
-        weights_df.to_csv('results/static-and-dynamic-shift-one.csv')
+        weights_df.to_csv('results/static-and-dynamic.csv')
 
 
 

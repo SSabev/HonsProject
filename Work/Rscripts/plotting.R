@@ -1,5 +1,6 @@
 library(ggplot2)
 library(reshape)
+library(scales)
 #RMSE Scatter
 
 data <- read.csv('../results/lasso-static-and-dynamic.csv')
@@ -39,6 +40,38 @@ ggplot(data=data, aes(x=RMSE_L4F, y=value, group=variable, colour=variable)) +
   ylab("Root mean squared error from the Twitter regressions") + 
   ggtitle("RMSE scatter plot of classifiers") +
   stat_smooth(method='lm')
+
+
+# STDEV/RMSE PLOT
+
+stdevdata <- read.csv('../results/stdevscatter2.csv')
+
+drops <- c("Place", "RMSE.TwitterDF", "RMSE.TwitterCF", "RMSE_L4F")
+stdevdata <- stdevdata[,!(names(stdevdata) %in% drops)]
+
+stdevdata$CFImprove <- as.numeric(stdevdata$CFImprove)
+stdevdata$DFImprove <- as.numeric(stdevdata$DFImprove)
+stdevdata <- stdevdata[complete.cases(stdevdata), ]
+#stdevdata <- do.call(stdevdata,lapply(stdevdata, function(x) replace(x, is.infinite(x),NA)))
+
+stdevdata <- melt(stdevdata, id.vars=c("StDev"))
+
+
+ggplot(data=stdevdata, aes(x=StDev, y=value, group=variable, colour=variable)) +
+  geom_point(aes(size=StDev)) + facet_grid(. ~ variable) +
+  scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
+  #scale_x_log10() + #scale_y_log10() +
+  scale_y_continuous(limits=c(-2.0,2.0),labels = percent) +
+  xlab("Standard deviation of searches divided by the mean") + 
+  ylab("Percentage improvement") + 
+  ggtitle("RMSE of models versus normlalised STDEV of searches ") + 
+  stat_smooth(method='loess')
+#   theme(axis.text.x=element_blank(),
+#         axis.text.y=element_blank(),
+#         axis.ticks=element_blank()
+#   )
+
+
 
 # OVERALL
 
@@ -110,7 +143,7 @@ for (i in destinations){
 # SCATTER COUNT / SEARCHES
 
 
-city <- 'Russia'
+city <- 'north korea'
 file <- paste(city, '.csv',sep='')
 file <- paste('../tidydata/joined/', file, sep='')
 title <- paste("Scatter of searches against Twitter counts for ", city, sep='')
@@ -126,7 +159,7 @@ ggplot(data=df_scatter, aes(x=Count, y=NSearches)) +
   xlab("Twitter counts") + 
   ylab("Searches") + 
   scale_x_log10() +
-  ggtitle(title) + stat_smooth(method='lm', colour="#FF6347")
+  ggtitle(title) + stat_smooth(method='loess', colour="#FF6347")
 
 # df_scatter <- read.csv('../tidydata/1dayshift/Dublin.csv')
 # 
