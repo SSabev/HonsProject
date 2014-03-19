@@ -1,8 +1,37 @@
 library(ggplot2)
 library(reshape)
 library(scales)
-#RMSE Scatter
 
+setwd('Dev/HonsProject/Work/Rscripts')
+
+
+dfalpharmse <- read.csv('../results/alpha-rmse.csv')
+
+
+
+dfalpharmse <- melt(dfalpharmse, id.vars=c('Place', 'Alpha'))
+
+dfplot <- subset(dfalpharmse, dfalpharmse$Place=='united kingdom')
+dfplot <- rbind(dfplot, subset(dfalpharmse, dfalpharmse$Place=='sochi'))
+dfplot <- rbind(dfplot, subset(dfalpharmse, dfalpharmse$Place=='London'))
+dfplot <- rbind(dfplot, subset(dfalpharmse, dfalpharmse$Place=='ukraine'))
+#dfplot <- rbind(dfplot, subset(dfalpharmse, dfalpharmse$Place=='united kingdom'))
+
+#
+
+ggplot(data=dfplot, aes(x=Alpha, y=value, group=variable, colour=variable)) +
+  geom_line(size=1.25) + facet_wrap( ~ Place,  scales="free") + 
+  #geom_line(aes(x=nx, y=ny), size=1, colour="#4B0082")+ 
+  scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) +
+  #scale_x_log10() + scale_y_log10() +
+  xlab("Alpha penalisation factor") + 
+  ylab("RMSE") + 
+  ggtitle("Reductions of RMSE with increase in penalisation parameter")
+
+
+
+
+#RMSE Scatter
 data <- read.csv('../results/lasso-static-and-dynamic.csv')
 
 data <- data[complete.cases(data), ]
@@ -61,7 +90,7 @@ ggplot(data=stdevdata, aes(x=StDev, y=value, group=variable, colour=variable)) +
   geom_point(aes(size=StDev)) + facet_grid(. ~ variable) +
   scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
   #scale_x_log10() + #scale_y_log10() +
-  scale_y_continuous(limits=c(-2.0,2.0),labels = percent) +
+  scale_y_continuous(limits=c(-0.8,0.8),labels = percent) +
   xlab("Standard deviation of searches divided by the mean") + 
   ylab("Percentage improvement") + 
   ggtitle("RMSE of models versus normlalised STDEV of searches ") + 

@@ -12,11 +12,12 @@ import math
 
 class LASSOOverallPredictor(object):
 
-    def __init__(self, alphas, output=True):
+    def __init__(self, alphas,cutoff, output=True):
         self.output = output
         self.alphas = alphas
         self.errors = {}
         self.weights = {}
+        self.cutoff = cutoff 
         self.go_and_classify()
         self.output_errors()
 
@@ -137,11 +138,11 @@ class LASSOOverallPredictor(object):
 
         for alpha in self.alphas:
             clf = Lasso(alpha=alpha)
-            clf.fit(Xinput[:130].values, Youtput[:130])
+            clf.fit(Xinput[:self.cutoff].values, Youtput[:self.cutoff])
             #print clf.coef_
 
             clf2 = Lasso(alpha=alpha)
-            clf2.fit(X2[:130].values, Youtput[:130])
+            clf2.fit(X2[:self.cutoff].values, Youtput[:self.cutoff])
             #print clf2.coef_
 
 
@@ -158,20 +159,20 @@ class LASSOOverallPredictor(object):
 
             data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
 
-            predicted_tw_d_f = clf.predict(Xinput[130:].values)
-            predicted_tw_s_f = clf2.predict(X2[130:].values)
+            predicted_tw_d_f = clf.predict(Xinput[self.cutoff:].values)
+            predicted_tw_s_f = clf2.predict(X2[self.cutoff:].values)
 
             predicted_l4f = data.LF4Predicted
             actual = data.Searches
 
-            rmse_twitter = mean_squared_error(actual[130:].tolist(), predicted_tw_d_f)
+            rmse_twitter = mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_d_f)
             rmse_twitter = math.sqrt(rmse_twitter)
 
-            rmse_static = mean_squared_error(actual[130:].tolist(), predicted_tw_s_f)
+            rmse_static = mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_s_f)
             rmse_static = math.sqrt(rmse_static)
 
 
-            rmse_l4f = mean_squared_error(actual[130:].tolist(), predicted_l4f[130:])
+            rmse_l4f = mean_squared_error(actual[self.cutoff:].tolist(), predicted_l4f[self.cutoff:])
             rmse_l4f = math.sqrt(rmse_l4f)
 
             try:
@@ -194,7 +195,7 @@ class LASSOOverallPredictor(object):
             self.errors[place] = {"RMSE TwitterDF": rmse_twitter,
                         "RMSE TwitterCF": rmse_static,
                         "RMSE_L4F": rmse_l4f,
-                        "R^2_twitter": clf.score(Xinput[130:], actual[130:]),
+                        "R^2_twitter": clf.score(Xinput[self.cutoff:], actual[self.cutoff:]),
                         "Twitter weight": clf.coef_[0],
                         "Fridays weight": clf.coef_[1],
                         "Alpha": alpha,
@@ -214,4 +215,4 @@ class LASSOOverallPredictor(object):
 
 
 if __name__ == '__main__':
-    a = LASSOOverallPredictor([1])
+    a = LASSOOverallPredictor([1], 140)

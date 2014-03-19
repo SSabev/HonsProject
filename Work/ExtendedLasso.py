@@ -13,10 +13,11 @@ import math
 
 class ExtendedFeaturesLasso(object):
 
-    def __init__(self, alphas, features, output=True):
+    def __init__(self, alphas, features, cutoff, output=True):
         self.output = output
         self.alphas = alphas
         self.features = features
+        self.cutoff = cutoff
         self.errors = {}
         self.weights = {}
         self.writer = p.ExcelWriter('results/extendedLassoResults.xlsx')
@@ -125,8 +126,8 @@ class ExtendedFeaturesLasso(object):
             fridays, comp_fridays = self.get_fridays(data)
 
             data = data.merge(fridays, on='Date', how='outer')
-            data = data[36:195]
-            merged = merged[36:195]
+            data = data[36:209]
+            merged = merged[36:209]
             dict_of_features = {i: merged[i].tolist() for i in merged.columns \
             if i not in ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4', 'Searches', 'NSearches']}
             dict_of_items = {i: data[i].tolist() for i in data.columns if i in [ 'Friday1', 'Friday2', 'Friday3', 'Friday4']}
@@ -157,12 +158,12 @@ class ExtendedFeaturesLasso(object):
             X2['Fridays'] = comp_fridays.Fridays
             X2 = X2.fillna(0)
 
-            actual = data.Searches[130:].tolist()
+            actual = data.Searches[self.cutoff:].tolist()
             #data.to_csv('tidydata/withfeatures/%s_with_prediction.csv'%placename)
 
             self.classify(placename, Xinput, X2, data['LF4Predicted'], \
                           Youtput, actual)
-
+            
     def output_weights(self, input,coef, placename, alpha, typeo):
         wdata = zip(input.columns, coef)
         wdata = p.DataFrame.from_dict(dict(wdata), orient='index')
@@ -191,20 +192,20 @@ class ExtendedFeaturesLasso(object):
             print placename
 
             clf = Lasso(alpha=alpha, max_iter = 500)
-            clf.fit(Xinput[:130].values, Youtput[:130])
+            clf.fit(Xinput[:self.cutoff].values, Youtput[:self.cutoff])
             #print placename, clf.coef_
             self.output_weights(Xinput, clf.coef_, placename, alpha, 'LassoW')
 
             clf2 = Lasso(alpha=alpha, max_iter = 500)
-            clf2.fit(X2[:130].values, Youtput[:130])
+            clf2.fit(X2[:self.cutoff].values, Youtput[:self.cutoff])
             #print placename, clf.coef_
 
             self.output_weights(X2, clf2.coef_, placename, alpha, 'L4FW')
 
 
-            predicted_w_t = clf.predict(Xinput[130:].values)
-            predicted_tw_s_f = clf2.predict(X2[130:].values)
-            predicted_l4f = l4f[130:]
+            predicted_w_t = clf.predict(Xinput[self.cutoff:].values)
+            predicted_tw_s_f = clf2.predict(X2[self.cutoff:].values)
+            predicted_l4f = l4f[self.cutoff:]
 
             self.output_predictions(zip(predicted_w_t, predicted_tw_s_f,
                             predicted_l4f, actual), placename)
@@ -236,7 +237,7 @@ class ExtendedFeaturesLasso(object):
                         "RMSE_L4F": rmse_l4f,
                         "winner": winner,
                         "WinnerBin": winner2,
-        #"R^2_twitter": clf.score(Xinput[130:].values, actual),
+        #"R^2_twitter": clf.score(Xinput[self.cutoff:].values, actual),
                         "Non0WeightsDF": sum([1 for i in clf.coef_ if i!=0]),
                         "Non0WeightsCF": sum([1 for i in clf2.coef_ if i!=0]),
                         })
@@ -255,4 +256,4 @@ if __name__ == '__main__':
     alphas = [0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000, 2000, \
                 4000, 8000, 16000, 32000]
 
-    a = ExtendedFeaturesLasso(alphas, list_of_feature_files)
+    a = ExtendedFeaturesLasso(alphas, list_of_feature_files, 140)
