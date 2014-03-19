@@ -1,0 +1,27 @@
+\contentsline {chapter}{\numberline {1}Introduction and background}{3}
+\contentsline {section}{\numberline {1.1}Introduction}{3}
+\contentsline {section}{\numberline {1.2}Background and discussion of related work}{5}
+\contentsline {section}{\numberline {1.3}Contributions}{8}
+\contentsline {chapter}{\numberline {2}Methodology}{9}
+\contentsline {section}{\numberline {2.1}Data collection}{10}
+\contentsline {section}{\numberline {2.2}Data processing}{12}
+\contentsline {subsection}{\numberline {2.2.1}Using hashtags}{13}
+\contentsline {subsection}{\numberline {2.2.2}Occurrences paired with travel terms}{13}
+\contentsline {section}{\numberline {2.3}Exploring the correlation between the time series}{17}
+\contentsline {section}{\numberline {2.4}Data cleansing}{20}
+\contentsline {section}{\numberline {2.5}Feature extraction}{20}
+\contentsline {section}{\numberline {2.6}Tools}{22}
+\contentsline {chapter}{\numberline {3}Models}{23}
+\contentsline {section}{\numberline {3.1}The baseline model}{23}
+\contentsline {section}{\numberline {3.2}TwitterDF}{24}
+\contentsline {section}{\numberline {3.3}TwitterCF}{25}
+\contentsline {section}{\numberline {3.4}MultiFeatureTwitterDF and MultiFeatureTwitterCF}{25}
+\contentsline {section}{\numberline {3.5}Model for all the searches}{25}
+\contentsline {chapter}{\numberline {4}Results}{27}
+\contentsline {section}{\numberline {4.1}Results for the first iteration of the algorithm}{27}
+\contentsline {section}{\numberline {4.2}Results for the 2nd iteration}{32}
+\contentsline {section}{\numberline {4.3}MultiFeatureTwitterDF and MultiFeatureTwitterCF}{35}
+\contentsline {section}{\numberline {4.4}Results on the full dataset}{40}
+\contentsline {section}{\numberline {4.5}Conclusion}{41}
+\contentsline {chapter}{\numberline {5}Future work}{43}
+\contentsline {chapter}{Bibliography}{45}

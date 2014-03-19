@@ -1,0 +1,15 @@
+\begin{thebibliography}{1}
+
+\bibitem{TwitterResearch}
+T.~Research, ``A collection of articles using twitter data.''
+  \url{https://sites.google.com/site/twitterresearch09/twitter-papers}, 2014.
+
+\bibitem{Petrovic2012}
+S.~Petrovic, {\em Real-time Event Detection in Massive Streams}.
+\newblock PhD thesis, School of Informatics, University of Edinburgh, 2012.
+
+\bibitem{Hamletkdd03}
+Etzionni, Tuchinda, Knoblock, and Yates, ``To buy or not to buy: Mining airfare
+  data to minimize ticket purchase price,'' 2003.
+
+\end{thebibliography}
