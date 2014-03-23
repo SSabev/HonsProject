@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2013.10.13)  13 MAR 2014 17:17
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.13)  23 MAR 2014 21:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -18,7 +18,7 @@ Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 )
 (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is not detected.
+Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
 (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifvtex.sty
 Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
@@ -27,9 +27,9 @@ Package ifvtex Info: VTeX not detected.
 (/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count80
-\Gm@cntv=\count81
-\c@Gm@tempcnt=\count82
+\Gm@cnth=\count79
+\Gm@cntv=\count80
+\c@Gm@tempcnt=\count81
 \Gm@bindingoffset=\dimen102
 \Gm@wd@mp=\dimen103
 \Gm@odd@mp=\dimen104
@@ -52,18 +52,27 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 (/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/graphics.cfg
 File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: xetex.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 91.
 
-(/usr/local/texlive/2013/texmf-dist/tex/xelatex/xetex-def/xetex.def
-File: xetex.def 2013/04/29 v0.96 LaTeX color/graphics driver for XeTeX (RRM/JK)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count82
 ))
 (/usr/local/texlive/2013/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2009/10/20 v1.13 Space after command names (DPC,MH)
-) (./eushield.sty
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/eushield.sty
 Package: eushield 2006/08/28\ v1.1\ Commands for including the EU shield graphi
 c
-) (/usr/local/texlive/2013/texmf-dist/tex/latex/base/report.cls
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/report.cls
 Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/local/texlive/2013/texmf-dist/tex/latex/base/size12.clo
 File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
@@ -261,7 +270,7 @@ Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 (/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
-Package color Info: Driver file: xetex.def on input line 130.
+Package color Info: Driver file: pdftex.def on input line 130.
 )
 (/usr/local/texlive/2013/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
@@ -269,29 +278,29 @@ File: lstlang1.sty 2004/09/05 1.3 listings language file
 (./dissertation.aux)
 \openout1 = `dissertation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 45.
-LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 45
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 44.
+LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 44
 .
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/omspzccm.fd
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
 
 *geometry* driver: auto-detecting
-*geometry* detected driver: xetex
+*geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
-* driver: xetex
+* driver: pdftex
 * paper: a4paper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
@@ -322,12 +331,69 @@ LaTeX Font Info:    ... okay on input line 45.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+(/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count121
+\scratchdimen=\dimen136
+\scratchbox=\box31
+\nofMPsegments=\count122
+\nofMParguments=\count123
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count124
+\MPscratchDim=\dimen137
+\MPnumerator=\count125
+\makeMPintoPDFobject=\count126
+\everyMPtoPDFconversion=\toks24
+) (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count121
+\c@lstlisting=\count127
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20.74> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 61.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <20.74> not available
@@ -340,11 +406,26 @@ LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <12> not available
 (Font)              Font shape `OT1/phv/b/n' tried instead on input line 61.
 LaTeX Font Info:    Font shape `OT1/phv/b/n' will be
 (Font)              scaled to size 10.79993pt on input line 61.
+
 [1
 
-] [2
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 63.
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <17.28> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 63.
+LaTeX Font Info:    Font shape `OT1/phv/b/n' will be
+(Font)              scaled to size 15.55188pt on input line 63.
 
-]
+Underfull \hbox (badness 10000) in paragraph at lines 65--68
+
+ []
+
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 69.
+LaTeX Font Info:    Font shape `OT1/phv/m/sl' will be
+(Font)              scaled to size 10.79993pt on input line 69.
+[2]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <24.88> not available
@@ -380,16 +461,12 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 \tf@toc=\write3
 \openout3 = `dissertation.toc'.
 
- [1] [2
+ [1
+
+] [2
 
 ]
 Chapter 1.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
-LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 75.
-LaTeX Font Info:    Font shape `OT1/phv/b/n' will be
-(Font)              scaled to size 15.55188pt on input line 75.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 83.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
@@ -398,12 +475,8 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 83.
 [3]
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
-(Font)              Font shape `OMS/pzccm/m/n' tried instead on input line 100.
+(Font)              Font shape `OMS/pzccm/m/n' tried instead on input line 102.
 
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 103.
-LaTeX Font Info:    Font shape `OT1/phv/m/sl' will be
-(Font)              scaled to size 10.79993pt on input line 103.
  [4] [5] [6] [7] [8]
 Chapter 2.
 [9
@@ -411,37 +484,53 @@ Chapter 2.
 ] [10]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 222.
+               Default added (so using `tbp') on input line 224.
 
 
 Underfull \vbox (badness 2894) has occurred while \output is active []
 
  [11]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 292.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 294.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 292.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 294.
 LaTeX Font Info:    Font shape `OT1/phv/b/n' will be
-(Font)              scaled to size 12.9599pt on input line 292.
+(Font)              scaled to size 12.9599pt on input line 294.
 
 [12] [13]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 397.
+               Default added (so using `tbp') on input line 399.
 
-[14] [15] [16]
-File: London.pdf Graphic file (type QTm)
- <use  "London.pdf" >
-File: Sochi.pdf Graphic file (type QTm)
- <use  "Sochi.pdf" >
-File: Ukraine.pdf Graphic file (type QTm)
- <use  "Ukraine.pdf" >
-File: north-korea.pdf Graphic file (type QTm)
+[14] [15] [16] <London.pdf, id=68, 650.43pt x 650.43pt>
+File: London.pdf Graphic file (type pdf)
+ <use London.pdf>
+Package pdftex.def Info: London.pdf used on input line 489.
+(pdftex.def)             Requested size: 184.9429pt x 184.93777pt.
 
-<use  "north-korea.pdf" > [17] [18] [19] [20]
+<Sochi.pdf, id=69, 722.7pt x 722.7pt>
+File: Sochi.pdf Graphic file (type pdf)
+ <use Sochi.pdf>
+Package pdftex.def Info: Sochi.pdf used on input line 489.
+(pdftex.def)             Requested size: 184.9429pt x 184.94218pt.
+
+<Ukraine.pdf, id=70, 722.7pt x 722.7pt>
+File: Ukraine.pdf Graphic file (type pdf)
+ <use Ukraine.pdf>
+Package pdftex.def Info: Ukraine.pdf used on input line 491.
+(pdftex.def)             Requested size: 184.9429pt x 184.94218pt.
+
+<north-korea.pdf, id=71, 650.43pt x 650.43pt>
+File: north-korea.pdf Graphic file (type pdf)
+ <use north-korea.pdf>
+Package pdftex.def Info: north-korea.pdf used on input line 491.
+(pdftex.def)             Requested size: 184.9429pt x 184.93777pt.
+ [17]
+[18] [19 <./London.pdf> <./Sochi.pdf> <./Ukraine.pdf> <./north-korea.pdf>]
+[20]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 533.
+               Default added (so using `tbp') on input line 535.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -450,7 +539,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [22]
 Chapter 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 609--615
+Underfull \hbox (badness 10000) in paragraph at lines 611--617
 
  []
 
@@ -462,59 +551,85 @@ Underfull \hbox (badness 10000) in paragraph at lines 609--615
 Chapter 4.
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 717.
+               Default added (so using `tbp') on input line 719.
 
-File: london-searches.pdf Graphic file (type QTm)
-<use  "london-searches.pdf" >
+<london-searches.pdf, id=139, 844.15375pt x 597.23125pt>
+File: london-searches.pdf Graphic file (type pdf)
 
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 726.
-
-File: ibiza-searches.pdf Graphic file (type QTm)
-<use  "ibiza-searches.pdf" > [27] [28]
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 749.
-
-File: RMSE.pdf Graphic file (type QTm)
-<use  "RMSE.pdf" > [29]
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 762.
+<use london-searches.pdf>
+Package pdftex.def Info: london-searches.pdf used on input line 721.
+(pdftex.def)             Requested size: 337.65552pt x 238.88826pt.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 784.
+               Default added (so using `tbp') on input line 728.
+
+<ibiza-searches.pdf, id=140, 844.15375pt x 597.23125pt>
+File: ibiza-searches.pdf Graphic file (type pdf)
+
+<use ibiza-searches.pdf>
+Package pdftex.def Info: ibiza-searches.pdf used on input line 730.
+(pdftex.def)             Requested size: 337.65552pt x 238.88826pt.
+ [27] [28 <./london-searches.pdf> <./ibiza-searches.pdf>]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 751.
+
+<RMSE.pdf, id=157, 650.43pt x 578.16pt>
+File: RMSE.pdf Graphic file (type pdf)
+ <use RMSE.pdf>
+Package pdftex.def Info: RMSE.pdf used on input line 753.
+(pdftex.def)             Requested size: 325.2142pt x 289.07928pt.
+ [29 <./RMSE.pdf>]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 764.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 808.
+               Default added (so using `tbp') on input line 786.
 
-[30] [31]
-File: rmse_scatter_by_reg.pdf Graphic file (type QTm)
- <use  "rmse_scatter_by_reg.pdf" >
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 846.
+               Default added (so using `tbp') on input line 810.
 
-File: rmse-nstdev.pdf Graphic file (type QTm)
-<use  "rmse-nstdev.pdf" >
-Overfull \hbox (57.18889pt too wide) in paragraph at lines 848--849
+[30] [31] <rmse_scatter_by_reg.pdf, id=174, 844.15375pt x 597.23125pt>
+File: rmse_scatter_by_reg.pdf Graphic file (type pdf)
+
+<use rmse_scatter_by_reg.pdf>
+Package pdftex.def Info: rmse_scatter_by_reg.pdf used on input line 840.
+(pdftex.def)             Requested size: 337.65552pt x 238.88826pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 848.
+
+<rmse-nstdev.pdf, id=175, 939.51pt x 578.16pt>
+File: rmse-nstdev.pdf Graphic file (type pdf)
+ <use rmse-nstdev.pdf>
+Package pdftex.def Info: rmse-nstdev.pdf used on input line 850.
+(pdftex.def)             Requested size: 469.75385pt x 289.07928pt.
+
+Overfull \hbox (57.18887pt too wide) in paragraph at lines 850--851
  [] 
  []
 
-[32] [33] [34]
-Overfull \hbox (7.51605pt too wide) in paragraph at lines 917--938
+[32 <./rmse_scatter_by_reg.pdf>] [33 <./rmse-nstdev.pdf>] [34]
+Overfull \hbox (7.51605pt too wide) in paragraph at lines 919--940
  [] 
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 964.
+               Default added (so using `tbp') on input line 966.
 
-File: plots/Tenerife.pdf Graphic file (type QTm)
-<use  "plots/Tenerife.pdf" >
-Overfull \hbox (7.51605pt too wide) in paragraph at lines 973--995
+<plots/Tenerife.pdf, id=203, 722.7pt x 544.0325pt>
+File: plots/Tenerife.pdf Graphic file (type pdf)
+ <use plots/Tenerife.pdf>
+Package pdftex.def Info: plots/Tenerife.pdf used on input line 968.
+(pdftex.def)             Requested size: 361.3491pt x 272.01558pt.
+
+Overfull \hbox (7.51605pt too wide) in paragraph at lines 975--997
  [] 
  []
 
@@ -523,74 +638,117 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 1001.
+               Default added (so using `tbp') on input line 1003.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 1029.
+               Default added (so using `tbp') on input line 1031.
 
-File: plots/Sochi.pdf Graphic file (type QTm)
-<use  "plots/Sochi.pdf" >
+<plots/Sochi.pdf, id=204, 722.7pt x 544.0325pt>
+File: plots/Sochi.pdf Graphic file (type pdf)
+ <use plots/Sochi.pdf>
+Package pdftex.def Info: plots/Sochi.pdf used on input line 1033.
+(pdftex.def)             Requested size: 361.3491pt x 272.01558pt.
+
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 1039.
+               Default added (so using `tbp') on input line 1041.
 
-File: Sochi.pdf Graphic file (type QTm)
-<use  "Sochi.pdf" > [35] [36] [37]
+File: Sochi.pdf Graphic file (type pdf)
+<use Sochi.pdf>
+Package pdftex.def Info: Sochi.pdf used on input line 1043.
+(pdftex.def)             Requested size: 289.07487pt x 289.07487pt.
+ [35] [36 <./plots/Tenerife.pdf>] [37 <./plots/Sochi.pdf>]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 1049.
+               Default added (so using `tbp') on input line 1051.
 
 
-Overfull \hbox (6.18378pt too wide) in paragraph at lines 1051--1071
+Overfull \hbox (6.18378pt too wide) in paragraph at lines 1053--1073
  [] 
  []
 
-[38] [39]
-File: overall.pdf Graphic file (type QTm)
- <use  "overall.pdf" >
-Overfull \hbox (9.51086pt too wide) in paragraph at lines 1098--1099
+[38] [39] <overall.pdf, id=241, 844.15375pt x 597.23125pt>
+File: overall.pdf Graphic file (type pdf)
+ <use overall.pdf>
+Package pdftex.def Info: overall.pdf used on input line 1100.
+(pdftex.def)             Requested size: 422.07584pt x 298.61488pt.
+
+Overfull \hbox (9.51086pt too wide) in paragraph at lines 1100--1101
  [] 
  []
 
-[40] [41] [42
+[40 <./overall.pdf>] [41] [42
 
 ]
 Chapter 5.
-[43] [44
+(./dissertation.bbl [43] [44
 
 ]
-Overfull \hbox (6.98059pt too wide) in paragraph at lines 1140--1142
-\OT1/pcr/m/n/12 http : / / www . bbc . co . uk / news / uk-[]scotland-[]scotlan
-d-[]business-[]24380126$ 
+Underfull \hbox (badness 1565) in paragraph at lines 11--15
+[]\OT1/ptm/m/n/12 Stefan Sabev.  Code for minf project.  $\OT1/pcr/m/n/12 https
+ : / / github . com / SSabev /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1181--1184
-\OT1/pcr/m/n/12 http : / / www . cs . jhu . edu / []mdredze / publications / tw
-itter _ health _
+Underfull \hbox (badness 10000) in paragraph at lines 17--20
+[]\OT1/ptm/m/n/12 Facebook statis-tics.  $\OT1/pcr/m/n/12 http : / / www . stat
+isticbrain . com /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1186--1189
-\OT1/pcr/m/n/12 http : / / www . cs . cmu . edu / []nasmith / papers / oconnor 
-+ balasubramanyan +
+Underfull \hbox (badness 2057) in paragraph at lines 22--26
+[]\OT1/ptm/m/n/12 Twitter.  Twit-ter as a news-wire.  $\OT1/pcr/m/n/12 https : 
+/ / blog . twitter . com / 2008 /
+ []
+
+
+Underfull \hbox (badness 1173) in paragraph at lines 61--67
+[]\OT1/ptm/m/n/12 Brendan O'Connor, Ram-nath Bal-a-sub-ra-manyan, Bryan R. Rout
+-ledge, and
  []
 
 [45]
-Underfull \hbox (badness 10000) in paragraph at lines 1203--1206
-\OT1/pcr/m/n/12 http : / / www . sciencedirect . com / science / article / pii 
-/
+Underfull \hbox (badness 1314) in paragraph at lines 102--105
+[]\OT1/ptm/m/n/12 Twitter sam-ple stream.  $\OT1/pcr/m/n/12 https : / / dev . t
+witter . com / docs / api / 1 . 1 / get /
  []
 
-[46] (./dissertation.aux) ) 
-Here is how much of TeX's memory you used:
- 5051 strings out of 493938
- 74045 string characters out of 6148856
- 218100 words of memory out of 5000000
- 8287 multiletter control sequences out of 15000+600000
- 33119 words of font info for 77 fonts, out of 8000000 for 9000
- 1144 hyphenation exceptions out of 8191
- 43i,12n,40p,1157b,1184s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on dissertation.pdf (48 pages).
+Underfull \hbox (badness 10000) in paragraph at lines 107--110
+[]\OT1/ptm/m/n/12 Tweets data and at-tributes.  $\OT1/pcr/m/n/12 https : / / de
+v . twitter . com / docs /
+ []
+
+) [46] (./dissertation.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 6019 strings out of 493315
+ 89265 string characters out of 6137903
+ 234574 words of memory out of 5000000
+ 9327 multiletter control sequences out of 15000+600000
+ 58058 words of font info for 110 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 43i,12n,40p,1157b,1184s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
+ve/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
+e/2013/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2013/t
+exmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/font
+s/type1/urw/helvetic/uhvro8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type
+1/urw/symbol/usyr.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times
+/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pf
+b></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on dissertation.pdf (48 pages, 683639 bytes).
+PDF statistics:
+ 312 PDF objects out of 1000 (max. 8388607)
+ 223 compressed objects within 3 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+

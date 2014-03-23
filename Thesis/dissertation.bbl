@@ -1,15 +1,122 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{seqcap}
+BBC.
+\newblock Sequoia capital investment values skyscanner at \$800m.
+\newblock
+  \url{http://www.bbc.co.uk/news/uk-scotland-scotland-business-24380126}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{code}
+Stefan Sabev.
+\newblock Code for minf project.
+\newblock \url{https://github.com/SSabev/HonsProject/}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{FBStats}
+Facebook statistics.
+\newblock \url{http://www.statisticbrain.com/facebook-statistics/}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{TwitterNewsWire}
+Twitter.
+\newblock Twitter as a news-wire.
+\newblock \url{https://blog.twitter.com/2008/twitter-news-wire}.
+\newblock Accessed: 2013-02-28.
 
 \bibitem{TwitterResearch}
-T.~Research, ``A collection of articles using twitter data.''
-  \url{https://sites.google.com/site/twitterresearch09/twitter-papers}, 2014.
+Twitter Research.
+\newblock A collection of publications using twitter data.
+\newblock \url{https://sites.google.com/site/twitterresearch09/twitter-papers}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{Miles}
+Miles Osborne.
+\newblock Social media papers.
+\newblock \url{http://homepages.inf.ed.ac.uk/miles/sm-papers.html}.
+\newblock Accessed: 2013-02-28.
 
 \bibitem{Petrovic2012}
-S.~Petrovic, {\em Real-time Event Detection in Massive Streams}.
-\newblock PhD thesis, School of Informatics, University of Edinburgh, 2012.
+Sasa Petrovic.
+\newblock {\em Real-time Event Detection in Massive Streams}.
+\newblock PhD thesis, University of Edinburgh, 2012.
+
+\bibitem{twitstock}
+Johan Bollen and Huina Mao.
+\newblock Twitter mood as a stock market predictor.
+\newblock {\em IEEE Computer}, 44(10):91--94, 2011.
+
+\bibitem{twitflu}
+Michael~J. Paul and Mark Dredze.
+\newblock You are what you tweet: Analyzing twitter for public health.
+\newblock In Lada~A. Adamic, Ricardo~A. Baeza-Yates, and Scott Counts, editors,
+  {\em ICWSM}. The AAAI Press, 2011.
+
+\bibitem{twitnfl}
+Shiladitya Sinha, Chris Dyer, Kevin Gimpel, and Noah~A. Smith.
+\newblock Predicting the nfl using twitter.
+\newblock {\em CoRR}, abs/1310.6998, 2013.
+
+\bibitem{twitpoll}
+Brendan O'Connor, Ramnath Balasubramanyan, Bryan~R. Routledge, and Noah~A.
+  Smith.
+\newblock From tweets to polls: Linking text sentiment to public opinion time
+  series.
+\newblock In William~W. Cohen and Samuel Gosling, editors, {\em ICWSM}. The
+  AAAI Press, 2010.
+
+\bibitem{dija}
+Dow jones industrial average.
+\newblock \url{http://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{opfind}
+Opinion finder.
+\newblock \url{http://mpqa.cs.pitt.edu/opinionfinder/}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{granger}
+Granger causality.
+\newblock \url{http://en.wikipedia.org/wiki/Granger_causality}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{sofnn}
+Gang Leng, Girijesh Prasad, and T.~Martin McGinnity.
+\newblock An on-line algorithm for creating self-organizing fuzzy neural
+  networks.
+\newblock {\em Neural Networks}, 17(10):1477--1493, 2004.
 
 \bibitem{Hamletkdd03}
-Etzionni, Tuchinda, Knoblock, and Yates, ``To buy or not to buy: Mining airfare
-  data to minimize ticket purchase price,'' 2003.
+Lise Getoor, Ted~E. Senator, Pedro Domingos, and Christos Faloutsos, editors.
+\newblock {\em Proceedings of the Ninth ACM SIGKDD International Conference on
+  Knowledge Discovery and Data Mining, Washington, DC, USA, August 24 - 27,
+  2003}. ACM, 2003.
+
+\bibitem{ijcai}
+William Groves and Maria~L. Gini.
+\newblock Optimal airline ticket purchasing using automated user-guided feature
+  selection.
+\newblock In Francesca Rossi, editor, {\em IJCAI}. IJCAI/AAAI, 2013.
+
+\bibitem{samplestream}
+Twitter sample stream.
+\newblock \url{https://dev.twitter.com/docs/api/1.1/get/statuses/sample}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{tweetobject}
+Tweets data and attributes.
+\newblock \url{https://dev.twitter.com/docs/platform-objects/tweets}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{lasso}
+Wikipedia.
+\newblock Lasso (statistics).
+\newblock \url{http://en.wikipedia.org/wiki/Lasso_(statistics)#Lasso_method}.
+\newblock Accessed: 2013-02-28.
+
+\bibitem{pandas}
+Python data analysis library.
+\newblock \url{http://pandas.pydata.org/}.
+\newblock Accessed: 2013-02-28.
 
 \end{thebibliography}

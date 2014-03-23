@@ -23,7 +23,7 @@ ggplot(data=dfplot, aes(x=Alpha, y=value, group=variable, colour=variable)) +
   geom_line(size=1.25) + facet_wrap( ~ Place,  scales="free") + 
   #geom_line(aes(x=nx, y=ny), size=1, colour="#4B0082")+ 
   scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) +
-  #scale_x_log10() + scale_y_log10() +
+  scale_y_log10() + #scale_x_log10() +
   xlab("Alpha penalisation factor") + 
   ylab("RMSE") + 
   ggtitle("Reductions of RMSE with increase in penalisation parameter")
