@@ -6,9 +6,11 @@
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Introduction}{3}}
 \citation{code}
 \citation{FBStats}
+\citation{TwitStat}
 \citation{TwitterNewsWire}
 \citation{TwitterResearch}
-\citation{Miles}
+\citation{Miles1}
+\citation{Miles2}
 \citation{Petrovic2012}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Background and discussion of related work}{5}}
 \citation{Petrovic2012}
@@ -26,9 +28,12 @@
 \citation{twitflu}
 \citation{twitnfl}
 \citation{twitflu}
+\citation{TwitStat}
+\citation{lda}
 \citation{Hamletkdd03}
 \citation{ijcai}
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}Contributions}{8}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Outline}{8}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Contributions}{8}}
 \citation{samplestream}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Methodology}{9}}
 \@writefile{lof}{\addvspace {10\p@ }}
@@ -36,117 +41,135 @@
 \newlabel{chap:method}{{2}{9}}
 \citation{code}
 \citation{tweetobject}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Data collection}{10}}
-\newlabel{sec:dc}{{2.1}{10}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces All of the attributes of a \emph  {tweet} I have chosen to capture for this project. The list includes things that may not be necessarily needed now, but that could be beneficial for the next phase of the project. \relax }}{11}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Data processing}{12}}
-\newlabel{sec:dp}{{2.2}{12}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Using hashtags}{13}}
-\newlabel{sec:hashtag}{{2.2.1}{13}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Occurrences paired with travel terms}{13}}
-\newlabel{sec:tweettext}{{2.2.2}{13}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Some of all the travel related terms I used in a dictionary. I used them as a very primitive additional filter to capture only the most relevant tweets. \relax }}{15}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Pseudocode for the filtering part. \relax }}{16}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Data collection}{11}}
+\newlabel{sec:dc}{{2.1}{11}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces All of the attributes of a \emph  {tweet} I have chosen to capture for this project. The list includes things that may not be necessarily needed now, but that could be beneficial for the next phase of the project. \relax }}{12}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces All of the attributes of a \emph  {tweet} I have chosen not to keep \relax }}{13}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Data processing}{13}}
+\newlabel{sec:dp}{{2.2}{13}}
 \citation{lasso}
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Exploring the correlation between the time series}{17}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Top 10 and worst 10 destination by absolute R value. Sochi and North Korea have a strong positive correlation, while Ukraine is very negative. As you can see for the worst 10 see it the P value for all of them is nearly 1, which means that for these place any uncorrelated system could produce very similar results as those. \relax }}{18}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Scatter plots and correlation coefficients for 4 destinations- London, Sochi, Ukraine and North Korea. Those particular ones were picked because they each represent a separate class of destinations. London is a constant one and tweets don't influence the prediction. For Sochi the Olympiad has bumped the correlation coefficient up to 0.77, because people were tweeting and wanted to go and see the Olympiad. Ukraine is interesting, because the recent protests decreased the number of searches even though people were tweeting a lot, therefore the recent events made them less likely to want to go there. North Korea is an interesting outlier. Tourist to North Korea is quite a niche market and even though the sentiment is usually negative, people want to go there nonetheless. \relax }}{19}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Data cleansing}{20}}
-\newlabel{sec:cleansing}{{2.4}{20}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}Feature extraction}{20}}
-\newlabel{feat-extraction}{{2.5}{20}}
-\citation{pandas}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Pseudocode for the filtering part. \relax }}{21}}
-\citation{code}
-\@writefile{toc}{\contentsline {section}{\numberline {2.6}Tools}{22}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Models}{23}}
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:model}{{3}{23}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}The baseline model}{23}}
-\newlabel{sec:baseline}{{3.1}{23}}
-\citation{lasso}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}TwitterDF}{24}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces LASSO objective function\relax }}{24}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Using hashtags}{14}}
+\newlabel{sec:hashtag}{{2.2.1}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Occurrences paired with travel terms}{15}}
+\newlabel{sec:tweettext}{{2.2.2}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Hashtags (HCount) and Twitter counts (Count) for London. As we can see both of them have the spike in mid November, but with Hashtags it's quite hard to distinguish signal from noise. The least squares fit (line) shows the overall trend.\relax }}{16}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{lass-obj}{{3.1}{24}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Summary of weights for TwitterDF\relax }}{24}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}TwitterCF}{25}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Summary of weights for TwitterCF\relax }}{25}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}MultiFeatureTwitterDF and MultiFeatureTwitterCF}{25}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Model for all the searches}{25}}
+\newlabel{hashtag-count}{{2.1}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces All the travel related terms I used in a dictionary. I used them as a very primitive additional filter to capture only the most relevant tweets. \relax }}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Pseudocode for the filtering part. \relax }}{19}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Twitter time series.\relax }}{20}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Exploring the correlation between the time series}{20}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.4}{\ignorespaces Top 10 and worst 10 destination by absolute R value. Sochi and North Korea have a strong positive correlation, while Ukraine is very negative. As you can see for the worst 10 see it the P value for all of them is nearly 1, which means that for these place any uncorrelated system could produce very similar results as those. \relax }}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Scatter plots and correlation coefficients for London.\relax }}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Scatter plots and correlation coefficients for Sochi. The Olympiad has bumped the correlation coefficient up to 0.77, because people were tweeting and wanted to go and see the Olympiad. \relax }}{23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Scatter plots and correlation coefficients for Ukraine. This is interesting, because the recent protests decreased the number of searches even though people were tweeting a lot, therefore the recent events made them less likely to want to go there. \relax }}{24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Scatter plots and correlation coefficients for North Korea. North Korea is an interesting outlier. Tourism to North Korea is quite a niche market and even though the sentiment is usually negative, people want to go there nonetheless. \relax }}{25}}
 \citation{lasso}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Results}{27}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Data cleansing}{26}}
+\newlabel{sec:cleansing}{{2.4}{26}}
+\citation{pandas}
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Feature extraction}{27}}
+\newlabel{feat-extraction}{{2.5}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces Pseudocode for the filtering part. \relax }}{28}}
+\citation{code}
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Tools}{29}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Models}{31}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Results for the first iteration of the algorithm}{27}}
-\newlabel{TwitterDF}{{4.1}{27}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Searches to London - as we can see the trundling is going to be almost parallel to the X axis.The slight dip in December is due to seasonality. That is noticed across the industry as a whole\relax }}{28}}
-\newlabel{london-searches}{{4.1}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Searches to Ibiza - in this plot we can get the idea of seasonality. The dips is observed as soon as enter autumn and then in January the searches to such destinations pick up again as people are starting to plan their summer holidays\relax }}{28}}
-\newlabel{ibiza-searches}{{4.2}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Scatter plot of the RMSE of TwitterDF model and Last 4 Fridays. To put things into perspective, I've also plotted the y=x line to make it easier to visualise the border between the two. Anything below the line is where my model performs better and anything above L4F. \relax }}{29}}
-\newlabel{rmse-scatter}{{4.3}{29}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Results for destinations that yielded the best improvement in percentage terms when classified with the model from this project in comparison to the in-house one. As we can see they are fairly small niche destinations where it seems that people tweeting about it likely to result in a flight search to that place.\relax }}{30}}
-\newlabel{4-1}{{4.1}{30}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Results for destinations that yielded the biggest negative improvement. Quite an interesting mix destinations. The Venezula result is attributed to Venezuela trending lately, because of the civil uprisings. Eliminating such "negative" influences is one of my goals for next year.\relax }}{31}}
-\newlabel{4-2}{{4.2}{31}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Results for the top destinations by RMSE of L4F. 9/10 have lower RMSEs with TwitterDF. As we can see for the top destination - Spain - the improvement is 8.64\%, which is great, because I expected the model to perform worse on places from group 1.\relax }}{31}}
-\newlabel{top10}{{4.3}{31}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Results for the 2nd iteration}{32}}
-\newlabel{TwitterCF}{{4.2}{32}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces The two models compared. TwitterCF stands for compound Friday - taking all of the previous Fridays with predetermined weights and using them as a single weight in the regression. TwitterDF is leaving everything to LASSO.\relax }}{32}}
-\newlabel{rmse_scatter_by_reg}{{4.4}{32}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Comparison of the three methods and who had the best results on the dataset of 1372 points. As we can see, the Twitter models have got a definite majority. 83\%+ of the results have the lowest RMSE with the Twitter models\relax }}{32}}
-\newlabel{comparison-all}{{4.4}{32}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Scatter plot of normalised standard deviation (stdev divided by mean) for the number of searches plotted against the percentage improvement for the two classifier over the L4F. On the left is TwitterCF and on the right one can find the improvement for TwitterDF. It seems that the Twitter models are doing good across the whole boars. \relax }}{33}}
-\newlabel{rmse-nstdev}{{4.5}{33}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Comparison of the RMSE generated by the 3 models for the first 20 destinations with highest RMSE for L4F. The Best column indicates who has the lowest RMSE for that destination. Out of the twenty TwitterDF and TwitterCF perform better on 18 of the destinations. The overall numbers can be found in table 2.4. The average improvement of CF over DF is 0.96\%, which even though small is significant nonetheless. \relax }}{34}}
-\newlabel{big-table}{{4.5}{34}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}MultiFeatureTwitterDF and MultiFeatureTwitterCF}{35}}
-\newlabel{sec:features}{{4.3}{35}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Improvement in RMSE for Tenerife. As we can see after we get to a certain point the Twitter models get better and better, until it gets to discarding all of the weights, but the Fridays. The optimal result for Twitter CF is with 5 weights, since the reduction in RMSE afterward is negligible, while the DF version performs best with 23 and it starts getting worse. The features and weights at $\alpha = 1000$ are in Table 4.7\relax }}{35}}
-\newlabel{table-tenerife}{{4.6}{35}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.7}{\ignorespaces Weights for Tenerife at $\alpha =1000$. These are the weights that the TwitterCF model has picked.\relax }}{36}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Predictions vs actual for a destination from group 2 - Tenerife. For this group Twitter models make actual gains, albeit small.\relax }}{36}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Predictions vs actual for a destination for Sochi. The olympics made any pattern in the data very hard to spot.\relax }}{37}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Searches and tweets to Sochi. The massive spike is around the Olympics. As we can see the two time series are correlated and the spike it tweets is just a bit before the spike in searches.\relax }}{37}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.8}{\ignorespaces Improvement in RMSE with the expanded feature set for Sochi, which is in 2nd group of destinations. As you can see in terms of absolute value, the RMSE for the Twitter model with compound fridays - RMSE TCF - has decreased 20\% for the area where TCF has the lowest RMSE. I have separated the area where the Twitter Models are better with two horizontal lines. The RMSE for TDF is 2 times lower at $\alpha =500$ and that's where the model performs the best. Both models have a comparable number of weights, which is really interesting.\relax }}{38}}
-\newlabel{table-sochi}{{4.8}{38}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.9}{\ignorespaces Handpicked features for Sochi at $\alpha =500$. The total number of features is 44 and they are the ones picked by TwitterDF. Interestingly enough dog, sochi and hotel very negative weights. On the other hand there are a few positive weights that relate to the olympics.\relax }}{39}}
-\newlabel{tab:sochi-table}{{4.9}{39}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.10}{\ignorespaces Expanded features for the United Kingdom. We don't notice the same gain here. Both TwitterDF and CF decrease the number of features significantly the RMSE for both is about 2x times the one for L4F.\relax }}{39}}
-\newlabel{uk}{{4.10}{39}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Results on the full dataset}{40}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.11}{\ignorespaces RMSE on the tweet counts for all destinations and searches to all destinations. Difference is the percentage improvement of the best of the twitter models.\relax }}{40}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Plot of all the searches to all the destinations. This would fall into the first group of steady constant volumes\relax }}{40}}
-\newlabel{overall-searches}{{4.9}{40}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Conclusion}{41}}
+\newlabel{chap:model}{{3}{31}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}The baseline model: Last 4 Fridays}{31}}
+\newlabel{sec:baseline}{{3.1}{31}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}TwitterDF}{32}}
+\newlabel{sec:df}{{3.2}{32}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Summary of weights for TwitterDF\relax }}{33}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}TwitterCF}{33}}
+\newlabel{sec:cf}{{3.3}{33}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Summary of weights for TwitterCF\relax }}{34}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}MultiFeatureTwitterDF and MultiFeatureTwitterCF}{34}}
+\newlabel{sec:multi}{{3.4}{34}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Reduction of RMSE and non-zero weights as alpha increases. TCF and TDF are the RMSE for TwitterCF and TwitterDF respectively. WTCF and WTDF are the number of non-zero weights for the two classifier. The results are means of all the actual values across all models. \relax }}{35}}
+\newlabel{wrmse}{{3.1}{35}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Model for all the searches}{36}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces Summary of weights for the overall model\relax }}{36}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Results}{37}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chap:results}{{4}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Searches to and tweets about London - as we can see the trend line is going to be almost parallel to the X axis.The slight dip in December is due to seasonality. That is noticed across the industry as a whole\relax }}{38}}
+\newlabel{london-searches}{{4.1}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Searches to and tweets about Ibiza - in this plot we can get the idea of seasonality. The dips is observed as soon as enter autumn and then in January the searches to such destinations pick up again as people are starting to plan their summer holidays\relax }}{39}}
+\newlabel{ibiza-searches}{{4.2}{39}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Results for TwitterDF}{40}}
+\newlabel{TwitterDF}{{4.1}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Scatter plot of the RMSE of TwitterDF model and Last 4 Fridays. To put things into perspective, I've also plotted the y=x line to make it easier to visualise the border between the two. Anything below the line is where my model performs better and anything above L4F. \relax }}{41}}
+\newlabel{rmse-scatter}{{4.3}{41}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Results for destinations that yielded the best improvement in percentage terms when classified with the model from this project in comparison to the in-house one. As we can see they are fairly small niche destinations where it seems that people tweeting about it likely to result in a flight search to that place.\relax }}{42}}
+\newlabel{4-1}{{4.1}{42}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Results for destinations that yielded the biggest negative improvement. Quite an interesting mix destinations. The Venezula result is attributed to Venezuela trending lately, because of the civil uprisings. Eliminating such "negative" influences is one of my goals for next year.\relax }}{42}}
+\newlabel{4-2}{{4.2}{42}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Results for the top destinations by descending RMSE of L4F. 9/10 have lower RMSEs with TwitterDF. As we can see for the top destination - Spain - the improvement is 8.64\%, which is great, because I expected the model to perform worse on places from group 1.\relax }}{43}}
+\newlabel{top10}{{4.3}{43}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Results for TwitterCF}{43}}
+\newlabel{TwitterCF}{{4.2}{43}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Comparison of the three methods and who had the best results on the dataset of 1372 points. As we can see, the Twitter models have got a definite majority. 83\%+ of the results have the lowest RMSE with the Twitter models\relax }}{43}}
+\newlabel{comparison-all}{{4.4}{43}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces The two models compared. TwitterCF stands for compound Friday - taking all of the previous Fridays with predetermined weights and using them as a single weight in the regression. TwitterDF is leaving everything to LASSO.\relax }}{44}}
+\newlabel{rmse_scatter_by_reg}{{4.4}{44}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Scatter plot of normalised standard deviation (stdev divided by mean) for the number of searches plotted against the percentage improvement for the two classifier over the L4F. On the left is TwitterCF and on the right one can find the improvement for TwitterDF. It seems that the Twitter models are doing good across the whole board.\relax }}{45}}
+\newlabel{rmse-nstdev}{{4.5}{45}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Comparison of the RMSE generated by the 3 models for the first 20 destinations with highest RMSE for L4F. The Best column indicates who has the lowest RMSE for that destination. Out of the twenty TwitterDF and TwitterCF perform better on 18 of the destinations. The overall numbers can be found in table 2.4. The average improvement of CF over DF is 0.96\%, which even though small is significant nonetheless. \relax }}{46}}
+\newlabel{big-table}{{4.5}{46}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}MultiFeatureTwitterDF and MultiFeatureTwitterCF}{47}}
+\newlabel{sec:features}{{4.3}{47}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Tenerife}{47}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Improvement in RMSE for Tenerife. As we can see after we get to a certain point the Twitter models get better and better, until it gets to discarding all of the weights, but the Fridays. The optimal result for TwitterCF is with 5 weights and for TwitterDF -- 8, since the reduction in RMSE afterward is negligible, while the DF version performs best with 23 and it starts getting worse. The features and weights at $\alpha = 1000$ are in Table 4.6.\relax }}{48}}
+\newlabel{table-tenerife}{{4.6}{48}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.7}{\ignorespaces Weights for Tenerife at $\alpha =1000$. These are the weights that the TwitterCF model has picked.\relax }}{48}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Predictions vs actual for a destination from group 2 - Tenerife. For this group Twitter models make actual gains, albeit small.\relax }}{49}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Sochi}{49}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Searches and tweets Sochi. The massive spike is around the Olympics. As we can see the two time series are correlated and the spike it tweets is just a bit before the spike in searches.\relax }}{50}}
+\newlabel{sochi-c-s}{{4.7}{50}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.8}{\ignorespaces Improvement in RMSE with the expanded feature set for Sochi, which is in 2nd group of destinations. As you can see in terms of absolute value, the RMSE for the Twitter model with compound fridays - RMSE TCF - has decreased 20\% for the area where TCF has the lowest RMSE. I have separated the area where the Twitter Models are better with two horizontal lines. The RMSE for TDF is 2 times lower at $\alpha =500$ and that's where the model performs the best. Both models have a comparable number of weights, which is really interesting.\relax }}{51}}
+\newlabel{table-sochi}{{4.8}{51}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.9}{\ignorespaces Handpicked features for Sochi at $\alpha =500$. The total number of features is 44 and they are the ones picked by TwitterDF. Interestingly enough dog, sochi and hotel very negative weights. On the other hand there are a few positive weights that relate to the olympics.\relax }}{51}}
+\newlabel{tab:sochi-table}{{4.9}{51}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Predictions vs actual for a destination for Sochi. The olympics made any pattern in the data very hard to spot.\relax }}{52}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}UK}{52}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.10}{\ignorespaces Expanded features for the United Kingdom. We don't notice the same gain here. Both TwitterDF and CF decrease the number of features significantly the RMSE for both is about 2x times the one for L4F.\relax }}{53}}
+\newlabel{uk}{{4.10}{53}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Results on the full dataset}{53}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.11}{\ignorespaces RMSE on the tweet counts for all destinations and searches to all destinations. Difference is the percentage improvement of the best of the twitter models.\relax }}{53}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Plot of all the searches to all the destinations. This would fall into the first group of steady constant volumes\relax }}{54}}
+\newlabel{overall-searches}{{4.9}{54}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Conclusion}{54}}
 \bibstyle{unsrt}
 \bibdata{master}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Future work}{43}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Future work}{55}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:future-work}{{5}{43}}
+\newlabel{chap:future-work}{{5}{55}}
 \bibcite{seqcap}{1}
 \bibcite{code}{2}
 \bibcite{FBStats}{3}
-\bibcite{TwitterNewsWire}{4}
-\bibcite{TwitterResearch}{5}
-\bibcite{Miles}{6}
-\bibcite{Petrovic2012}{7}
-\bibcite{twitstock}{8}
-\bibcite{twitflu}{9}
-\bibcite{twitnfl}{10}
-\bibcite{twitpoll}{11}
-\bibcite{dija}{12}
-\bibcite{opfind}{13}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{45}}
-\bibcite{granger}{14}
-\bibcite{sofnn}{15}
-\bibcite{Hamletkdd03}{16}
-\bibcite{ijcai}{17}
-\bibcite{samplestream}{18}
-\bibcite{tweetobject}{19}
-\bibcite{lasso}{20}
-\bibcite{pandas}{21}
+\bibcite{TwitStat}{4}
+\bibcite{TwitterNewsWire}{5}
+\bibcite{TwitterResearch}{6}
+\bibcite{Miles1}{7}
+\bibcite{Miles2}{8}
+\bibcite{Petrovic2012}{9}
+\bibcite{twitstock}{10}
+\bibcite{twitflu}{11}
+\bibcite{twitnfl}{12}
+\bibcite{twitpoll}{13}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{57}}
+\bibcite{dija}{14}
+\bibcite{opfind}{15}
+\bibcite{granger}{16}
+\bibcite{sofnn}{17}
+\bibcite{lda}{18}
+\bibcite{Hamletkdd03}{19}
+\bibcite{ijcai}{20}
+\bibcite{samplestream}{21}
+\bibcite{tweetobject}{22}
+\bibcite{lasso}{23}
+\bibcite{pandas}{24}

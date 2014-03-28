@@ -41,6 +41,7 @@
   breakatwhitespace=true
   tabsize=4
 }
+
 \begin{document}
 \title{Modelling search volumes as a dynamic system responding to external events}
 
@@ -114,23 +115,23 @@ When the project is extended to be a more real-time system in its second phase, 
 \section{Background and discussion of related work}
 
 
-With millions and some with billions of users, social networks are becoming an increasingly more important in our lives. A big proportion of people use it as their primary way of communicating with the outside world - people will "tweet" about anything, post to Facebook, check in on FourSquare, Instagram their food and so on. We have become perfectly fine with externalising our lives and posting every minute detail about our lives online and thusly making it available to everyone else. 
+With millions and some with billions of users, social networks are becoming an increasingly more important in our lives. A big proportion of people use it as their primary way of communicating with the outside world - people will ``tweet" about anything, post to Facebook, check in on FourSquare, Instagram their food and so on. We have become perfectly fine with externalising our lives and posting every minute detail about our lives online and thusly making it available to everyone else. 
 Of course, there are always exceptions. After all 82\% of the world's population are not on Facebook, but those 1.31 billion monthly active users are all using it \cite{FBStats}. Not all of them are avid users and post all of their pictures to it, but a big proportion is. With this amount of data on one's behaviour, life patterns and activities, companies can build a very good understanding of every individual. 
 
 
 As with any other network - be it TV, radio, newspaper - there are always going to be some who are trying their best to commercialise it and benefit from it in some way. Since people are willing to share so much information about themselves online, there are terabytes of data being generated every day on what people did, what things they tweeted about, their latest pictures, etc. As we are entering the "Big Data" age where every company is trying to turn its data into a product or simply establish itself as the leading data supplier for a particular market. Due to the vastness and volumes of the data that these social networks generate they have sprung an entirely new eco-system of its own - companies are now plugging into Twitter, Facebook and all the other networks to figure out everything they can about you. Everyone is now talking about "sentiment analysis" in social media for brands, targeting particular demographics with ads on Facebook, promoting tweets and segmenting the customers into different groups and selling their data to marketers.
 
 
-A particularly interesting one of that new generation of networks is Twitter. With a base of 200+ million active users it has slowly but surely become one of the most prominent sources of information and news on the web. It's previously beaten traditional news sources on numerous occasions by a few minutes when delivering the latest developments such the Los Angeles earthquake in 2008  \cite{TwitterNewsWire}. They have their data streams opened up to developers and researchers as well, which is a fantastic opportunity to mine this data set for valuable information. There are plenty of articles on the internet on what people have done with it - demographics research, predicting flu outbreaks, etc \cite{TwitterResearch}.  Miles Osborne here at the University of Edinburgh has done quite a lot of research using the Twitter data streams  \cite{Miles} and perhaps the biggest use is in Sasa Petrovic's PhD thesis  \cite{Petrovic2012}.
+A particularly interesting one of that new generation of networks is Twitter. With a base of 190+ million active users \cite{TwitStat} it has slowly but surely become one of the most prominent sources of information and news on the web. It's previously beaten traditional news sources on numerous occasions by a few minutes when delivering the latest developments such the Los Angeles earthquake in 2008 \cite{TwitterNewsWire}. They have their data streams opened up to developers and researchers as well, which is a fantastic opportunity to mine this data set for valuable information. There are plenty of articles on the internet on what people have done with it - demographics research, predicting flu outbreaks, etc \cite{TwitterResearch}.  After researching the topic, I found that the School of Informatics already has done a lot of work on harnessing social media for various applications. Sasa Petrovic and Miles Osborne have looked into using paraphrases in Twitter \cite{Miles1} and have also tried predicting deleted Twitter messages \cite{Miles2}. After more careful investigation I found perhaps the most innovative use of all is Sasa Petrovic's PhD thesis  -- ``Real-time event detection in massive streams" \cite{Petrovic2012}.
 
 
-In order to get more familiar with the trending events I have done read a few papers on Topic Detection and Tracking and First News Detection in order to see if I could use and extend it for my case. I'd like to mention Sasa Petrovic's PhD thesis as an excellent paper on the matter \cite{Petrovic2012}.  However after careful investigation into the complexity of TDT I decided that this will be implemented in the 2nd part of the project, since I needed to familiarise myself with the dataset, try to see if there is more intelligent filters on the data stream and see how exactly they can be correlated to my 2nd dataset.
+After reading Sasa's thesis \cite{Petrovic2012} I investigated the option to incorporate Topic Detection and Tracking and First News Detection into my project.  However after careful investigation into the complexity of TDT, I decided that I will postpone that until 2nd part of the project, because of more pressing matters - familiarising myself with the datasets and seeing how are they are correlated, so I could implement more sophisticated filtering and try out the simplest ways of predicting flight search volumes.
 
 
-As it's been said many times "Predicting is hard, especially about the future".  Add a noisy channel as a source of input and one is only making things worse. There have been several attempts to predict something based on Twitter - stock markets \cite{twitstock},  flu outbreaks \cite{twitflu}, results for the NFL \cite{twitnfl} and poll results \cite{twitpoll} being the most prominent published papers.
+As it's been said many times "Predicting is hard, especially about the future".  Add a noisy channel as a source of input and one is only making things worse. There have been several attempts to predict something based on Twitter - stock markets \cite{twitstock},  flu outbreaks \cite{twitflu}, results for the NFL \cite{twitnfl} and poll results \cite{twitpoll} being the most prominent published papers. I will not analyse them in more detail and provide a summary of what was achieved and what methods were used in them.
 
 
-In order to predict the stock markets \cite{twitstock}, the authors try to use the cutting edge of the real-time twitter data in order to classify the overall mood and from that to predict whether the DIJA \cite{dija} is going to go up or down. In order to achieve it they use OpinionFinder \cite{opfind}, which can measure opinion classifying it into negative or positive. To capture the complexity of human moods, they created their own system called GPOMS, which can capture up to 6 states. 
+In order to predict the stock markets \cite{twitstock}, Johan Bollen and Huina Mao try to use the cutting edge of the real-time twitter data in order to classify the overall mood and from that to predict whether the DIJA \cite{dija} is going to go up or down. In order to achieve it they use OpinionFinder \cite{opfind}, which can measure opinion classifying it into negative or positive. To capture the complexity of human moods, they created their own system called GPOMS, which can capture up to 6 states. 
 In order to make the OF and GPMOS time series comparable, they used their z-scores. They have proven that the GPOMS values are more descriptive of public moods than the OF binary sentiment. However correlation does not imply causation and in order to check whether there is any they use the Granger causality analysis \cite{granger}. It rests on the assumption that if X causes Y then changes in X will systematically occur before changes in Y. However in this case they are not testing whether there is actual causation, but rather there is predictive information in the public mood time series that can describe the time deltas in DIJA. Out of all the different mood values Calm has the highest predictive value. After determining that there is definitely a gain in using the Calm values to predict the DIJA delta they use a Self-Organising Fuzzy Neural Network (SOFNN) \cite{sofnn}, which is a five-layer hybrid neural network, which has the ability to organise its neurons during the learning process by itself. After tuning and predicting the values on their dataset, they confirmed that Calm has the best predictive value. 
 
 However, in their discussion they not that they are not really filtering their users on any particular geographical, language or cultural level. In this project, we have only taken \emph{tweets} from the United Kingdom, which allows us to try to predict where people from the UK want to fly to. As far as their methods are concerned, working with Neural networks is certainly one of the options that I'd like to investigate next year, but because of the fine tuning and additional overhead of using and training and possibly implementing it, I decided to leave this more complicated method for next year. 
@@ -139,37 +140,37 @@ However, in their discussion they not that they are not really filtering their u
 On the other hand you can do simpler things when you are trying to predict public opinion on a certain topic \cite{twitpoll}. The authors make a strong argument that using Twitter you can replace the expensive time inefficient polls. They use public sentiment in order to predict ups and downs in the consumer confidence rating. In order to remove any massive outliers and because of the volatile nature of public sentiment they use something they call "Moving average aggregate sentiment", which smoothers out the daily variations. For the classification and prediction they use a Linear Least-Squares model with a lag hyper parameter. The hyper parameter is a good idea for my projects and it's certainly a very good option to explore, because sometimes the public might not go out and search flights straight away, but instead do it the next day. That is certainly something that should be considered when building the models later.
 
 
-Of course Twitter can be used to predict other things with some success as well - NFL games \cite{twitnfl} or general state of public health \cite{twitflu}.  In Sinha et al \cite{twitnfl} the authors have used Canonical correlation analysis (CCA) to combine the Twitter features with the statistical game features and to maximise the correlation of the combined features. With that method they get about 50\% prediction accuracy. 
+Of course Twitter can be used to predict other things with some success as well - NFL games \cite{twitnfl} or general state of public health \cite{twitflu}.  In Sinha et al \cite{twitnfl} the authors have used Canonical correlation analysis (CCA) to combine the Twitter features with the statistical game features and to maximise the correlation of the combined features. However even with the more sophisticated CCA and combinations of features, taking Twitter unigrams still perform better than the combined features, which is very surprising. With all of those experiments, their methods still gets only about 50\% prediction accuracy when predicting the winner, which is equivalent to a coin toss. 
+
+In Paul and Dredze \cite{twitflu} the authors use the data gathered from Twitter and the fact that a lot of Twitter's 190 million monthly users tweet daily \cite{TwitStat} in order to paint a picture of public health in the US. They make the hypothesis that Twitter can be used for more than simple influenza tracking and one can actually analyse the bigger picture with the data collected from it. In order to model the diseases they use a technique called Ailment Topic Aspect Model, which build on the notion of Latent Dirichlet Allocation \cite{lda}. With that they were able to track flu in the US and when correlated with the health data their ATAM+ model achieved correlation of 0.958 with the actual data. They also split the data geographically and over time and find a lot of interesting things, which prove that Twitter can definitely be used to paint a picture of what the health of the nation looks. They also discuss the limitations of twitter and the fact that due to geocoding limitations, they couldn't provide a more specified per user analysis, but overall the correlations in the paper are astonishing and show the breadth that Twitter data gives. 
 
 
-In \cite{twitflu} the very fact that a big proportion of Twitter's 200 million monthly users is used to paint a picture on public health in the US. They discuss the limitations of twitter and the fact that due to geocoding limitations, they couldn't provide a more specified per user analysis, but overall the correlations in the paper are astonishing and show the breadth that Twitter data gives. 
+In the aforementioned papers I have shown the different ways in which Twitter could be used to predict something about the future. Since people are inclined to post a lot of information on it, why wouldn't we be able to do something something specific in a more niche area like predicting search volumes or anything to do with the airline industry?
+
+The only thing that has been researched in the online travel sector is what is the optimal time to book an airline flight \cite{Hamletkdd03,ijcai}.  In order to do it a lot of factors have to be considered, because human action can cause massive shifts in those prices very easily. 
+Both of the aforementioned papers are using small sets of data which aim to predict what is the optimal time to book. What is written there is the other part of the puzzle - when should you book, but in this particular project we are more interested in when ARE people looking for flights.
+
+\section{Outline}
+
+The Methodology can be found in Chapter \ref{chap:method}, split by all the main subtasks that had to be carried out. The subtasks are described in detail and each one of the sections includes an overview of what was done, how it was done and what difficulties were encountered and how I overcame them. 
 
 
-In the aforementioned papers I have shown the different ways in which Twitter could be used to predict something about the future. Since people are inclined to post a lot of information on it, why wouldn't we be able to do something something specific in a more niche area like predicting search volumes?
+Chapter \ref{chap:model} explains what are the Machine Learning models used to carry out the work for this project. Since there is no model defined anywhere I had to use an in-house algorithm used by Skyscanner to predict the search volumes. It's then described in depth which model worked best and why. 
 
 
-Using Twitter for research has been quite an active area, because of its amazing breadth and the amount of data one can extract and process.
-On the other hand, the only thing that has been researched in the online travel sector is what is the optimal time to book an airline flight \cite{Hamletkdd03,ijcai}.  In order to do it one has to consider a lot of factors, because human action can cause massive shifts in those prices very easily. 
-Both of the referenced papers are using small sets of data which aim to predict what is the optimal time to book. What is written there is the other part of the puzzle - when should you book, but in this particular project we are more interested in when ARE people looking for flights.
+In Chapter \ref{chap:results} you can find the discussion and presentation of all the results obtained while evaluating my models. The discussions is backed up by Tables and Figures in order to present the data to the reader in the best possible way.
 
 
-The Methodology can be found in Chapter \ref{chap:method} on page \pageref{chap:method} split by all the main subtasks that had to be carried out. The subtasks are described in detail and each one of the sections includes an overview of what was done, how it was done and what difficulties were encountered and how I overcame them. 
-
-
-Chapter \ref{chap:model} on page \pageref{chap:model} explains what are the Machine Learning models used to carry out the work for this project. Since there is no model defined anywhere I had to use an in-house algorithm used by Skyscanner to predict the search volumes. It's then described in depth which model worked best and why. 
-
-
-In Chapter \ref{chap:future-work} on page \pageref{chap:future-work}, I discuss all the future work that will be carried out for this project both for next year and if someone is to pick it up and start developing on top. In order to do that I have included links to the source code for this project and all the pre-aggregated data sets from Twitter in the repository.
+In Chapter \ref{chap:future-work} I discuss all the future work that will be carried out for this project both for next year and if someone is to pick it up and start developing on top. In order to do that I have included links to the source code for this project and all the pre-aggregated data sets from Twitter in the repository.
 
 \section{Contributions}
 
 Here is a brief summary of the main contributions of this project.
 \begin{itemize}
-\item Developed a scalable system for storing, analysing, exploring and visualising the data.
-\item Explored what effects social media has on online travel.
-\item Suggested and explored a novel way of predicting flight search volumes with taking exogenous factors into account.
-\item Built and evaluated a number of models which predict flight search volumes well.
-\item Improved overall prediction by \textasciitilde 5\%.
+\item I developed a scalable system for storing, analysing, exploring and visualising the data.
+\item In this work I have also explored what effects social media has on online travel - what causes shifts in demand.
+\item I suggested, explored and implemented a novel way of predicting flight search volumes with taking exogenous factors into account.
+\item As a result of my models I have managed to improve overall prediction of flight search volumes by \textasciitilde 5\% while capturing the trends in previous demand and spikes caused by events such as the Winter olympics and the riots in Ukraine. 
 \end{itemize}
 
 
@@ -179,46 +180,60 @@ Here is a brief summary of the main contributions of this project.
 
 As said earlier, this problem is something that no one has researched before. The lack of previous work and little to none understanding of how to approach this problem gave a lot of room to manoeuvre, but it was also very hard to see whether I am on the right track.
 
-
-In order to get started with the whole project I thought that the most logical first step would to explore both of my datasets. Since that is quite a fuzzy term I wanted to see what information both of them hold and what I can extract. As far as the searches data set was concerned, since I have been an employee of Skyscanner for some time, I knew exactly what the data is, what it means and I could spot when a number just felt wrong. So the Skyscanner dataset did not require any extra effort from me. 
-
-
-Twitter on the other hand was a challenge. The task of exploring the data was far from trivial, just because of the sheer size. The Sample stream (1\% of all tweets) which I used \cite{samplestream} was returning around 6 GBs of data a day, which is not small by any means. With some filtering and picking all the relevant attributes, I decreased the level of data to 3.5 GBs a day. I have described in detail the attributes I picked for this project section in \ref{sec:dc} on page \pageref{sec:dc}. That is roughly half of the original input, but that is the data I receive on a daily basis. As of the time of writing I have gathered about 500 GBs of data in total, which equals roughly around 565 million tweets. Since this is not an issue one encounters every day, I had to be very careful on how I structure my system in order to make sure it is as robust as possible and it's not going to buckle under the volumes of data coming in for processing. 
-
-
-That left me with a few challenges, which were crucial to the success of this project:
+The overall plan for the first phrase of the project is:
 \begin{enumerate}
-\item How do I traverse the data in an efficient and clever without overdoing myself or performing unnecessary computation? That meant that I needed to store all the processed data in a way that it's easy to add the data as it comes.
+\item Create a toolset that will allow me to do all of the below-mentioned.
+\item Collect data
+\item Process the data and convert it to time series.
+\item Explore the correlation between the time series from the two datasets
+\item Cleanse all the problematic elements by either backfilling where possible or by removing them.
+\item Extract the features for the MultiFeature models.
+\end{enumerate}
+
+In this chapter each section is an in-depth explanation on every one of the afore-mentioned bullets. 
+
+Since the project was very un-restrictive and there was a lot do, after collecting the data I had  to explore both of the datasets (described in more detail in Section 2.1). Since that is quite a fuzzy term I wanted to see what information both of them hold and what I can extract. As far as the searches data set was concerned, since I have been an employee of Skyscanner for some time, I knew exactly what the data is, what it means and I could spot when a number just felt wrong. That was really good, because it did not add any additional overhead and it meant that the Skyscanner dataset did not require any extra effort from me. 
+
+
+Twitter on the other hand was a challenge. Performing any exploratory analysis the data was far from trivial, just because of the sheer size. The Sample stream (1\% of all tweets) \cite{samplestream} which I used is giving around 6 GB of data a day, which is not small by any means. With some filtering and picking all the relevant attributes, I decreased the level of data to 3.5 GB a day. I have described in detail the attributes I picked for this project section in Section \ref{sec:dc}. The remaining data equates to half of the original input. As of the time of writing I have gathered 500 GB of data in total, which containst the staggering number of around 585 million tweets. The data has been collected continuously since the 24th of September 2013. 
+
+
+Since dealing with data of this size is not an issue one encounters every day, I had to be very careful of how I structure my system in order to make sure it is as robust as possible and it's not going to buckle under the volumes of data coming in for processing. 
+
+
+The implication of the data size was that it has now imposed a set of challenges, on which the very success of this project depended on:
+\begin{enumerate}
+\item How do I traverse the data in an efficient and clever manner without overdoing myself or performing unnecessary computation? That meant that I needed to store all the processed data in a way that it's easy to add the data as it comes.
 \item What are the appropriate data structures in which I can hold the data, so they are easily transferable onto other parts of my system? For instance what would the data flow be from collection to preparation and then to the models.
 \item How do I build a scalable and performant system for data analysis of the tweets, that will allow me to perform experiments in a easy and reproducible fashion?
 \end{enumerate}
 
 
-All of these challenges have made me spend a roughly about 100 hours in designing, building and testing the system that performs all of the computation. All of the code can be found in the code repository on GitHub \cite{code}. The codebase includes separate classes which filter the data, process it and convert it to time series, combine the two datasets together and then perform the regression. That is roughly the flow for the first iteration of the model that uses just Twitter counts and search data. The 2nd iteration also uses as many features as possible, so it has a separate class, which process the filtered data and extracts all the relevant features for a particular destination. All of the data filtering is described in detail in part  \ref{sec:dp} on page \pageref{sec:dp}. The main aim of the filtering is to take the 500GB dataset of tweets and take only the relevant ones, making a small working set, which can reside on a local SSD, which enables very fast processing and aggregation, which is then fed into the model for the regression and evaluation. 
+All of these challenges resulted in me spending at least a 100 hours in designing, building and testing the system that performs all of the computation. All of the code can be found in the code repository on GitHub \cite{code}. The codebase includes separate classes which allow filtering of the data, processing, converting to time series, combining the two datasets together and then performing the regression models on them afterwards. 
 
 
-In this Chapter I will describe in detail every one of the main parts of the way I went from just gathering data to a full system for analysis and visualisation of the data and also how I solved any problems that I encountered.
+In the first set of single Twitter feature models we are using just the Twitter count time series and the searches time series. The 2nd iteration of MultiFeatureTwitter models extracts all the possible words, which it then uses as separate features. In order to cater for that I have created separate classes for the feature extraction task, which is perhaps the most intensive one of them all, hence for the feature extraction I've taken the top 80 destinations + Ukraine because of the recent political and social unrest and North Korea, because of the baffling positive correlation, which is shown in Figure 2.3 d).
 
-%Both of these methods have obvious advantages and disadvantages - taking only hashtags will be really fast, but not expressive and representative enough. They are both explored in  \ref{sec:hashtag} and \ref{sec:tweettext} respectively. 
-%Before building the models there was a final step that had to be done and that was cleansing the data. Because of some teething issues with problems with the Skyscanner data and the fact that the data collections process is not perfect, there are some holes in the data. 
-%For the Skyscanner data set I have used the Last 4 Fridays forecasting method to backfill and for Twitter I've just used the means to fill in the missing values. 
+Taking those expanded feature sets is possible because of the data filtering I perform. That enables to shrink the 500GB dataset into a smaller working data set of around 50 GBs, which is residing on a local SSD enabling very fast processing and aggregation. 
+
+
+In this Chapter I describe in detail every one of the main parts of the way I went from just gathering data to a full system for analysis and visualisation of the data and also how I solved any problems that I encountered.
+
 
 \section{Data collection}
 \label{sec:dc}
 
 
-The first and most important set to any Machine Learning project is to collect all the data you can. In my case I had two different sets I had to work with - the data flowing in from the Twitter Public Stream and the search data coming in from Skyscanner. As said previously the data from Skyscanner didn't need any additional work in terms of familiarising myself, because I could easily pull it out with a SQL script and give myself all the necessary aggregations without any problem. 
+The first and most important step to any Machine Learning project is to collect all the data you can. In my case I had two different sets I had to work with - the data flowing in from the Twitter Public Stream and the search data coming in from Skyscanner. As said previously the data from Skyscanner didn't need any additional work in terms of familiarising myself, because I could easily pull it out with a SQL script and give myself all the necessary aggregations without any problem. 
 
 
-Twitter's Public Stream wasn't something that that I have previously worked with. My initial estimation was that I would be receiving roughly around 1.5 gigabytes of data a day. After running the collector script for a day that number turned out to be very close to 6.5 gigabytes. Since not all of it was data that I was particularly interested in - pictures, videos, interactive content - I decided that it was worth to have a read at the documentation and see what exactly is included in a tweet. \cite{tweetobject} After careful consideration I picked the attributes, which I needed now and the ones that could be beneficial in the future. By selecting those particular I managed to reduce the daily volume of data from \textasciitilde 6.5GB of data down to \textasciitilde 3.5GB/day, which is more manageable. In Table 4.1 you can see all the attributes that I have kept describing what they are in a bit more detail. The amount of data accumulated at the time of writing is \textasciitilde 500 GBs, which is around 550 million tweets. 
+The obtained data from all the SQL querying was the searches time series for 2403 destinations. Those destinations are all the cities with an airports and countries that you can fly to. The time series were stored in a Comma separated values (CSV)? files, named after the destination which contains the data aggregated on a daily basis so every row is of the form - \textit{date, number of searches to the place}. In order to remove any concern with confidentially I have anonymised the data when plotted or removed the axis labels altogether. 
 
 
-I have collected data since the 24th of September 2013 without any stopping, however due to some network outages, buffer overflows, etc, there are some holes in the data, so it's not as consistent as I'd like it to be, but I have dealt with that by cleansing the data prior to training and evaluating my models. 
+Twitter's Public Stream wasn't something that that I have previously worked with. My initial estimation was that I would be receiving roughly around 1.5 gigabytes of data a day. After running the collector script for a day that number turned out to be very close to 6.5 gigabytes. Since not all of it was data that I was particularly interested in - pictures, videos, interactive content - I decided that it was worth to have a read at the documentation and see what exactly is included in a tweet. \cite{tweetobject} After careful consideration I picked the attributes, which I needed now and the ones that could be beneficial in the future. By selecting those particular I managed to reduce the daily volume of data from \textasciitilde 6.5GB of data down to \textasciitilde 3.5GB/day, which is more manageable. In Table 4.1 you can see all the attributes that I have kept describing what they are in a bit more detail. The amount of data accumulated at the time of writing is \textasciitilde 500 GB, which is around 585 million tweets. In the first phase of the project I have only collected tweets in English coming from the UK. The reasoning behind that is that I will be able to predict search volumes in the UK only for now.
 
 
-In the first phase of the project I have only collected tweets in English coming from the UK. The reasoning behind that is that I will be able to predict search volumes in the UK only for now. In the 2nd phase I might expand to the filter to capture tweets in English from all over the world or perhaps even tweets in any language at all. 
-
-%The second stage would be to develop the model even further and add multi-language and multi-country support and employ more sophisticated models such as ARIMA or Auto-regressive Vector Models.
+As mentioned at the beginning of the chapter, I have collected data since the 24th of September 2013 without any stopping, however due to some network outages, buffer overflows, etc, there are some holes in the data, so it's not as consistent as I'd like it to be, but I have dealt with that by cleansing the data prior to training and evaluating my models. 
 
 
 \begin{table}[]
@@ -251,14 +266,39 @@ Place &  Shows where the tweet was tweeted from. Gives more detail than coordina
 \caption{All of the attributes of a \emph{tweet} I have chosen to capture for this project. The list includes things that may not be necessarily needed now, but that could be beneficial for the next phase of the project. }
 \end{table}
 
+\begin{table}[]
+\begin{center}
+\begin{tabular}{ l | p{11cm} }
+\textbf{Attribute} & \textbf{What is contained within the attribute} \\
+\hline
+\hline
+Contributors & List of users who attributed to the tweet on behalf of the original author.\\
+\hline
+Entities & All the entities extracted from the tweet - media, URLs, etc. \\
+\hline
+Favourite count & the number of times the tweet was favourited. \\
+\hline
+In reply to & A collection for a few attributes which represent of the original tweet and author if someone is replying to a tweet.  \\
+\hline
+Sensitive & Whether the tweet contains sensitive content or not. \\
+\hline
+Retweeted & Boolean flag of whether the tweet was retweeted. Retweet count can be used for the same purposes.  \\
+\hline
+Truncated &  Indication whether Twitter truncated the tweets for exceeding the 140 character limit. Irrelevant, since Twitter now rejects tweets over 140 characters.\\
+\hline
+User & The user who send the tweet. Contains a lot of attributes, which are useful if one wants to do further demographic analysis or or anything involving a higher level of granularity. Since we are not interested in that we are throwing it away.\\
+\hline
+Witheld & Whether the tweet was withheld in any countries or because of copyright. Not relevant. \\
+\end{tabular}
+\end{center}
+\caption{All of the attributes of a \emph{tweet} I have chosen not to keep }
+\end{table}
 
-As said, the 2nd dataset for this project is provided by Skyscanner. In order to obtain the data for the flight search volumes I used a custom SQL script, which queries the database containing all of their operational data. In order to ensure that there are no concerns with confidentiality I have anonymised the data. 
+
+All in all, data collection was probably the easiest of all the different sub-tasks, but at the same time it was the most important one, because everything else in this project depends so much on the data gathered. I believe my solution was simple enough, because for 6.5 months, I have got less than 10 days with gaps, which is quite good. In those gaps, the failure of the collections was caused by human error or network interruption or a StreamingAPI failure. 
 
 
-All in all, data collection was probably the easiest of all the different sub-tasks, but at the same time it was the most important one, because everything else in this project depends so much on the data I gather. I believe my solution was simple enough and it worked fine. In the moments where there were some interruptions to the collector it was either human error or network failures. 
-
-
-In order to capture more relevant data for next year I plan to perform a bit more analysis on feature selection and how to pick only the terms that are likely to affect my model positively. 
+In order to capture the most relevant for data for the second phase, next year I plan to perform a more detailed analysis trying to predict what might be relevant in terms of tweets. That will benefit both the model and overall collection, because it's likely to reduce the amount of data flowing in. 
 
 
 \section{Data processing}
@@ -268,33 +308,39 @@ In order to capture more relevant data for next year I plan to perform a bit mor
 With all of that data collected comes the next part - processing it and extracting everything relevant from it. In order to do so I had to investigate several different options of storing the data and processing it:
 \begin{itemize}
 \item Store everything into a relational database.
-\item Store it all in Hadoop and use Map Reduce
-\item Keep it in a flat file and use my own scripts to do everything.
+\item Store it all in Hadoop FS and use Map Reduce (MR) to process and aggregate the data. 
+\item Keep it in a flat file and use my own custom made system for the processing. 
 \end{itemize}
 
 
 Each of those options has obvious advantages and disadvantages, but in the end of it all I chose to stick to flat files and my own implementation for the following reasons:
 \begin{itemize}
 \item Relational databases are really bad when it comes to processing text. Since this is mostly text processing it would've been counter productive to store all of the data in one. 
-\item The cost of setting up a Hadoop cluster is too great and I didn't have the resource available to store all of the data in one. However the options is still present, since Hadoop essentially works with files, so if next year I get access to the cluster I could explore that options again. 
-\item Flat text files proved to be the most convenient and the easiest to work with. Python is able to crunch through the whole dataset of 500 gigabytes and produce all the counts in about 1.5 days.
+\item Setting up all of the Twitter data on the university Hadoop cluster was too big for the first phase of the project. The option is still present, because Hadoop works with flat text files. I plan on exploring this option in the second phase.
+\item Flat text files proved to be the most convenient and the easiest to work with. Python is able to crunch through the whole dataset of 500 gigabytes and produce all the counts in about 1.5 days. 
 \end{itemize}
 
-Having all of that in mind, it was an easy enough decision - I didn't want to have the overhead of storing my data and processing it to be the most time consuming sub-task, since that's not what this project is about. 
 
-After successfully starting the data collection comes the next big question - what exactly do I use in order to get a time series, which I can relate to the flight search volumes? I have tried two ways of filtering it and trying to use it to predict the flight searches:
+Having all of the above in mind, I decided to go with the last one - do it all myself. I did not want to have a significant overhead of setting up the Hadoop jobs and distributing the data along the cluster, since the volumes were not massive enough to require the benefits from MR. Since the project is about predicting data, rather than storing and processing, implementing my own system was a better choice. 
+
+
+After successfully starting the data collection comes the next big question - what exactly do I use in order to get time series, which I can relate to the flight search volumes? I have tried two ways of filtering it and trying to use it to predict the flight searches:
 \begin{itemize}
 \item Using hashtags which contain a country or city name and taking their counts.
-\item Taking every tweet that has a city/country name in its text in a conjunction with a travel related term.\end{itemize}
+\item Taking every tweet that has a city/country name in its text in a conjunction with a travel related term.
+\end{itemize}
 
-Both of these approaches are described in the coming subsections. Hashtags proved to be very volatile and small in terms of volumes, while taking names with travel term proved to yield more interesting results.  
+Both of these approaches are described in the following subsections. Hashtags proved to be very volatile and small in terms of volumes, while taking names with travel term proved to yield more interesting results.  
 
-At the end, I went for the former and used the counts produced by that in all of my models. For next year I will try to be even more restrictive in terms of what I include by using more NLP and something good for Feature Analysis. 
+At the end, I went for the former and used the counts produced by that in all of my models. For next year I will try to be even more restrictive in terms of what I include by using more NLP and something good for Feature Analysis. LASSO \cite{lasso} mentioned in the Chapter 4 is also doing an excellent job in picking out the good features and throwing away the junk ones. 
 
 \subsection{Using hashtags}
 \label{sec:hashtag}
 
-Hashtag is probably one of the things that will remain in Twitter's legacy - just as the @. Here is a breakdown of a very simple hypothetical tweet, which does not deviate from what most people would tweet.
+Hashtags are probably one of the things that will remain in Twitter's legacy - just as the @ method for addressing someone - e.g. @John is be referring to John. Their use has spread from Twitter to Facebook and a few other networks. They give you the ability to filter out the data on a  hashtag level, so it's essentially a twitter-specific keyword or a word of interest. 
+
+
+Here is a breakdown of a very simple hypothetical tweet:
 
 \begin{quotation}
 @FunnyChap: Something witty and very well said \bf{\#jokeoftheweek}
@@ -310,6 +356,14 @@ In the tweet you can find the following:
 
 Since the hashtags are one of the things that has permeated into other social networks like Facebook I thought that they will be a good fit for an initial investigation of whether the task is feasible. The fact that almost every major event and thing had its own hashtag was also quite nice, since you could then use that for TDT if you'd want.
 
+\begin{figure}[]
+\begin{center}
+\includegraphics[scale=0.8]{hashtags-vs-counts}
+\end{center}
+\caption{Hashtags (HCount) and Twitter counts (Count) for London. As we can see both of them have the spike in mid November, but with Hashtags it's quite hard to distinguish signal from noise. The least squares fit (line) shows the overall trend.}
+\label{hashtag-count}
+\end{figure}
+
 
 The main thing that made me consider this option altogether is because the computation cost of finding those hashtags was minimal. Since they are already pre-processed and can be found in a separate attribute I didn't even had to look at the text. The implication of that was that I could easily reduce my dataset significantly, since I'll be throwing away most of the information. All in all the CSVs for every partition of my data are about 60 MBs, which is very small compared to the working set of 45 million tweets I had for the occurrences paired travel terms. 
 
@@ -317,7 +371,10 @@ The main thing that made me consider this option altogether is because the compu
 I was getting quite optimistic  in thinking that could be a very simple and easy way to solve my problem and get the time series I needed. To my great disappointment it turned out that the volumes of obtained were quite small and overall the data was very noisy, which would have training a model very hard and predictions from them would've been quite bad. 
 
 
-However that is not to say I did not use hashtags at all. They are incorporated in the 2nd version of the model where I am looking at all the words that co occur with a particular place name and using those as additional features. I am going to discuss that in more detail in Chapter \ref{chap:model} on page \pageref{chap:model} describing how that is used and why it could be beneficial to do so. To conclude - hashtags are useful, but not as a single input, but rather as an additional feature we could use to enrich the model and build and train a more versatile model that takes as many inputs as possible. 
+In Figure \ref{hashtag-count} you can find a comparison of Hashtag counts and counts. They both have the spike in mid November, but the overall Least-Squares fit shows that the trends in both are quite different. The hashtags spike in February and the counts in November. That's quite a different behaviour and can result to very inaccurate predictions. Another very big caveat with hashtags is that even if a hashtag is related to a place, it's not guaranteed that the hashtag will have the city name in it. The \#Olympics2014 was a trending topic for a week and is set in Sochi. 
+
+
+The fact that they didn't work as my main Twitter feature does not mean I did not use them at all. They are incorporated in the 2nd version of the model (MultiFeatureTwitter) where I am looking at all the words that co occur with a particular place name and using those as additional features. I am going to discuss that in more detail in Chapter \ref{chap:model} on page \pageref{chap:model} describing how that is used and why it could be beneficial to do so. To conclude - hashtags are useful, but not as a single input, but rather as an additional feature we could use to enrich the model and build and train a more versatile model that takes as many inputs as possible. 
 
 
 
@@ -327,10 +384,10 @@ However that is not to say I did not use hashtags at all. They are incorporated 
 Since the simplest solution I could think of did not work as I had previously planned, I had to go back to the drawing board and think of another way to get everything I need from the data. 
 
 
-The next thing that came to mind was to start using the actual tweet text and do some processing on it in order to get counts for the place time series. In terms of computation that was much more expensive, because even though the tweet text is limited to 140 characters, when you have 565 million tweets it turns into a non-trivial task. I decided that I want to look at all the tweets that would co-occur with a travel word. In Figure 4.1 you can find some of those travel-related words which I used in order to perform the filtering. 
+The next thing that seemed worth trying was to start using the actual tweet text and do some processing on it in order to get counts for the place time series. In terms of computation that was much more expensive, because even though the tweet text is limited to 140 characters, when you have 585 million tweets it turns into a non-trivial task. In order to form the Twitter time series excluded all the tweets that do not contains a place name and/or one of the travel words. In Figure 4.1 you can find all of the travel-related words which I used in order to perform the filtering. I picked them by trying to thing of all the words that someone would mention when going on holiday in any way -- hence why fly land trip are all in the dictionary. 
 
 
-\begin{figure}[p!]
+\begin{figure}[]
 \begin{center}
 \begin{lstlisting}
 terms = {
@@ -375,7 +432,7 @@ terms = {
 	}
 \end{lstlisting}
 \end{center}
-\caption{Some of all the travel related terms I used in a dictionary. I used them as a very primitive additional filter to capture only the most relevant tweets. }
+\caption{All the travel related terms I used in a dictionary. I used them as a very primitive additional filter to capture only the most relevant tweets. }
 \end{figure}
 
 
@@ -384,12 +441,11 @@ Because of the fact that I had to a lot of substring checking - checking whether
 
 In my initial setup I had a few steps in order to get to the final time series:
 \begin{enumerate}
-\item Go through all of the items and take only the relevant tweets reducing the full set to a working set (around 10\% of the overall data set.
-\item Traverse the smaller set and generate the time series for a place by working through the working set. 
+\item Go through all of the items and take only the relevant tweets reducing the full set to a working set (around 10\% of the overall data set).
+\item Traverse the smaller set and generate the Twitter count time series for a destination -- city or country -- by working through the working set. 
 \end{enumerate}
 
-
-That was not bad, but after doing the process a few times I realised that there is a very bad error I have made - every time there was a new data dump of the tweets I had to reprocess absolutely everything. That wasn't obvious at first, because while the dataset was less than 100GB the total working time was about 3-4 hours, however later it became obvious that this is an obvious bottleneck, since everything else depended on getting the data in a format that is easy to feed into the model.
+I decided to partition the data into flat files by approximately having every day in a separate file. Initially everything was well, but after doing the processing a few times I realised that there was an error -- every time there was a new data file of the tweets I had to reprocess all of them again. That wasn't obvious at first, because while the dataset was less than 100GB the total working time was about 3-4 hours, however later it became obvious that this is an obvious bottleneck, since everything else depended on getting the data in a format that is easy to feed into the model.
 
 In order to mitigate I had to think of a better, more efficient and more scalable way of performing that step. My first decision was to combine the two steps. So instead of filtering first and traversing the data set, I now traverse the full data set and obtain the counts as I go through it. The working data set is kept, because I need it to extract the additional features later. 
 
@@ -439,17 +495,34 @@ for place in place_names:
 \caption{Pseudocode for the filtering part. }
 \end{figure}
 
-You can find the pseudo-Python code in Figure 4.2. For the multiword place names I had to iterate over all of them, because I couldn't find a more efficient way of doing it. For the single word dictionary I do lookups against the dict that contains them all. Every lookup has been modelled as a lookup of a dictionary key, because amortised dictionary lookups are  \BigO{1}, while list lookups are  \BigO{n}. For small lists and dicts, that doesn't make a dramatic difference, but since we are iterating over the keys of the dictionary and in the third for loop we are checking whether the tweet words in the dict that makes a good improvement in the overall processing time. 
+You can find the pseudo-Python code in Figure 2.3. For the multiword place names I had to iterate over all of them, because I couldn't find a more efficient way of doing it. For the single word dictionary I do lookups against the dict that contains them all. Every lookup has been modelled as a lookup of a dictionary key, because amortised dictionary lookups are  \BigO{1}, while list lookups are  \BigO{n}. For small lists and dicts, that doesn't make a dramatic difference, but since we are iterating over the keys of the dictionary and in the third for loop we are checking whether the tweet words in the dict that makes a good improvement in the overall processing time. 
 
 
 After performing that step on the full dataset we are left with  \textasciitilde  45 GB of data, which is 45 million tweets in the working dataset. The reduced dataset is still much smaller in comparison to the full one. However eliminating the duplication of work made it much easier to re-process the data in a more efficient way and it also allowed easy feature extraction later. 
 
+After the processing we have simple time series for a city or country, which are simply the date and the Twitter counts for that date. In Table 2.2 you can see how the tabular files congaing the Twitter counts look. 
+
+Overall, after doing the processing I have approximately 1500 files containing cities and countries time series extracted Twitter. Those are then joined with the 2403 CSV files for the searches to those places. After the matching up we have 1377 files for 1376 cities and countries plus one for the overall search and tweet volumes. Each of those files has information on the searches to that place for the day and how many times it was mentioned on Twitter. 
+
+\begin{table}[]
+\begin{center}
+\begin{tabular}{ l | r }
+\textbf{Date} & \textbf{Twitter count}\\
+\hline
+2013-09-25 &  X \\
+2013-09-26 &  Y \\
+2013-09-27 &  Z \\
+\end{tabular}
+\end{center}
+\caption{Twitter time series.}
+\end{table}
+
 \section{Exploring the correlation between the time series}
 
-Since now we have both of the time series, it was time to see whether the two time series are correlated. In order to do that there were several ways which would allow me to explore the relationship between the two. 
+Since now we have both of the time series joined up, it was time to see whether the two time series are correlated. In order to do that there were several ways which would allow me to explore the relationship between the two. 
 
 
-The first and easiest way to do that would be to carry out the Pearson test in order to find out what is the relationship in the two. After carrying out the test for all the destinations the results for some were somewhat disappointing.  In Table 4.2 you will find the top and worst 10 destinations by absolute R value, which allows us to see which ones are correlated and which ones not.
+The first and easiest way to do that would be to carry out the Pearson test between the search volumes and the Twitter counts in order to find out what is the relationship in the two. After carrying out the test for all the destinations the results for some were somewhat disappointing.  In Table 2.4 you will find the top and worst 10 destinations by absolute R value, which allows us to see which ones are correlated and which ones not.
 
 
 \begin{table}[p!]
@@ -484,24 +557,34 @@ Tamworth & 0.99 & 0.00 & 0.00\\
 \caption{Top 10 and worst 10 destination by absolute R value. Sochi and North Korea have a strong positive correlation, while Ukraine is very negative. As you can see for the worst 10 see it the P value for all of them is nearly 1, which means that for these place any uncorrelated system could produce very similar results as those. }
 \end{table}
 
-\begin{figure}[p!]
-\begin{tabular}{cc}
-  \includegraphics[width=65mm]{London} &   \includegraphics[width=65mm]{Sochi} \\
-(a) London -- 0.003 & (b) Sochi -- 0.77 \\[6pt]
- \includegraphics[width=65mm]{Ukraine} &   \includegraphics[width=65mm]{north-korea} \\
-(c) Ukraine -- -0.36 & (d) North Korea -- 0.46 \\[6pt]
-\end{tabular}
-\caption{Scatter plots and correlation coefficients for 4 destinations- London, Sochi, Ukraine and North Korea. Those particular ones were picked because they each represent a separate class of destinations. London is a constant one and tweets don't influence the prediction. For Sochi the Olympiad has bumped the correlation coefficient up to 0.77, because people were tweeting and wanted to go and see the Olympiad. Ukraine is interesting, because the recent protests decreased the number of searches even though people were tweeting a lot, therefore the recent events made them less likely to want to go there. North Korea is an interesting outlier. Tourist to North Korea is quite a niche market and even though the sentiment is usually negative, people want to go there nonetheless. }
+\begin{figure}[]
+\includegraphics[scale=0.65]{London} 
+ \caption{Scatter plots and correlation coefficients for London.}
+\end{figure}
+
+\begin{figure}[]
+\includegraphics[scale=0.6]{Sochi}
+\caption{Scatter plots and correlation coefficients for Sochi.  The Olympiad has bumped the correlation coefficient up to 0.77, because people were tweeting and wanted to go and see the Olympiad. }
+\end{figure}
+
+\begin{figure}[]
+\includegraphics[scale=0.6]{Ukraine}
+\caption{Scatter plots and correlation coefficients for Ukraine. This is interesting, because the recent protests decreased the number of searches even though people were tweeting a lot, therefore the recent events made them less likely to want to go there. }
+\end{figure}
+
+\begin{figure}[]
+\includegraphics[scale=0.65]{north-korea}
+\caption{Scatter plots and correlation coefficients for North Korea. North Korea is an interesting outlier. Tourism to North Korea is quite a niche market and even though the sentiment is usually negative, people want to go there nonetheless.  }
 \end{figure}
 
 
-All in all, 1282 of the places had an R value of less than 0.2 and the remaining 91 have a value of $>$ 0.2. A correlation of such small magnitude is not even worth reporting, however, since my task it not solely defined by predicting one attribute from another I wanted to include in order to give a perspective on the difficulty of the task. In Figure 4.3 there 4 examples of the subgroups of destinations. 
+All in all, 1286 of the places had an R value of less than 0.2 and the remaining 91 have a value of $>$ 0.2. A correlation of such small magnitude is not even worth reporting, however, since my task it not solely defined by predicting one attribute from another I wanted to include in order to give a perspective on the difficulty of the task. In Figures 2.4 to 2.7 there 4 examples of particularly interesting destinations. 
 
 
-The best correlation is for Sochi, which has a correlation coefficient of 0.78. For Sochi we can observe at the top right a cluster of dates which have high volumes of tweets, but also a proportionally high number of searches. As we saw in Table \ref{tab:sochi-table} on page \pageref{tab:sochi-table} quite a few of the features picked out by the model were to do with the olympics - both the positive and the negative aspect. Interestingly enough, North Korea has got a similar profile, even though the correlation is not as strong. The correlation for Ukraine is very negative and so is for Kiev, both caused because of the recent problems in the country. What is really interesting would be to try to determine what causes the correlation to improve or what makes it worse. I did not have much time to work on that, but using some NLP techniques I believe it is entirely possible to be even more descriptive in what are the exact factors that influence it.
+The best correlation is for Sochi, which has a correlation coefficient of 0.78. For Sochi we can observe at the top right a cluster of dates which have high volumes of tweets, but also a proportionally high number of searches. As we will see in Table \ref{tab:sochi-table} on page \pageref{tab:sochi-table} quite a few of the features picked out by the model were to do with the olympics - both the positive and the negative aspect. Interestingly enough, North Korea has got a similar profile, even though the correlation is not as strong. The correlation for Ukraine is very negative and so is for Kiev, both caused because of the recent problems in the country. What is really interesting would be to try to determine what causes the correlation to improve or what makes it worse. I did not have much time to work on that, but using some NLP techniques I believe it is entirely possible to be even more descriptive in what are the exact factors that influence it.
 
 
-For those who have a value higher than 0.2 there is definitely some correlation, which could be pushed lower by all the outliers and holes in the data. Fixing that requires some cleansing of those holes in the data. I've described everything that I did for the cleansing in section \ref{sec:cleansing} on page \pageref{sec:cleansing}.
+For those who have a value higher than 0.2 there is definitely some correlation, which could be pushed lower by all the outliers and holes in the data. Fixing that requires some cleansing of those holes in the data. I've described everything that I did for the cleansing in Section \ref{sec:cleansing}.
 
 
 These results mean that there is a knock-on impact on the models that need to be used in order to perform the prediction. I wouldn't be able to fit an easy linear regression, because that will give predictions that are far from accurate. It also means that when doing the model I wouldn't be able to make one that works just with Twitter or the Twitter features. A hybrid method would be needed. One that is using past search data as a component as well in order to ensure that we are balancing out the weights of all the features, since the initial idea is to use Twitter as an exogenous factor with some weight. The best model that could do that job is LASSO \cite{lasso}. Due to the very fact that every place is quite different - apart from those with no correlation whatsoever - I fitted a model for each one and one for the overall searches and tweets, which can be found in more detail in Chapter \ref{chap:model} on page \pageref{chap:model}.
@@ -520,19 +603,24 @@ As I have previously mentioned there were two data source which I was using for 
 
 The dates with incomplete or missing data can impact the regression negatively so it was vital to tidy up all of the data by either backfilling it or filling/removing the missing values. 
 
-As far as the Skyscanner data set is concerned I have backfilled of data missing by using the Last 4 Fridays method in order to ensure that there are enough data point for carrying out all the tests. For the twitter counts, I have simply taken the mean for the values of missing Skyscanner data and dropped all the days where the Twitter collection had problems. For the full features I've just filled the missing values with 0, since there wasn't any better of filling those without removing all the hashtags and words that appear around a specific time and then disappear again.
+As far as the Skyscanner data set is concerned I have backfilled of data missing by using the Last 4 Fridays, method described in detail in Section \ref{sec:baseline}, in order to ensure that there are enough data point for carrying out all the tests. For the twitter counts, I have simply taken the mean for the values of missing Skyscanner data and dropped all the days where the Twitter collection had problems. For the full features I've just filled the missing values with 0, since there wasn't any better of filling those without removing all the hashtags and words that appear around a specific time and then disappear again.
 
 
 \section{Feature extraction}
 \label{feat-extraction}
 
-With the whole dataset ready for the statistical analysis I wanted to also extract some more features in order to check whether anything interesting will pop up - words that refer to particular events, etc. 
+With the whole dataset prepared for the statistical analysis and model I wanted to prepare additional data, which was going to enrich the prediction and perhaps make the model a bit more robust, since now it was going to depend on more features. With those features one can easily do a better deep dive by re-training the models in order to see which features are the most  helpful in terms of bettering the prediction. I thought that there is also going to be some data on what events were happening during that time, because quite a few of the feature are not going to be present for absolutely day -- the Olympics for instance was trending around the event and significantly improved the correlation for Sochi. 
 
 
-This was a very computationally intensive task and was probably the most difficult bit to get up and running without any major hiccups. What I did for this particular task was something quite similar to what is shown in Figure 2.2, however instead of just adding to the count of a place, I add to the counts of all the words that co-occur with the place name.  Pseudocode of the way it works is shown in Figure 2.4. The algorithm is simple enough, but the fact that dimensions of the count dictionary are massive I had to be extremely careful not to load up too much, because I experienced memory errors at the time of processing I decided to split them into partial counts and recombine those. 
+As an additional note, I am not taking \textit{absolutely} everything that co-occurs. Since humans are fallible and Twitter is a place where everything can be found, I had to remove some weird characters which are used to form the basis of what is called ``ASCII art" and all the different emoji character, which are very common when people try to express their emotions.  
 
 
-\begin{figure}[]
+This was a very computationally intensive task and was probably the most difficult bit to get up and running without any major hiccups. What I did for this particular task was something quite similar to what is shown in Figure 2.2, however instead of just adding to the count of a place, I add to the counts of all the words that co-occur with the place name.  Pseudocode of the way it works is shown in Figure 2.8. The algorithm is simple enough, but the fact that dimensions of the count dictionary are massive I had to be extremely careful not to load up too much, because I experienced memory errors at the time of processing I decided to split them into partial counts and recombine those. 
+
+
+
+
+\begin{figure}[p]
 \begin{center}
 \begin{lstlisting}
 place_names = get_all_placenames()
@@ -571,9 +659,9 @@ for place in place_names:
 \end{figure}
 
 
-Just in terms of numbers - for London I had 148877 features, so overall the data was the number of features times 160 dates, which had twitter place counts, feature counts and searches. All of that is then used as an input for the LASSO model, which removes the junk weights and assigns some weights to the non-junk features. It wasn't very easy working with the big sets, because in order to perform all of the predictions they all need to be held into memory, but thanks to Pandas \cite{pandas} the fitting and evaluation of those extended models takes about 2 hours, which is down from 6 without using CSVs and pandas data frames.
+Just in terms of numbers - for London I had 148877 features. The CSV file for London had 148877 (features) times 160 rows (days). It wasn't very easy working with the big sets, because in order to perform all of the predictions they all need to be held into memory, but thanks to Pandas \cite{pandas} the fitting and evaluation of those extended models takes about 2 hours, which is down from 6 without using CSVs and pandas data frames.
 
-
+\newpage
 \section{Tools}
 
 
@@ -587,14 +675,20 @@ Every one of the aforementioned operations is performed in a separate Python cla
 \end{itemize}
 
 
-I've tried to make the system as robust as possible. All of the classes are as independent as possible of the others to ensure no problems with dependencies. I believe that this could be used as a skeleton to any project that wants to store, process and analyse Twitter data. The cleaned up version of the code is available on GitHub \cite{code}.
+I've tried to make the system as robust as possible. All of the classes are as independent as possible of the others to ensure no problems with dependencies. I believe that this could be used as a skeleton to any project that wants to store, process and analyse Twitter data. I am going to put more work next year on creating a well packaged solution for social media analytics that requires minimal input from the user.
+
+The cleaned up version of the code is available on GitHub \cite{code}.
 
 
 
 \chapter{Models}
 \label{chap:model}
 
-\section{The baseline model}
+
+In this chapter we are going to review all of the models that I used in this project to predict the data. I have given the baseline model and the justifications for it. I then go on to describe the models I built - the single Twitter feature TwitterCF and TwitterDF and multi-feature MultiFeatureTwitterCF and MultiFeatureTwitterDF. There is justification provided for the models I have used and also some statistics on them - weight of features and overall improvements. 
+
+
+\section{The baseline model: Last 4 Fridays}
 \label{sec:baseline}
 
 The baseline model for predicting the number of redirects Skyscanner has on a daily basis is called Last 4 Fridays. 
@@ -602,10 +696,10 @@ It works in the following way:
 \begin{enumerate}
 \item We want to predict the number of redirects/searches for this Friday.
 \item We take the number of redirects/searches Friday from last week, the week before, etc, until we have the counts form the previous 4 weeks for the corresponding day.
-\item We then assign weights to those 4 numbers and assign weights -- the most recent one will get the highest weight, the one after about a half and so on.
+\item We then assign weights to those 4 numbers and assign weights -- the most recent one will get the highest weight, the one after a third and so on.
 \end{enumerate}
 
-What it essentially is a tweaked version of the  exponential moving average. The formula for the 
+For any other day of the week it essentially is a tweaked version of an exponential moving average. The formula is
 
 \begin{quotation}
 $Day=0.675*F1 + 0.225*F2 + 0.075*F3 + 0.025*F4$ \\
@@ -616,38 +710,33 @@ F3 - Same day of the week from 3 weeks ago;\\
 F4 - Same day of the week from 4 weeks ago;\\
 \end{quotation}
 
-
-This model was tested against a few options like ARIMA, Holt-Winter forecasting, Autoregressive Vector Methods, however it won because of several things:
+My colleagues at Skyscanner did some extensive testing on which forecasting mechanism to use in-house for predicting the search volumes. The Last 4 Fridays was tested against a few options like ARIMA, Holt-Winter forecasting, Autoregressive Vector Methods, however it won because of several things:
 \begin{itemize}
 \item Much simpler to maintain than both - ARIMA has the notion of exogenous factors as well and it's very tricky to get it right and even if you do, you'd have to tweak the exogenous factors in order to keep the predictions good. 
 \item Because of the weighting scheme you are easily able to capture seasonality, since the most recent day from last week will always have the highest weight.
 \item Holt-Winters gave very good forecasts, however the tweaking of $\alpha, \beta$ and $\gamma$ meant that the model might require re-training from time to time. 
-\item The maintenance costs for this one are minimal and the RMSE is lower than the other models'.
+\item The maintenance costs for this one are minimal and the Root Mean Squared Error (RMSE) is lower than the other models'.
 \end{itemize}
 
+A simpler version of this was also considered - Last Friday. It just assigns different weights to different days of the week. It produces very good results, however in the likely event of an outlier it produces very bad forecasts, so Last 4 Fridays was picked as the overall winner which provides the best trade-off in terms of accuracy and potential for very inaccurate forecasts caused by outliers.
 
-A simpler version of this was considered - Last Friday. It just assigns different weights to different days of the week. It produces very good results, however in the likely event of an outlier it produces very bad forecasts, so Last 4 Fridays was picked as the overall winner which provides the best trade-off in terms of accuracy and potential for very inaccurate forecasts caused by outliers.
+At the end we have a solid forecasting mechanism, which takes into account seasonality and adjusts itself well for any trends. All I had to do is to better with a model that uses social media. 
 
 \section{TwitterDF}
+\label{sec:df}
 
-Because of the small correlation for some destinations and the fact that I wanted to include Twitter as a factor rather than just basing the predictions on it alone, I decided that my first model should take a hybrid approach - use the Twitter counts and Last 4 Fridays as a feature. 
+Because of the very small linear correlation for most of the destinations between the Twitter counts and the search volumes, predicting search volumes from Twitter counts was instantly rules out. Since Twitter is meant to be included as an exogenous factor I decided that taking a hybrid approach would be best. For the first iteration I have taken the Twitter counts and 4 days from previous weeks as features. The model is called TwitterDF where DF stands for Dynamic Fridays, since the weights are picked on a per city/country basis. 
 
+Instead of fixing the weights for the Fridays with the exponential scheme used in the baseline I have decided to leave it to LASSO to determine the weights for all the 5 features. It is very good that we can pick features and also do the regression with a single model. LASSO picks the optimal weights for every feature by minimising its objective function:
+\begin{quotation}
+$\underset{w}{min}({\frac{1}{2n_{samples}}} \|Xw - y \|_2^2 + \alpha\|w\|_1) $
+\end{quotation}
+It is essentially a liner model with l1 reguliser. It solves the minimisation with the least-square penalty for $\alpha\|w\|_1$ added where $\alpha$ is the regularisation parameter and and $\|w\|_1$ is the l1 norm of the parameter vector. 
 
-In order to determine the weights for every individual feature we are using the LASSO \cite{lasso}. In Figure \ref{lass-obj} you can see the minimisation function for the model. Alpha is the regularisation parameter, which is a constant. The more you increase the regularisation parameter the more the junk weights will be penalised. In this particular model there was no need to increase the parameter a lot, since we only had 5 features, which we use to build the model. 
-
-\begin{figure}[h]
-\vspace*{\fill} 
-\begin{quote} 
-\centering 
-$ \text{ObjF} = \underset{w}{min}({\frac{1}{2n_{samples}}} \|Xw - y \|_2^2 + \alpha\|w\|_1) $
-\end{quote}
-\vspace*{\fill}
-\caption{LASSO objective function}
-\label{lass-obj}
-\end{figure}
+In this particular model there was no great need to tweak the parameter, since we only had 5 features, which we use to build the model. But in principal the more you increase $\alpha$ the more the junk weights are penalised hence it prefers sparse solutions with sparse coefficients. 
 
 
-With this model what we essentially do is take the past search data and include Twitter as an exogenous factor with a different degree of influence, which is the weight picked for it by the lasso. I've trained in total 1377 models - one for every destinations and for the overall volume of tweet counts and searches. All of the weights and raw results can be found in the repository in the directory "results". 
+With this model what we essentially do is take the past search data and include Twitter as an exogenous factor with a different degree of influence, which is the weight picked for it by the lasso. I've trained in total 1377 models - one for every destinations and for the overall volume of tweet counts and searches. All of the weights and raw results can be found in the repository in the directory "results".
 
 
 \begin{table}[h]
@@ -667,16 +756,20 @@ The results from this first first iteration of the model can be found in Section
 
 
 \section{TwitterCF}
+\label{sec:cf}
+
+Building on the improvement from TwitterDF I decided to try something alternative in order to improve the prediction a bit more. In L4F we have an exponential weighting scheme for the weights of the previous days from past weeks. In TwitterDF that is not exactly the case since the weights for all the features are determined by LASSO. In order to make it more consistent and decrease the RMSE even further I decided to mirror the L4F approach in a model which would have 2 features - the sum of the exponentially weighted days from past weeks and the Twitter counts. This new model is called TwitterCF were CF is an abbreviation of Compound Fridays. So this is simpler - instead of 5 features, we only have 2, since the past search data is reduced from 4 to 1. LASSO picks the weights only for those features and was expected to reduce the RMSE even further. 
 
 
-After seeing that there is definitely an improvement, I decided to take this one step further. Since in L4F we have an exponential weighting scheme and in TwitterDF we are taking the weights picked by LASSO, I thought that it would be a fair comparison to take the compound Fridays - multiplied together - and use it as a single feature alongside the Twitter counts. 
+In Table 3.2 You can find a summary of the statistics on the weights. This model has 1377 classifiers trained altogether for a variety of destination. I've given a summary of the representative statistics on the weights, but that is by no means the single source of truth. 
+
+As we can see the median weight for Twitter is 0.00, but that is pulled, because of all the destinations that have either negative weight for Twitter - Ukraine and Venezuela being examples here - either because of unrest in the country or general negative sentiment towards them in the news. Fridays have the higher weight of course, because for most of the models that is the weight that is the most beneficial to the prediction. 
 
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{ l | r | r }
 \textbf{Metric} & \textbf{Twitter} & \textbf{Fridays}\\
 \hline
-Metric & Twitter & Fridays\\
 St Deviation & 5.13 & 0.24\\
 Median & 0.00 & 0.41\\
 Mean & 0.11 & 0.43
@@ -685,27 +778,54 @@ Mean & 0.11 & 0.43
 \caption{Summary of weights for TwitterCF}
 \end{table}
 
-The improvement against L4F is 5\% and 0.6\% in comparison to TwitterDF on average for all the destinations. The results from TwitterCF can be found discussed in detail in Section \ref{TwitterCF} on \pageref{TwitterCF}
+As hypothesised, there is indeed an improvement. The overall reduction in RMSE against L4F is 5\% and when we compare Twitter CF to TwitterDF we find that RMSE has been reduced by 0.6\% on average across all the models. The results from TwitterCF are discussed in detail in Chapter \ref{TwitterCF} on \pageref{TwitterCF}. 
 
 
 \section{MultiFeatureTwitterDF and MultiFeatureTwitterCF}
+\label{sec:multi}
+
+Since the simpler TwitterDF and TwitterCF worked really well, I decided to continue exploring and create more complicated model. In order to do that I used the features which I acquired by performing the data processing described in Chapter \ref{feat-extraction} on page \pageref{feat-extraction}. For the top 80 cities/countries and 2 additional ones -- Ukraine and North Korea -- I took absolutely all of the words that co-occur with those cities/countries and used them as additional feature. That of course mean that for some places I had more than 100 000 features to work with. 
 
 
-After seeing the improvement from TwitterDF and TwitterCF I decided to see what will happen if I throw as many weights as possible at the LASSO. As mentioned in Chapter \ref{feat-extraction} on page \pageref{feat-extraction} I took absolutely all the words which co-occur with every place name. That yielded a massive increase in the feature set and increased the computation times a few times at least.
+The massive number of features was not a problem at all for LASSO. I've had a set of values of $\alpha$ - 0.5, 1, 2,5, 10, 20, 50, 125, 250, 500, 1000, 2000, 4000, 8000, 16000, 32000. Since the more you increase the value of the parameter, the more junk weights you throw away, the RMSE decreases as the number of nonzero weight features decreases. Even though 32000 is a very big value for the parameter, for some destinations with big number of features it's worth going even further beyond that to reduce the weights to less than 10.
 
 
-For these two particular models there is an interesting correlation between the 
+In order to show the improvement in RMSE with reduction of number of non-zero weights as alpha increases I've plotted the mean RMSE and number of non-zero weights for all the MultiFeature models. As you can see there is a very good correlation between the increase in value of alpha and the the reduction of the two plotted things. 
+
+\begin{figure}[]
+\includegraphics[scale=0.8]{wrmse}
+\caption{Reduction of RMSE and non-zero weights as alpha increases. TCF and TDF are the RMSE for TwitterCF and TwitterDF respectively. WTCF and WTDF are the number of non-zero weights for the two classifier. The results are means of all the actual values across all models. }
+\label{wrmse}
+\end{figure}
 
 
+In Chapter \ref{sec:features} you will find a detailed summary of the results and discussion for the MultiFeatureTwtter models. I have picked several interesting destinations which were the best to show the gains and losses in using the expanded feature set when trying to improve prediction. The model gave mixed results - it improved predictions for some things, but all in all it did not perform better than the simple TwitterCF and TwitterDF.
+
+\newpage
 \section{Model for all the searches}
 
+Since we have got many so many different models for every city and country in the world I also decided to investigate what is the benefit of having one single overarching model. As a result the prediction for the overall search volumes was improved by 3.1\%. The summary of the weights can be found in Table 3.3. It's quite useful having a model for the overall volumes as well because that gives a very quick overview of what is happening. 
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ l | r | r | r | r }
+Twitter & F1 & F2 & F3 & F4 \\
+\hline
+1.00 & 0.65 & 0.003 & -0.06 & 0.13 \\
+\end{tabular}
+\end{center}
+\caption{Summary of weights for the overall model}
+\end{table}
 
 
 
 \chapter{Results}
+\label{chap:results}
 
 
-Due to the lack of any research in this particular area setting the objectives for this project was very difficult. Planning on how to approach and tackle was in itself a challenge. There is no current proposed method of doing this, so there was no gold standard against which I could benchmark my trained models. That made it particularly hard to see whether the model is right or wrong and what should I strive to beat.
+Due to the lack of any research in this particular area setting the objectives for this project was very difficult. Planning on how to approach and tackle was in itself a challenge. There is no current proposed method of doing this, so there was no gold standard against which I could benchmark my trained models. That made it particularly hard to see whether the model is right or wrong and what should I strive to beat. 
+
+In terms of simply benchmarking my models against the baseline I decided to use RMSE as the metric I am striving to decrease.
 
 
 To get started, I needed to understand the data better and ask myself what I am trying to achieve. As mentioned in the introduction there are two main types of destinations:
@@ -718,48 +838,53 @@ The difference in the two is graphically represented on the next page in Figure 
 
 \begin{figure}[]
 \begin{center}
-\includegraphics[scale=0.4]{london-searches}
+\includegraphics[scale=0.7]{london-searches}
 \end{center}
-\caption{Searches to London - as we can see the trundling is going to be almost parallel to the X axis.The slight dip in December is due to seasonality. That is noticed across the industry as a whole}
+\caption{Searches to and tweets about London - as we can see the trend line  is going to be almost parallel to the X axis.The slight dip in December is due to seasonality. That is noticed across the industry as a whole}
 \label{london-searches}
 \end{figure}
 
 
 \begin{figure}[]
 \begin{center}
-\includegraphics[scale=0.4]{ibiza-searches}
+\includegraphics[scale=0.7]{ibiza-searches}
 \end{center}
-\caption{Searches to Ibiza - in this plot we can get the idea of seasonality. The dips is observed as soon as enter autumn and then in January the searches to such destinations pick up again as people are starting to plan their summer holidays}
+\caption{Searches to and tweets about Ibiza - in this plot we can get the idea of seasonality. The dips is observed as soon as enter autumn and then in January the searches to such destinations pick up again as people are starting to plan their summer holidays}
 \label{ibiza-searches}
 \end{figure}
 
-Naturally, because of the constant and not so changing nature of the first group, I would expect my model to perform better on the second group. The Root Mean Squared Error from my models on the 2nd group should be smaller or roughly the same as the error generated by the in-house algorithm. It's called  "Last 4 Fridays" and essentially it is a slightly tweaked version of an exponentially weighted moving average, which takes into account seasonality. A more detailed discussion as to why this was picked as the baseline can be found in Chapter \ref{sec:baseline} on page \pageref{sec:baseline}.
+Naturally, because of the constant and not so changing nature of the first group, I would expect my model to perform better on the second group. The Root Mean Squared Error from my models on the 2nd group should be smaller or roughly the same as the error generated by the in-house algorithm - L4F. A more detailed discussion as to why this was picked as the baseline can be found in Chapter \ref{sec:baseline} on page \pageref{sec:baseline}.
 
 
-\section{Results for the first iteration of the algorithm}
+
+
+
+
+\newpage
+\section{Results for TwitterDF}
 \label{TwitterDF}
 
 
-In order to get started with this problem and generate a first set of results I had to identify a good way of modelling the problem and how to predict the output from some inputs. The first way of doing it suggested by my supervisor was to use LASSO \cite{lasso} in order to determine the weights for all of my inputs. 
+Obtaining the initial set of results is virtual for any project. In order to do that I had to have a working model/s which can perform the task of predicting search volumes with the help of Twitter. As described in Chapter \ref{sec:df}, I picked LASSO for all the feature selection and regressions. 
 
 
-The way the first iteration of my model works is the following - for every day you take the same day the week before, the week before that and so on for the last 4 weeks and you also take the Twitter counts for a destination as a feature as well. Instead of fixing their weights as in the in-house algorithm, I chose to let LASSO pick the weights for every feature. This way we get an incremental improvement over the Last 4 Fridays, that is taking into account one of the many exogenous factors that could influence the search volumes either upwards or downwards. I expected that to yield better results for the 2nd group of destinations and possibly for some from group 1. I will refer to the first iteration of the model as TwitterDF, where DF stands for dynamic Fridays. 
+As said, TwitterDF stands for Dynamic Fridays, which basically means that the weights for the past days are not predetermined as the ones in the L4F exponential weighting scheme, but instead they are automatically picked by LASSO. This way we get an incremental improvement over L4F, but in the model taking into account one of the many exogenous factors that could influence the search volumes either upwards or downwards. I expected that to yield better results for the 2nd group of destinations and possibly for some from group 1. I will refer to the first iteration of the model as TwitterDF, where DF stands for dynamic Fridays. 
 
 
-Overall, I was very pleasantly surprised by the results. On the full set of 1372 destinations, the first iteration of my model generated better predictions and had lower RMSE on 1034 of the destinations. On the other hand the in-house champion Last 4 Fridays performed better on 338 of the destinations. In order to illustrate that difference there is a scatter plot of the RMSEs in Figure \ref{rmse-scatter}. That means that my model is better on 75.3\% of all the destinations.
+Overall, I was very pleasantly surprised by the results. On the full set of 1372 destinations which had non-zero RMSE, the first iteration of my model generated better predictions and had lower RMSE on 1034 of the destinations. On the other hand the in-house champion Last 4 Fridays performed better on 338 of the destinations. In order to illustrate that difference there is a scatter plot of the RMSEs in Figure \ref{rmse-scatter}. That means that my model is better on 75.3\% of all the destinations.
 
 \begin{figure}[]
 \begin{center}
-\includegraphics[scale=0.5]{RMSE}
+\includegraphics[scale=0.7]{RMSE}
 \end{center}
 \caption{Scatter plot of the RMSE of TwitterDF model and Last 4 Fridays. To put things into perspective, I've also plotted the y=x line to make it easier to visualise the border between the two. Anything below the line is where my model performs better and anything above L4F.  }
 \label{rmse-scatter}
 \end{figure}
 
 
-In Figure \ref{rmse-scatter} we can see that the performance of the the models is actually quite similar. Almost all of the dots are distributed along the x=y line. Contrary to my expectations that destinations from group 2 would be better classified by my model, actually it performs just as well on the more constant ones from group 1. 
+In Figure \ref{rmse-scatter} we can see that the performance of the the models is actually quite similar. Almost all of the dots are distributed along the x axis. Contrary to my expectations that destinations from group 2 would be better classified by my model, actually it performs just as well on the more constant ones from group 1. 
 
-In Table \ref{4-1} and \ref{4-2} you can find some picked which illustrate the worst performing models and best performing ones in order to give an illustration of what is the improvement and degradation of performance.
+In Tables \ref{4-1} and \ref{4-2} you can find the places that had the worst performing models and best performing ones in order to give an illustration of what is the improvement and degradation of performance. As we can see in Table \ref{4-1} the destinations here are very small niche destinations, which are very unpopular, so when something happens people are more likely to search to flights to these places. In Table 4.2 we can see something quite similar - overall the decrease for some quite small places with Venezuela being the outlier. Due to the protests the correlation has become very negative and because of that even though people mention it a lot, none wants to go there, since there is great unrest in the country. 
 
 \begin{table}[]
 \begin{center}
@@ -824,37 +949,41 @@ Thailand & 29,997 & 30,701 & -2.34\% \\
 Turkey & 29,616 & 28,912 & 2.38\% 
 \end{tabular}
 \end{center}
-\caption{Results for the top destinations by RMSE of L4F. 9/10 have lower RMSEs with TwitterDF. As we can see for the top destination - Spain - the improvement is 8.64\%, which is great, because I expected the model to perform worse on places from group 1.}
+\caption{Results for the top destinations by descending RMSE of L4F. 9/10 have lower RMSEs with TwitterDF. As we can see for the top destination - Spain - the improvement is 8.64\%, which is great, because I expected the model to perform worse on places from group 1.}
 \label{top10}
 \end{table}
 
 
+
 \newpage
-\section{Results for the 2nd iteration}
+\section{Results for TwitterCF}
 \label{TwitterCF}
 
-The 2nd iteration, was to fix the weights of the last 4 fridays and use the exponential weighting scheme that we have in the L4F model. I called that model TwitterCF where CF stands for compound Fridays. The scatter comparison for the two models is in Figure \ref{rmse_scatter_by_reg}. In Table \ref{comparison-all} is the overall comparison of which model has the lowest RMSE for how many of the total models.  In Figure \ref{rmse-nstdev} you can see what is the improvement plotted against the normalised standard deviation - standard deviation divided by the mean. That gives a normalised number which should be high for seasonal destination and smaller for more stable ones. Overall 
+As described in Chapter \ref{sec:cf}, the next iteration of the model is called TwitterCF where CF stands for Compound Fridays, because we are taking the sum of the exponentially weighted past days as one single feature. 
 
-\begin{figure}[h!]
+The scatter comparison for the two models is in Figure \ref{rmse_scatter_by_reg}. As we can see the improvement of Twitter CF is small, but enough to improve the overall predictions by another 1\%. In order to see how it performs for the different groups of destinations I've plotted the improvement against the normalised standard deviation In Figure \ref{rmse-nstdev}, which is just the standard deviation of search volumes divided by the man. That gives us a normalised number which takes into account seasonality - e.g. number who have smaller seasonality are to the left and the ones who are fairly constant are to the right. 
+
+To see which method of the three is the best for overall in Table 4.5 I have given the 3 methods and how many times each of them had the lowest RMSE. TwitterCF is the clear winner with 741/1372 places with non-zero RMSE. Overall TwitterCF and TwitterDF have had a smaller RMSE on 83\% of the results, which is a great achievement and proves to show that taking into account other data is beneficial to the quality of the prediction. 
+
+
+\begin{figure}[]
 \begin{center}
-\includegraphics[scale=0.4]{rmse_scatter_by_reg}
+\includegraphics[scale=0.75]{rmse_scatter_by_reg}
 \end{center}
 \caption{The two models compared. TwitterCF stands for compound Friday - taking all of the previous Fridays with predetermined weights and using them as a single weight in the regression. TwitterDF is leaving everything to LASSO.}
 \label{rmse_scatter_by_reg}
 \end{figure}
 
-
-
 \begin{figure}[]
 \begin{center}
-\includegraphics[scale=0.5]{rmse-nstdev}
+\includegraphics[scale=0.75]{rmse-nstdev}
 \end{center}
-\caption{Scatter plot of normalised standard deviation (stdev divided by mean) for the number of searches plotted against the percentage improvement for the two classifier over the L4F. On the left is TwitterCF and on the right one can find the improvement for TwitterDF. It seems that the Twitter models are doing good across the whole boars. }
+\caption{Scatter plot of normalised standard deviation (stdev divided by mean) for the number of searches plotted against the percentage improvement for the two classifier over the L4F. On the left is TwitterCF and on the right one can find the improvement for TwitterDF. It seems that the Twitter models are doing good across the whole board.}
 \label{rmse-nstdev}
 \end{figure}
 
 
-\begin{table}[h!]
+\begin{table}[h]
 \begin{center}
 \begin{tabular}{ l | r }
 Method & NumBest \\
@@ -870,9 +999,12 @@ TwitterDF & 405 \\
 \label{comparison-all}
 \end{table}
 
-In Table \ref{big-table} you can find a more detailed breakdown of the top 20 destinations by RMSE for L4F sorted descending. It includes the improvement of the Twitter models and the improvement of the CF model over the DF one. Overall, the average improvement of the CF model is 0.96\% across all the 1372 individuals models for every destination.
+In Table \ref{big-table} you can find a more detailed breakdown of the top 20 destinations by RMSE for L4F sorted in a descending order. It includes the improvement of the Twitter models and the improvement of the CF model over the DF one. Overall, the average improvement of the CF model is 0.96\% across all the 1372 individual models for every destination. However the improvement overall ranges from 8.64\% to -3.5\%, which is incredible. That shows again that the TwitterCF model does a very good job in predicting flight search volumes. 
 
-\begin{table}[p]
+
+Both of the single feature models did a great job in predicting flight search volumes and now the next step is add more features. 
+
+\begin{table}[h]
 \begin{center}
 \begin{tabular}{ l | r | r | r | r | r | r }
 Place & L4F &  TwitterCF & TwitterDF & Best & Improv. & CF/DF Imp. \\
@@ -903,18 +1035,24 @@ Istanbul & 15,121 & 14,642 & 14,692 & TCF & 3.16\% & 0.34\%
 \label{big-table}
 \end{table}
 
-%\section{Results when shifting by one day}
-
 \newpage
 \section{MultiFeatureTwitterDF and MultiFeatureTwitterCF}
 \label{sec:features}
 
-In the next iteration of the model I didn't limit it to just twitter counts and searches from previous dates. For this particular model I've used all the words co-occurring with a place name as features. Of course, there is a lot of junk, so I removed all the emoji characters and all the stop words in order to prevent overwhelming the LASSO with a lot of junk features.
+As said in the previous section, TwitterCF and TwitterDF performed very well in terms of improving the prediction. The next iteration of the model was called MultiFeat	ureTwitterDF and MultiFeatureTwitterCF, because I wasn't just using the Twitter counts and the past search volumes for the model. As explained in Chapter \ref{sec:multi} for these two particular models I was taking all the words that co-occur with a place name and use them as features in the predictions. 
 
-In Table \ref{table-tenerife}, \ref{table-sochi} you can see the results from the extended model on Tenerife and Sochi. In the tables you can see the improvement in RMSE for Twitter and the decrease in the number of features with non-zero weights. For both of those destinations, the Twitter models perform better for some values of the penalisation parameter $\alpha$. I've picked them, because they are both really interesting - for Tenerife L4F start well, then Twitter has lower RMSE, but as we discard more and more features, L4F wins again. Sochi was picked because of the olympics, which has massively affected the number of searches to Sochi (increase of about 10 times), but the number of tweets about Sochi has gone up as well. 
-It's also quite interesting, because of local minima of RMSR, where it decreases and then picks up again.
+In the following subsections I will walk through 3 distinct examples -- Tenerife, Sochi and the United Kingdom. Those are very interesting, because Tenerife is one of those seasonal destinations which are very low-profile during the winter, but after the winter holidays pick up immensely. Sochi is featured because of the Olympic games. It is particularly interesting to see how such a big event can influence the searches to a relatively small town in Russia by putting in the spotlight for 2 weeks. The UK is of course belonging to the group of more steady destinations where there are no significant shifts in demand for flights. 
 
-\begin{table}[h]
+\subsection{Tenerife}
+
+In Table \ref{table-tenerife}, you can see the results from the MultiFeatureTwitter models on Tenerife. You can see the definite improvement in RMSE for the Twitter models as the number of non-zero weights decreases and the $\alpha$ parameter increases. The other interesting thing is that for $\alpha=1000$ the Twitter classifier become better and the number of weights decreases more and more. In order to illustrate the winning combination of weights I have picked all of the weights in Table 4.7 -- apparently the solar eclipse was very popular and friend is also in the words that add to the prediction. 
+
+
+In Figure 4.6 I've plotted the actual searches vs the predicted ones. The axis labels are removed for confidentiality reasons. The relationship between the two is quite linear, which means that our predictions is good. 
+
+The conclusion is that MultiFeatureTwitter models are good at predicting the search volumes for destinations that have very well expressed seasonality -- Tenerife, Ibiza, etc. However it's quite vital that the models are re-trained every months or so, because that steps up the seasonality and changes quite a lot of things, especially with the multitude of features on which the model depends on. 
+
+\begin{table}[]
 \begin{center}
 \begin{tabular}{ l | r | r | r | r | r | r}
 $\alpha$ & $>$ 0 W CF & MultiTwitterCF & $>$ 0 W DF & MultiTwitterDF & L4F & Best\\
@@ -938,11 +1076,12 @@ $\alpha$ & $>$ 0 W CF & MultiTwitterCF & $>$ 0 W DF & MultiTwitterDF & L4F & Bes
 32,000 & 1 & 1,366 & 4 & 1,850 & 1,517 & TCF\\
 \end{tabular}
 \end{center}
-\caption{Improvement in RMSE for Tenerife. As we can see after we get to a certain point the Twitter models get better and better, until it gets to discarding all of the weights, but the Fridays. The optimal result for Twitter CF is with 5 weights, since the reduction in RMSE afterward is negligible, while the DF version performs best with 23 and it starts getting worse. The features and weights at $\alpha = 1000$ are in Table 4.7}
+\caption{Improvement in RMSE for Tenerife. As we can see after we get to a certain point the Twitter models get better and better, until it gets to discarding all of the weights, but the Fridays. The optimal result for TwitterCF is with 5 weights and for TwitterDF -- 8, since the reduction in RMSE afterward is negligible, while the DF version performs best with 23 and it starts getting worse. The features and weights at $\alpha = 1000$ are in Table 4.6.}
 \label{table-tenerife}
 \end{table}
 
-\begin{table}
+
+\begin{table}[]
 \begin{center}
 \begin{tabular}{l | r}
 Feature & Weight \\
@@ -963,14 +1102,41 @@ view & -10.86 \\
 \caption{Weights for Tenerife at $\alpha=1000$. These are the weights that the TwitterCF model has picked.}
 \end{table}
 
+
+
+
 \begin{figure}[]
 \begin{center}
-\includegraphics[scale=0.5]{plots/Tenerife}
+\includegraphics[scale=0.4]{plots/Tenerife}
 \end{center}
 \caption{Predictions vs actual for a destination from group 2 - Tenerife. For this group Twitter models make actual gains, albeit small.}
 \end{figure}
 
-\begin{table}[h!]
+
+
+\newpage
+\subsection{Sochi}
+
+
+Sochi was of course picked because of the olympics. The winter event has massively affected the number of searches to Sochi,  but the number of tweets about Sochi has gone up as well.  Just to show the dramatic increase in search volumes, in Figure \ref{sochi-c-s} I have plotted the search volumes to Sochi and tweet counts about it. The increase in searches is roughly 10 times around the Olympics and the number of tweets has gone up from 800/day before to 12000 at the time of the ceremony, which is an increase of 15 times. Another interesting side effect of the olympics is that it totally skewed the predictions. In Figure 4.8 I have plotted the predictions agains the actual search volumes -- axis labels omitted for confidentiality reasons again. As we can see there is no clear trend and the points are all over the place. Overall the olympics made finding patterns in the data very hard to spot. 
+
+
+In Table \ref{table-sochi} you can see the RMSE for the MultiFeatureTwitter models for Sochi. The horizontal lines denote the area where the Twitter Models perform better. As we can see it seems that there is a local minima where the MultiTwitterFeature models are better, but then as we discard more and more features, L4F wins at the end. 
+
+The weights for the TwitterDF at $\alpha=500$ are shown in Table \ref{tab:sochi-table}. Again, olympics dominates the overall picture, with the past Fridays being very prominent features. Interestingly enough, the hashtag \textit{\#olympics} has a negative weight, while \textit{\#olympics2014} is positive. In the next phase of th project I will try to apply more Natural Language Understanding (NLU) in order to find out why are some places more likely to be interesting to people and why. 
+
+
+
+
+\begin{figure}[p!]
+\begin{center}
+\includegraphics[scale=0.75]{Sochi-s-c}
+\end{center}
+\caption{Searches and tweets Sochi. The massive spike is around the Olympics. As we can see the two time series are correlated and the spike it tweets is just a bit before the spike in searches.}
+\label{sochi-c-s}
+\end{figure}
+
+\begin{table}[]
 \begin{center}
 \begin{tabular}{ l | r | r | r | r | r | r}
 $\alpha$ & $>$ 0 W CF & MultiTwitterCF & $>$ 0 W DF & MultiTwitterDF & L4F & Best\\
@@ -999,6 +1165,7 @@ $\alpha$ & $>$ 0 W CF & MultiTwitterCF & $>$ 0 W DF & MultiTwitterDF & L4F & Bes
 As you can see in terms of absolute value, the RMSE for the Twitter model with compound fridays - RMSE TCF - has decreased 20\% for the area where TCF has the lowest RMSE. I have separated the area where the Twitter Models are better with two horizontal lines. The RMSE for TDF is 2 times lower at $\alpha=500$ and that's where the model performs the best. Both models have a comparable number of weights, which is really interesting.}
 \label{table-sochi}
 \end{table}
+
 
 \begin{table}[]
 \begin{center}
@@ -1035,18 +1202,13 @@ sochi & -2.52\\
 \caption{Predictions vs actual for a destination for Sochi. The olympics made any pattern in the data very hard to spot.}
 \end{figure}
 
-As we can see the more the junk features are penalised the classification improves. However that is still just the beginning. Next year I will apply more NLP on the Twitter dataset trying to capture only the relevant tweets that will result in an improvement of the overall RMSE for the classifier. 
 
+\newpage
+\subsection{UK}
 
-\begin{figure}[]
-\begin{center}
-\includegraphics[scale=0.4]{Sochi}
-\end{center}
-\caption{Searches and tweets to Sochi. The massive spike is around the Olympics. As we can see the two time series are correlated and the spike it tweets is just a bit before the spike in searches.}
-\end{figure}
+The previous two examples showed that a for some destinations there is definitely an improvement by taking and expanded set of features, since that can not just improve the predictions, but looking at the most prominent weights, you can infer some information on why these features are picked -- they can relate to events or could reflect on the socio-political situation. 
 
-
-However those gains are not observed across the whole board at all. In Table \ref{uk} are the results for the United Kingdom. Even though we notice a  very significant improvement, the results are still poorer than L4F. Of course, there are still 14 and 11 weights in both models, so we could continue increasing the penalisation factor further, but that would turn tweaking and tuning the classifiers into a very complicated and laborious task and of course we will get into the problem of overfitting.
+The United Kingdom is definitely not one of the destinations, where we see an improvement as shown in Table \ref{uk}.  Even though there is a very significant improvement in the RMSE as we increase the regularisation parameter it is still not enough to bear the baseline model. At $\alpha=32000$ there are still 14 and 11 weights in TwitterDF and TwitterCF. That means that if we wanted we could continue increasing the penalisation factor further, but that would turn tweaking and tuning the classifiers into a very complicated and laborious task and of course we will get into the problem of overfitting.
 
 \begin{table}[]
 \begin{center}
@@ -1077,8 +1239,6 @@ $\alpha$ & $>$ 0 W CF & MultiTwitterCF & $>$ 0 W DF & MultiTwitterDF & L4F & Bes
 
 \newpage
 \section{Results on the full dataset}
-
-%\subsection{With just Twitter counts}
 
 Another interesting benchmark was how it performs on the overall search volumes. In Table 4.11 you will find how the two models perform on the all the Twitter counts summed together and the searches to all of those destinations.
 
@@ -1112,7 +1272,11 @@ As you can see in Figure \ref{overall-searches} the overall volume of searches i
 The previous results have demonstrated that there is definitely a gain, even though not as great as I expected, in including exogenous factors such as Twitter in the prediction. With the first level of filtering described in Chapter \ref{sec:tweettext} on page \pageref{sec:tweettext} we have achieved better prediction on slightly more than 83\% of all the destinations.  
 
 
-Overall he median decrease of RMSE for TwitterDF over the Last 4 Fridays is \textbf{4\%}. With TwitterCF the median improvement is \textbf{0.6\%} across all destinations. Even though small, the gain is significant considering the events in Ukraine and Sochi and the fact that the classifier was able to take those into account shows that there is definitely some use in using exogenous factors for modelling flight search volumes. 
+Overall he median decrease of RMSE for TwitterDF over the Last 4 Fridays is \textbf{4\%}. With TwitterCF the median improvement is \textbf{0.6\%} across all destinations. Overall the TwitterCF improvement over L4F is \textbf{5\%}, which is very good improvement. 
+
+
+Even though it's not a double digit gain, it is still very significant. The fact that it was able to capture the recent events in Ukraine, Sochi and Venezuela and factor them in the predictions shows that using exogenous factors in your model for predicting search volumes is beneficial.
+
 
 During the 2nd phase of the project, I will focus on retrieving only the most relevant tweets from the Twitter dataset and doing better feature extraction that will allow to remove junk features that bring the RMSE up. With that in mind, I am hopeful that I will be able to build the next version of the model that is going to perform just as well on the first group of destinations. 
 
@@ -1121,20 +1285,8 @@ During the 2nd phase of the project, I will focus on retrieving only the most re
 \label{chap:future-work}
 
 
-%\chapter{Timeline}
 
-%The timeline for the next 3 months is the following:
-%\begin{enumerate}
-%\item Better the existing model and continue with the tests. .
-%\item Add more features to the set of inputs.
-%\item Work on both approaches:
-%\begin{itemize}
-%\item Explain spikes in searches by looking at historical tweet data
-%\item Or try to predict the spikes in the first place
-%\end{itemize}
-%\item Final draft done by mid-March.
-%\item Submit dissertation the final week of March.
-%\end{enumerate}
+
 
 \bibliographystyle{unsrt}
 \bibliography{master}

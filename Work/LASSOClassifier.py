@@ -154,13 +154,19 @@ class LASSOOverallPredictor(object):
                     }
 
             ridge1 = Ridge(alpha=alpha)
+            ridge1.fit(Xinput[:self.cutoff].values, Youtput[:self.cutoff])
+            ridge2 = Ridge(alpha=alpha)
+            ridge2.fit(X2[:self.cutoff].values, Youtput[:self.cutoff])
 
             cutoff_date = dt.datetime.strptime('2013-09-24 00:00:00', '%Y-%m-%d %H:%M:%S')
 
             data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
 
             predicted_tw_d_f = clf.predict(Xinput[self.cutoff:].values)
+            predicted_tw_d_f_r = ridge1.predict(Xinput[self.cutoff:].values)
             predicted_tw_s_f = clf2.predict(X2[self.cutoff:].values)
+            predicted_tw_s_f_r = ridge2.predict(X2[self.cutoff:].values)
+
 
             predicted_l4f = data.LF4Predicted
             actual = data.Searches
@@ -171,9 +177,16 @@ class LASSOOverallPredictor(object):
             rmse_static = mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_s_f)
             rmse_static = math.sqrt(rmse_static)
 
-
+            rmse_rtdf = math.sqrt(mean_squared_error(actual[self.cutoff:].tolist(),predicted_tw_d_f_r))
+            rmse_rtcf = math.sqrt(mean_squared_error(actual[self.cutoff:].tolist(),predicted_tw_s_f_r))
+    
             rmse_l4f = mean_squared_error(actual[self.cutoff:].tolist(), predicted_l4f[self.cutoff:])
             rmse_l4f = math.sqrt(rmse_l4f)
+
+            predictions = p.DataFrame(zip(actual, clf.predict(Xinput), clf2.predict(X2), \
+                    predicted_l4f, ridge1.predict(Xinput),ridge2.predict(X2)), \
+                    columns=['Actual','TwitterDF','TwitterCF', 'L4F', 'RTwitterDF', 'RTwitterCF'])
+            predictions.to_csv('tidydata/predictions/%s.csv'%place)
 
             try:
                 del data['Unnamed: 0']
@@ -181,26 +194,24 @@ class LASSOOverallPredictor(object):
                 pass
             #data.to_csv('tidydata/predictions/%s-dynamic-%s.csv'%(place, alpha))
             winner = ''
-            errors = [rmse_l4f, rmse_static, rmse_twitter]
-
-            if rmse_l4f == min(errors):
-                winner = 'L4F'
-            elif rmse_twitter == min(errors):
-                winner = 'TDF'
-            else:
-                winner = 'TCF'
+            errors = {rmse_l4f: 'L4F' ,
+                    rmse_static: 'TCF', 
+                    rmse_twitter: 'TDF',
+                    rmse_rtdf: 'RTDF',
+                    rmse_rtcf: 'RTCF'}
 
             winner2 = 'L4F' if rmse_l4f < rmse_twitter else 'Twitter'
 
-            self.errors[place] = {"RMSE TwitterDF": rmse_twitter,
-                        "RMSE TwitterCF": rmse_static,
-                        "RMSE_L4F": rmse_l4f,
+            self.errors[place] = {"TwitterDF": rmse_twitter,
+                        "TwitterCF": rmse_static,
+                        "L4F": rmse_l4f,
+                        "RidgeTwitterDF":  rmse_rtdf,
+                        "RidgeTwitterCF":  rmse_rtcf,
                         "R^2_twitter": clf.score(Xinput[self.cutoff:], actual[self.cutoff:]),
                         "Twitter weight": clf.coef_[0],
                         "Fridays weight": clf.coef_[1],
-                        "Alpha": alpha,
-                        "Winner": winner,
-                        "WinnerBin": winner2
+                        "Winner": errors[min(errors.keys())],
+                        "WinnerBin": winner2,
                         }
 
     def output_errors(self):

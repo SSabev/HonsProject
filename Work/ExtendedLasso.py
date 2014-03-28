@@ -19,10 +19,19 @@ class ExtendedFeaturesLasso(object):
         self.features = features
         self.cutoff = cutoff
         self.errors = {}
+        self.weights_rmse = {}
+        #for i in alphas:
+        #    self.weights_rmse[i] = {}
+        #    self.weights_rmse[i]['TCF'] = []
+        #    self.weights_rmse[i]['TDF'] = []
+        #    self.weights_rmse[i]['WTDF'] = []
+        #    self.weights_rmse[i]['WTCF'] = []
+
         self.weights = {}
         self.writer = p.ExcelWriter('results/extendedLassoResults.xlsx')
         self.go_and_classify()
         self.output_errors()
+        self.output_weight_reduction()
 
 
     def get_fridays(self, data):
@@ -229,6 +238,12 @@ class ExtendedFeaturesLasso(object):
 
             winner2 = 'L4F' if rmse_l4f < rmse_twitter else 'Twitter'
 
+            # self.weights_rmse[alpha]['TDF'] = self.weights_rmse[alpha]['TDF'].append(rmse_twitter)
+            # self.weights_rmse[alpha]['TCF'] = self.weights_rmse[alpha]['TCF'].append(rmse_cf)
+            # self.weights_rmse[alpha]['WTDF'] = self.weights_rmse[alpha]['WTDF'].append(sum([1 for i in clf.coef_ if i!=0]))
+            # self.weights_rmse[alpha]['WTCF'] = self.weights_rmse[alpha]['WTCF'].append(sum([1 for i in clf2.coef_ if i!=0]))
+
+
             #print "RMSE from L4F is %s"%str(rmse_l4f)
             placeerror = self.errors.get(placename, [])
             placeerror.append({"Aplha": alpha,
@@ -249,6 +264,11 @@ class ExtendedFeaturesLasso(object):
               error_df.to_excel(self.writer,'%s'%place)
 
           self.writer.save()
+
+
+    def output_weight_reduction(self):
+        df = p.DataFrame.from_dict(self.weights_rmse)
+        df.to_csv('results/weight_rmse.csv')
 
 if __name__ == '__main__':
     list_of_feature_files = [i.split('/')[-1].replace('.csv', '') \
