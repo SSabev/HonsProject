@@ -1263,9 +1263,8 @@ As you can see in Figure \ref{overall-searches} the overall volume of searches i
 \label{overall-searches}
 \end{figure}
 
-%\subsection{With more features}
-%
-%Here
+
+
 \newpage
 \section{Conclusion}
 
@@ -1285,7 +1284,42 @@ During the 2nd phase of the project, I will focus on retrieving only the most re
 \label{chap:future-work}
 
 
+Even though I have done a lot of work for the first phase of this project, there is definitely a vast variety of things to improve and work on during the second phase of the project. There are many different avenues to explore and here I will outline the main ones, which I believe are the ones that are worth exploring. 
 
+
+\section{Applying more NLP and NLU}
+
+
+My primary data set is the 500 GB of Twitter data that I have accumulated since the 24th of September last year. It's essentially a lot of text split into chunks of 140 characters. Since that is essentially lots of text it would be really good to try out some more NLP and NLU. 
+
+
+So far in order to filter out my data I have used a fairly primitive method of filtering out the tweets and taking only the ones that have a certain name of a city/country and/or a word from the dictionary of travel-related terms shown in Figure 2.2. That worked very well, but it meant that I am not utilising this rich dataset to the fullest. 
+
+
+The travel dictionary is one of the first points for improvement. The current list of words was picked after about 2 days thinking. We could gather some articles from different travel websites or Twitter related tweets and do the appropriate counts and statistics and pick the N most popular words. That would require another filtering of the data and we'd need to benchmark  which corpus yields a better correlation of search volumes and twitter counts. The one that yields the better one wins and is going to be used when building the models.
+
+
+Another potential thing to work in is more advanced filtering of the Twitter stream. The Twitter Streaming API gives us the possibility to track only specific words. If we take all of the words and find out which ones are most likely to co-occur with a place name we could then reduce further the volumes of data flowing in from Twitter and also track only tweets that are going to be useful rather than tracking all of the tweets and then throwing away all the irrelevant ones. 
+
+
+I believe the most interesting piece of work that can be done with NLP is to try to figure based on the Twitter data and without plotting the correlation to predict in advance for different destinations what kind of correlation there will be. That is perhaps the most complicated piece of work that will require in depth analysis of what is that creates a good positive or negative correlation - is it something true in general, or only around certain events? In our current dataset we saw that the Winter Olympics bumped the correlation coefficient for Sochi up to 0.77, which was by far the highest across all 1376 cities and countries. Ukraine and Venezuela had some political unrest and that's why the coefficients for them are -0.36 and -0.35 respectively. The question that this will answer us -- What is that makes only place attractive and can we predict when a place is going to be more/less attractive because of recent events that happened? That will not be an easy undertaking but I will try to dedicate a significant part of my time in the second phrase of the project into answering that question. I believe a basic TDT system that does some online Machine Learning would be ideal for this task. 
+
+
+To summarise I think NLP and NLU are one of the areas that will yield very interesting findings that will help me understand the dataset more and perhaps understand why people want to travel, what drives them to and more specifically depending on what the masses tweet where are the places they want to go to.
+
+
+
+\section{More advanced ML methods}
+
+
+The next possible avenue for improvement is of course trying some more advanced ML and statistical methods to predict the search volumes. 
+
+Common ``trick" in the ML community is to use LASSO for the feature selection and to pick the weights for the individual features, which are then passed on to a Ridge regression model to do the actual classification. I have already trained a Ridge regression, but that is not using the coefficients learned from the LASSO, but rather it's own. I have also trained 
+
+I have mentioned in the previous section, that I will try to do some more advanced feature selection to determine which words should be tracked and which not. 
+
+
+\section{More sophisticated method for data processing}
 
 
 \bibliographystyle{unsrt}

@@ -154,9 +154,12 @@ class LASSOOverallPredictor(object):
                     }
 
             ridge1 = Ridge(alpha=alpha)
-            ridge1.fit(Xinput[:self.cutoff].values, Youtput[:self.cutoff])
+            ridge1.coef_ = clf.coef_
+            ridge1.intercept_ = clf.intercept_
+            
             ridge2 = Ridge(alpha=alpha)
-            ridge2.fit(X2[:self.cutoff].values, Youtput[:self.cutoff])
+            ridge2.coef_ = clf2.coef_
+            ridge2.intercept_ = clf2.intercept_ 
 
             cutoff_date = dt.datetime.strptime('2013-09-24 00:00:00', '%Y-%m-%d %H:%M:%S')
 

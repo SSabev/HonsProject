@@ -28,4 +28,7 @@
 \contentsline {section}{\numberline {4.4}Results on the full dataset}{53}
 \contentsline {section}{\numberline {4.5}Conclusion}{54}
 \contentsline {chapter}{\numberline {5}Future work}{55}
+\contentsline {section}{\numberline {5.1}Applying more NLP and NLU}{55}
+\contentsline {section}{\numberline {5.2}More advanced ML methods}{56}
+\contentsline {section}{\numberline {5.3}More sophisticated method for data processing}{56}
 \contentsline {chapter}{Bibliography}{57}

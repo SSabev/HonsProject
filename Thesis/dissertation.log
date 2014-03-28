@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2013.10.13)  28 MAR 2014 12:01
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2013.10.13)  28 MAR 2014 17:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -392,13 +392,14 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
-)
+ [3
+
+])
 \tf@toc=\write3
 \openout3 = `dissertation.toc'.
 
- [1
-
-] [2
+ [1]
+[2
 
 ]
 Chapter 1.
@@ -678,11 +679,9 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [53] [54]
 Chapter 5.
-(./dissertation.bbl [55
+[55
 
-] [56
-
-]
+] (./dissertation.bbl [56]
 Underfull \hbox (badness 1565) in paragraph at lines 11--15
 []\OT1/ptm/m/n/12 Stefan Sabev.  Code for minf project.  $\OT1/pcr/m/n/12 https
  : / / github . com / SSabev /
@@ -706,7 +705,9 @@ Underfull \hbox (badness 1173) in paragraph at lines 72--78
 -ledge, and
  []
 
-[57]
+[57
+
+]
 Underfull \hbox (badness 1314) in paragraph at lines 118--121
 []\OT1/ptm/m/n/12 Twitter sam-ple stream.  $\OT1/pcr/m/n/12 https : / / dev . t
 witter . com / docs / api / 1 . 1 / get /
@@ -728,4 +729,4 @@ Here is how much of TeX's memory you used:
  1144 hyphenation exceptions out of 8191
  43i,10n,40p,1279b,1184s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on dissertation.pdf (60 pages).
+Output written on dissertation.pdf (61 pages).
