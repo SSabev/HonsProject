@@ -1,34 +1,38 @@
 \contentsline {chapter}{\numberline {1}Introduction and background}{3}
 \contentsline {section}{\numberline {1.1}Introduction}{3}
 \contentsline {section}{\numberline {1.2}Background and discussion of related work}{5}
-\contentsline {section}{\numberline {1.3}Outline}{8}
+\contentsline {section}{\numberline {1.3}Outline}{7}
 \contentsline {section}{\numberline {1.4}Contributions}{8}
 \contentsline {chapter}{\numberline {2}Methodology}{9}
-\contentsline {section}{\numberline {2.1}Data collection}{11}
+\contentsline {section}{\numberline {2.1}Data collection}{10}
 \contentsline {section}{\numberline {2.2}Data processing}{13}
 \contentsline {subsection}{\numberline {2.2.1}Using hashtags}{14}
-\contentsline {subsection}{\numberline {2.2.2}Occurrences paired with travel terms}{15}
-\contentsline {section}{\numberline {2.3}Exploring the correlation between the time series}{20}
-\contentsline {section}{\numberline {2.4}Data cleansing}{26}
-\contentsline {section}{\numberline {2.5}Feature extraction}{27}
-\contentsline {section}{\numberline {2.6}Tools}{29}
-\contentsline {chapter}{\numberline {3}Models}{31}
-\contentsline {section}{\numberline {3.1}The baseline model: Last 4 Fridays}{31}
-\contentsline {section}{\numberline {3.2}TwitterDF}{32}
-\contentsline {section}{\numberline {3.3}TwitterCF}{33}
-\contentsline {section}{\numberline {3.4}MultiFeatureTwitterDF and MultiFeatureTwitterCF}{34}
-\contentsline {section}{\numberline {3.5}Model for all the searches}{36}
-\contentsline {chapter}{\numberline {4}Results}{37}
-\contentsline {section}{\numberline {4.1}Results for TwitterDF}{40}
-\contentsline {section}{\numberline {4.2}Results for TwitterCF}{43}
-\contentsline {section}{\numberline {4.3}MultiFeatureTwitterDF and MultiFeatureTwitterCF}{47}
-\contentsline {subsection}{\numberline {4.3.1}Tenerife}{47}
-\contentsline {subsection}{\numberline {4.3.2}Sochi}{49}
+\contentsline {subsection}{\numberline {2.2.2}Occurrences paired with travel terms}{16}
+\contentsline {section}{\numberline {2.3}Exploring the correlation between the time series}{19}
+\contentsline {section}{\numberline {2.4}Data cleansing}{25}
+\contentsline {section}{\numberline {2.5}Feature extraction}{26}
+\contentsline {section}{\numberline {2.6}Tools}{28}
+\contentsline {chapter}{\numberline {3}Models}{29}
+\contentsline {section}{\numberline {3.1}The baseline model: Last 4 Fridays}{29}
+\contentsline {section}{\numberline {3.2}TwitterDF}{30}
+\contentsline {section}{\numberline {3.3}TwitterCF}{31}
+\contentsline {section}{\numberline {3.4}MultiFeatureTwitterDF and CF}{32}
+\contentsline {section}{\numberline {3.5}Model for all the searches}{32}
+\contentsline {section}{\numberline {3.6}Ridge models}{34}
+\contentsline {chapter}{\numberline {4}Results}{35}
+\contentsline {section}{\numberline {4.1}Results for TwitterDF}{38}
+\contentsline {section}{\numberline {4.2}Results for TwitterCF}{41}
+\contentsline {section}{\numberline {4.3}MultiFeatureTwitterDF and CF}{45}
+\contentsline {subsection}{\numberline {4.3.1}Tenerife}{45}
+\contentsline {subsection}{\numberline {4.3.2}Sochi}{48}
 \contentsline {subsection}{\numberline {4.3.3}UK}{52}
 \contentsline {section}{\numberline {4.4}Results on the full dataset}{53}
 \contentsline {section}{\numberline {4.5}Conclusion}{54}
 \contentsline {chapter}{\numberline {5}Future work}{55}
 \contentsline {section}{\numberline {5.1}Applying more NLP and NLU}{55}
 \contentsline {section}{\numberline {5.2}More advanced ML methods}{56}
-\contentsline {section}{\numberline {5.3}More sophisticated method for data processing}{56}
-\contentsline {chapter}{Bibliography}{57}
+\contentsline {section}{\numberline {5.3}More sophisticated method for data processing}{57}
+\contentsline {section}{\numberline {5.4}Applications at Skyscanner}{58}
+\contentsline {section}{\numberline {5.5}Outline for the second phase}{58}
+\contentsline {section}{\numberline {5.6}Conclusion}{59}
+\contentsline {chapter}{Bibliography}{61}

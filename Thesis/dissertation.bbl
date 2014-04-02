@@ -19,7 +19,7 @@ Facebook statistics.
 \newblock Accessed: 2013-02-28.
 
 \bibitem{TwitStat}
-twitter statistics.
+{Twitter} statistics.
 \newblock \url{http://www.statisticbrain.com/twitter-statistics/}.
 \newblock Accessed: 2013-02-28.
 
@@ -31,20 +31,20 @@ Twitter.
 
 \bibitem{TwitterResearch}
 Twitter Research.
-\newblock A collection of publications using twitter data.
+\newblock A collection of publications using {Twitter} data.
 \newblock \url{https://sites.google.com/site/twitterresearch09/twitter-papers}.
 \newblock Accessed: 2013-02-28.
 
 \bibitem{Miles1}
 Zhunchen Luo, Miles Osborne, Jintao Tang, and Ting Wang.
-\newblock Who will retweet me?: finding retweeters in twitter.
+\newblock Who will retweet me?: finding retweeters in {Twitter}.
 \newblock In Gareth J.~F. Jones, Paraic Sheridan, Diane Kelly, Maarten
   de~Rijke, and Tetsuya Sakai, editors, {\em SIGIR}, pages 869--872. ACM, 2013.
 
 \bibitem{Miles2}
 Sasa Petrovic, Miles Osborne, and Victor Lavrenko.
 \newblock I wish i didn't say that! analyzing and predicting deleted messages
-  in twitter.
+  in {Twitter}.
 \newblock {\em CoRR}, abs/1305.3107, 2013.
 
 \bibitem{Petrovic2012}
@@ -54,18 +54,19 @@ Sasa Petrovic.
 
 \bibitem{twitstock}
 Johan Bollen and Huina Mao.
-\newblock Twitter mood as a stock market predictor.
+\newblock {Twitter} mood as a stock market predictor.
 \newblock {\em IEEE Computer}, 44(10):91--94, 2011.
 
 \bibitem{twitflu}
 Michael~J. Paul and Mark Dredze.
-\newblock You are what you tweet: Analyzing twitter for public health.
+\newblock You are what you tweet: Analyzing {Twitter} for public health.
 \newblock In Lada~A. Adamic, Ricardo~A. Baeza-Yates, and Scott Counts, editors,
-  {\em ICWSM}. The AAAI Press, 2011.
+  {\em International AAAI Conference on Weblogs and Social Media}. The AAAI
+  Press, 2011.
 
 \bibitem{twitnfl}
 Shiladitya Sinha, Chris Dyer, Kevin Gimpel, and Noah~A. Smith.
-\newblock Predicting the nfl using twitter.
+\newblock Predicting the nfl using {Twitter}.
 \newblock {\em CoRR}, abs/1310.6998, 2013.
 
 \bibitem{twitpoll}
@@ -73,8 +74,8 @@ Brendan O'Connor, Ramnath Balasubramanyan, Bryan~R. Routledge, and Noah~A.
   Smith.
 \newblock From tweets to polls: Linking text sentiment to public opinion time
   series.
-\newblock In William~W. Cohen and Samuel Gosling, editors, {\em ICWSM}. The
-  AAAI Press, 2010.
+\newblock In William~W. Cohen and Samuel Gosling, editors, {\em International
+  AAAI Conference on Weblogs and Social Media}. The AAAI Press, 2010.
 
 \bibitem{dija}
 Dow jones industrial average.

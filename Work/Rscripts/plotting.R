@@ -144,7 +144,7 @@ ggplot(data=data, aes(x=Date, y=NSearches)) +
 ################################################################################################
 # Destination
 
-city <- 'Sochi'
+city <- 'Tenerife'
 file <- paste('../tidydata/joined/', city, sep='')
 file <- paste(file, '.csv',sep='')
 data <- read.csv(file)
@@ -184,8 +184,13 @@ destinations = c('Prague','Lisbon','Morocco','Los Angeles','Dubai','Tenerife',
                  'United Arab Emirates','Malaga','Philippines','Athens','Malaysia')
 
 for (i in destinations){
+  i='Tenerife'
   file = paste('../tidydata/predictions/', i, sep='')
   file = paste(file, '.csv',sep='')
+  
+  max.val <- max(df)
+  nx <- seq(1, max.val-1, by=max.val/175)
+  ny <- seq(1, max.val-1, by=max.val/175)
   
   df <- read.csv(file)
   df <- melt(df, id.vars=c("Actual"))
@@ -193,9 +198,10 @@ for (i in destinations){
   ggobj = ggplot(data=df, aes(x=Actual, y=value, group=variable, colour=variable)) +
     geom_point(size=3) + facet_grid(. ~ variable) +
     scale_color_manual(values=c("#4B0082", "#FF6347", '#9ACD32', '#EE82EE')) + 
+    geom_abline(aes(colour=variable)) + 
     xlab("True searches") + ylab("Predicted searches") + 
     ggtitle("Scatter plot of all the different predictions against the actual values") +
-    stat_smooth(method='loess') +
+    #stat_smooth(formula = y ~ x, method='lm') +
     theme(axis.line=element_blank(),
           axis.text.x=element_blank(),
           axis.text.y=element_blank(),
@@ -209,7 +215,7 @@ for (i in destinations){
 # SCATTER COUNT / SEARCHES
 
 
-city <- 'north korea'
+city <- 'London'
 file <- paste(city, '.csv',sep='')
 file <- paste('../tidydata/joined/', file, sep='')
 title <- paste("Scatter of searches against Twitter counts for ", city, sep='')
