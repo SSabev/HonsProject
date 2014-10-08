@@ -144,7 +144,7 @@ ggplot(data=data, aes(x=Date, y=NSearches)) +
 ################################################################################################
 # Destination
 
-city <- 'Tenerife'
+city <- 'Brazil'
 file <- paste('../tidydata/joined/', city, sep='')
 file <- paste(file, '.csv',sep='')
 data <- read.csv(file)

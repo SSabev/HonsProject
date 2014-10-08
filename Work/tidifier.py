@@ -66,12 +66,16 @@ def join_files(city,filenames):
 
     searches_and_tweets = searches.merge(tweets, on='Date', how='outer')
 
+    searches_and_tweets['RMCount'] = p.rolling_mean(searches_and_tweets.Count, 7)
+    searches_and_tweets['RMSearches'] = p.rolling_mean(searches_and_tweets.Searches, 7)
+
     try:
         del searches_and_tweets['Unnamed: 0.1']
     except KeyError:
         pass
+
     try:
-        searches_and_tweets['NSearches'] = searches_and_tweets['Searches']/float(max(searches_and_tweets['Searches']))
+        searches_and_tweets['NSearches'] = searches_and_tweets['RMSearches']/float(max(searches_and_tweets['RMSearches']))
         searches_and_tweets.to_csv('tidydata/joined/%s.csv'%city)
     except ValueError:
         print "Something went wrong"

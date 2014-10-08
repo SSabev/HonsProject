@@ -10,29 +10,31 @@ from sklearn.linear_model import Lasso, Ridge
 from sklearn.metrics import mean_squared_error
 import math
 
-class LASSOOverallPredictor(object):
 
-    def __init__(self, alphas,cutoff, output=True):
+class LASSOOverallPredictor(object):
+    def __init__(self, alphas, cutoff, output=True):
         self.output = output
         self.alphas = alphas
         self.errors = {}
         self.weights = {}
-        self.cutoff = cutoff 
+        self.cutoff = cutoff
         self.go_and_classify()
         self.output_errors()
 
-
-    def get_fridays(self, data):
+    @staticmethod
+    def get_fridays(data):
         fridays = []
+
         def conversion(date):
             return dt.datetime.strptime(date, '%Y-%m-%d')
+
         data.Date = data.Date.apply(conversion)
 
         for forecastdate in data['Date'][36:]:
-            tm1 = forecastdate - relativedelta(days = 7)
-            tm2 = forecastdate - relativedelta(days =14)
-            tm3 = forecastdate - relativedelta(days =21)
-            tm4 = forecastdate - relativedelta(days =28)
+            tm1 = forecastdate - relativedelta(days=7)
+            tm2 = forecastdate - relativedelta(days=14)
+            tm3 = forecastdate - relativedelta(days=21)
+            tm4 = forecastdate - relativedelta(days=28)
             r1 = data[data.Date == tm1]
             r2 = data[data.Date == tm2]
             r3 = data[data.Date == tm3]
@@ -83,14 +85,14 @@ class LASSOOverallPredictor(object):
             else:
                 v4 = float(r4['Searches'])
 
-            fridays.append((forecastdate, v1,v2,v3,v4))
+            fridays.append((forecastdate, v1, v2, v3, v4))
 
-        data_compound_friday = [(i, 0.675*j + 0.225*k + 0.075*l + 0.025*m) \
-              for (i,j,k,l,m) in fridays]
+        data_compound_friday = [(i, 0.675 * j + 0.225 * k + 0.075 * l + 0.025 * m) \
+                                for (i, j, k, l, m) in fridays]
         data_fridays = p.DataFrame(fridays, \
-              columns = ['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
+                                   columns=['Date', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
         data_compfriday = p.DataFrame(data_compound_friday, \
-              columns = ['Date', 'Fridays'])
+                                      columns=['Date', 'Fridays'])
 
         return data_fridays, data_compfriday
 
@@ -100,14 +102,14 @@ class LASSOOverallPredictor(object):
             data = p.read_csv(i)
             df1, df2 = self.get_fridays(data)
             self.classify(data, place, df1, df2)
-
+            print "Done with %s"%place
 
     def classify(self, df, place, data_fridays, data_compfriday):
         def predict_last_4_fridays(row):
             if row['Date'] > cutoff_date:
                 f1_w, f2_w, f3_w, f4_w = 0.675, 0.225, 0.075, 0.025
-                ps = f1_w*row['Friday1'] + f2_w*row['Friday2'] + \
-                    f3_w*row['Friday3'] + f4_w*row['Friday4']
+                ps = f1_w * row['Friday1'] + f2_w * row['Friday2'] + \
+                     f3_w * row['Friday3'] + f4_w * row['Friday4']
                 return ps
             else:
                 return 0
@@ -115,24 +117,20 @@ class LASSOOverallPredictor(object):
         data = df.copy(deep=True)
         data = data.merge(data_fridays, on='Date', how='outer')
         data = data[36:]
-        #print data
+        # print data
         data = data.fillna(0)
-
 
         data_sf = df.copy(deep=True)
         data_sf = data_sf.merge(data_compfriday, on='Date', how='outer')
         data_sf = data_sf[36:]
         data_sf = data_sf.fillna(0)
 
-
-
         Xinput = p.DataFrame(zip(data.Count.tolist(), data.Friday1.tolist(), \
-                data.Friday2.tolist(),data.Friday3.tolist(),data.Friday4.tolist()),\
-                columns = ['Count', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
+                                 data.Friday2.tolist(), data.Friday3.tolist(), data.Friday4.tolist()), \
+                             columns=['Count', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
 
-        X2 = p.DataFrame(zip(data_sf.Count.tolist(), data_sf.Fridays.tolist()),\
-                columns = ['Count', 'Fridays'])
-
+        X2 = p.DataFrame(zip(data_sf.Count.tolist(), data_sf.Fridays.tolist()), \
+                         columns=['RMCount', 'Fridays'])
 
         Youtput = data.Searches.tolist()
 
@@ -145,21 +143,20 @@ class LASSOOverallPredictor(object):
             clf2.fit(X2[:self.cutoff].values, Youtput[:self.cutoff])
             #print clf2.coef_
 
-
-            self.weights['%s-dynamic-%s'%(place, str(alpha))] = {'Twitter': clf.coef_[0],
-                    'F1': clf.coef_[1],
-                    'F2': clf.coef_[2],
-                    'F3': clf.coef_[3],
-                    'F4': clf.coef_[4],
-                    }
+            self.weights['%s-dynamic-%s' % (place, str(alpha))] = {'Twitter': clf.coef_[0],
+                                                                   'F1': clf.coef_[1],
+                                                                   'F2': clf.coef_[2],
+                                                                   'F3': clf.coef_[3],
+                                                                   'F4': clf.coef_[4],
+            }
 
             ridge1 = Ridge(alpha=alpha)
             ridge1.coef_ = clf.coef_
             ridge1.intercept_ = clf.intercept_
-            
+
             ridge2 = Ridge(alpha=alpha)
             ridge2.coef_ = clf2.coef_
-            ridge2.intercept_ = clf2.intercept_ 
+            ridge2.intercept_ = clf2.intercept_
 
             cutoff_date = dt.datetime.strptime('2013-09-24 00:00:00', '%Y-%m-%d %H:%M:%S')
 
@@ -170,9 +167,8 @@ class LASSOOverallPredictor(object):
             predicted_tw_s_f = clf2.predict(X2[self.cutoff:].values)
             predicted_tw_s_f_r = ridge2.predict(X2[self.cutoff:].values)
 
-
             predicted_l4f = data.LF4Predicted
-            actual = data.Searches
+            actual = data.RMSearches
 
             rmse_twitter = mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_d_f)
             rmse_twitter = math.sqrt(rmse_twitter)
@@ -180,16 +176,16 @@ class LASSOOverallPredictor(object):
             rmse_static = mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_s_f)
             rmse_static = math.sqrt(rmse_static)
 
-            rmse_rtdf = math.sqrt(mean_squared_error(actual[self.cutoff:].tolist(),predicted_tw_d_f_r))
-            rmse_rtcf = math.sqrt(mean_squared_error(actual[self.cutoff:].tolist(),predicted_tw_s_f_r))
-    
+            rmse_rtdf = math.sqrt(mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_d_f_r))
+            rmse_rtcf = math.sqrt(mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_s_f_r))
+
             rmse_l4f = mean_squared_error(actual[self.cutoff:].tolist(), predicted_l4f[self.cutoff:])
             rmse_l4f = math.sqrt(rmse_l4f)
 
             predictions = p.DataFrame(zip(actual, clf.predict(Xinput), clf2.predict(X2), \
-                    predicted_l4f, ridge1.predict(Xinput),ridge2.predict(X2)), \
-                    columns=['Actual','TwitterDF','TwitterCF', 'L4F', 'RTwitterDF', 'RTwitterCF'])
-            predictions.to_csv('tidydata/predictions/%s.csv'%place)
+                                          predicted_l4f, ridge1.predict(Xinput), ridge2.predict(X2)), \
+                                      columns=['Actual', 'TwitterDF', 'TwitterCF', 'L4F', 'RTwitterDF', 'RTwitterCF'])
+            predictions.to_csv('tidydata/predictions/%s.csv' % place)
 
             try:
                 del data['Unnamed: 0']
@@ -197,25 +193,25 @@ class LASSOOverallPredictor(object):
                 pass
             #data.to_csv('tidydata/predictions/%s-dynamic-%s.csv'%(place, alpha))
             winner = ''
-            errors = {rmse_l4f: 'L4F' ,
-                    rmse_static: 'TCF', 
-                    rmse_twitter: 'TDF',
-                    rmse_rtdf: 'RTDF',
-                    rmse_rtcf: 'RTCF'}
+            errors = {rmse_l4f: 'L4F',
+                      rmse_static: 'TCF',
+                      rmse_twitter: 'TDF',
+                      rmse_rtdf: 'RTDF',
+                      rmse_rtcf: 'RTCF'}
 
             winner2 = 'L4F' if rmse_l4f < rmse_twitter else 'Twitter'
 
             self.errors[place] = {"TwitterDF": rmse_twitter,
-                        "TwitterCF": rmse_static,
-                        "L4F": rmse_l4f,
-                        "RidgeTwitterDF":  rmse_rtdf,
-                        "RidgeTwitterCF":  rmse_rtcf,
-                        "R^2_twitter": clf.score(Xinput[self.cutoff:], actual[self.cutoff:]),
-                        "Twitter weight": clf.coef_[0],
-                        "Fridays weight": clf.coef_[1],
-                        "Winner": errors[min(errors.keys())],
-                        "WinnerBin": winner2,
-                        }
+                                  "TwitterCF": rmse_static,
+                                  "L4F": rmse_l4f,
+                                  "RidgeTwitterDF": rmse_rtdf,
+                                  "RidgeTwitterCF": rmse_rtcf,
+                                  "R^2_twitter": clf.score(Xinput[self.cutoff:], actual[self.cutoff:]),
+                                  "Twitter weight": clf.coef_[0],
+                                  "Fridays weight": clf.coef_[1],
+                                  "Winner": errors[min(errors.keys())],
+                                  "WinnerBin": winner2,
+            }
 
     def output_errors(self):
         error_df = p.DataFrame.from_dict(self.errors, orient="index")
@@ -223,9 +219,6 @@ class LASSOOverallPredictor(object):
 
         weights_df = p.DataFrame.from_dict(self.weights, orient='index')
         weights_df.to_csv('results/static-and-dynamic.csv')
-
-
-
 
 
 if __name__ == '__main__':

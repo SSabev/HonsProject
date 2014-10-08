@@ -16,7 +16,7 @@ class TwitterExtractor(object):
     And it will use more pandas rather than all the other custom crap.
     """
     def __init__(self, basepath):
-        self.processed = ["%s/%s"%(basepath,i.split('/')[-1]) for i in glob.glob('traveltweets/*')]
+        self.processed = ["%s/%s"%(basepath,i.split('/')[-1]) for i in glob.glob('/Volumes/Samsung/traveltweets/*')]
         print "Processed %s files so far"%str(len(self.processed))
         self.all_the_files = [i for i in glob.glob(r'%s/data-dump-with-dt-*'%basepath) if i not in self.processed]
         self.all_the_files.sort()
@@ -57,7 +57,6 @@ class TwitterExtractor(object):
         del multi_word_cities, multi_word_countries, single_word_cities, single_word_countries
 
     def process_files(self):
-        self.startime = None
         cities = self.get_cities()
         self.get_lists()
         self.counts = {}
@@ -66,32 +65,35 @@ class TwitterExtractor(object):
             self.counts[i] = {}
         for i in self.multi_word:
             self.counts[i] = {}
-
-
-        for twfile in self.all_the_files[:7]:
-            self.starttime = datetime.datetime.now()
+            
+        self.all_the_files.reverse()
+        for twfile in self.all_the_files[:1]:
             print "I have just started %s"%twfile
             filename_current = twfile.split('/')[-1]
-            outfile = open('traveltweets/%s'%filename_current, 'wb')
+            outfile = open('/Volumes/Samsung/traveltweets/%s'%filename_current, 'wb')
             for line in open(twfile, 'r'):
                 change = False
-                travelFlag = False
+                travelflag = False
                 tweet = None
                 try:
                     tweet = json.loads(line)
                 except ValueError:
                     print "Faulty tweet"
 
-                if tweet:
+                if tweet and 'text' in tweet.keys() and 'created_at' in tweet.keys():
                     temp = tweet['text'].encode('utf-8').lower()
                     for w in terms:
                         if w in temp:
-                            travelFlag = True
+                            travelflag = True
                             break
 
-                    dt_stamp = datetime.datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-                    dt_key = dt_stamp.strftime('%Y-%m-%d')
-                    if 'rio' in temp or 'brazil' in temp or 'world cup' in temp:
+                    try:
+                        dt_stamp = datetime.datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+                        dt_key = dt_stamp.strftime('%Y-%m-%d')
+                    except:
+                        pass
+
+                    if 'world cup' in temp:
                         change = True
                         self.counts['Brazil'][dt_key] = self.counts['Brazil'].get(dt_key, 0) + 1
 
@@ -100,17 +102,14 @@ class TwitterExtractor(object):
                             change = True
                             self.counts[i][dt_key] = self.counts[i].get(dt_key, 0) + 1
 
-                    for token in temp.split(' '):
+                    sentence = temp.split(' ')
+                    for token in sentence:
                         if token in self.single_word:
                             change = True
                             self.counts[token][dt_key] = self.counts[token].get(dt_key, 0) + 1
 
-                    if (change or travelFlag) and tweet:
+                    if change or travelflag:
                         outfile.write(json.dumps(tweet) + '\n')
-
-            h, m, s = self.convert_timedelta(datetime.datetime.now() - self.starttime)
-            print '{} took {}h,{}m,{}s to process'.format(twfile, h, m, s)
-            self.startime = datetime.datetime.now()
 
 
         #print self.counts
@@ -133,7 +132,7 @@ class TwitterExtractor(object):
             for j in twitter_files:
                 tname = j.split('/')[1].replace('.csv','')
                 if name == tname:
-                    print 'Match for %s'%tname
+                    # print 'Match for %s'%tname
                     data = p.read_csv(j)
                     new_data = p.read_csv(i)
                     if 'Datetime' in data:
