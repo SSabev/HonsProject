@@ -5,3 +5,6 @@
 *.log
 *.bbl
 Work/tbcities.dat
+*.idea
+*.dvi
+*.blg
