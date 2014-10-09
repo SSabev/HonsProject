@@ -65,7 +65,7 @@ class TwitterExtractor(object):
             self.counts[i] = {}
         for i in self.multi_word:
             self.counts[i] = {}
-            
+
         self.all_the_files.reverse()
         for twfile in self.all_the_files[:1]:
             print "I have just started %s"%twfile

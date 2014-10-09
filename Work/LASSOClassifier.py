@@ -127,7 +127,7 @@ class LASSOOverallPredictor(object):
 
         Xinput = p.DataFrame(zip(data.Count.tolist(), data.Friday1.tolist(), \
                                  data.Friday2.tolist(), data.Friday3.tolist(), data.Friday4.tolist()), \
-                             columns=['Count', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
+                             columns=['RMCount', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
 
         X2 = p.DataFrame(zip(data_sf.Count.tolist(), data_sf.Fridays.tolist()), \
                          columns=['RMCount', 'Fridays'])
