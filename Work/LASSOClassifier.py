@@ -101,9 +101,9 @@ class LASSOOverallPredictor(object):
     def go_and_classify(self):
         for i in glob.glob('tidydata/joined/*.csv'):
             place = i.split('/')[-1].replace('.csv', '')
-            data = p.read_csv(i)
-            a = peak_detection(data)
-            if a:
+            a = peak_detection(i, 'RMCount')
+            if a is not False:
+                data = a
                 df1, df2 = self.get_fridays(data)
                 self.classify(data, place, df1, df2)
                 print "Done with %s"%place

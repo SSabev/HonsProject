@@ -5,18 +5,21 @@ import pandas as p
 
 def peak_detection(filename, metric):
     df = p.read_csv(filename)
-    median = df[metric].median()
+    mean = df[metric].mean()
     stdev = df[metric].std()
-    del df['Unnamed: 0.1']
-
-    print median
+    try:
+        del df['Unnamed: 0.1']
+    except KeyError:
+        pass
+    print filename
+    print mean
     print stdev
 
-    if median < stdev:
+    if mean < stdev:
 
         def classify(k):
-            max_threshold = median + 2*stdev
-            min_threshold = median - 2*stdev
+            max_threshold = mean + 2*stdev
+            min_threshold = mean - 2*stdev
 
             if k > max_threshold:
                 return 'Peak'
