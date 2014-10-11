@@ -149,11 +149,12 @@ file <- paste('../tidydata/joined/', city, sep='')
 file <- paste(file, '.csv',sep='')
 data <- read.csv(file)
 
+keeps <- c( "RMCount", "Date", "RMSearches")
+data <- data[(names(data) %in% keeps)]
 data <- data[complete.cases(data), ]
 data$Date <- as.Date(data$Date,format="%Y-%m-%d")
 
-keeps <- c( "Count", "Date", "NSearches")
-data <- data[(names(data) %in% keeps)]
+
 
 df <- melt(data, id.vars=c("Date"))
 

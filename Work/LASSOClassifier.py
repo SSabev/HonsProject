@@ -1,16 +1,12 @@
+import glob
+import math
 import pandas as p
 import numpy as np
-
-from dateutil.relativedelta import relativedelta
-
 import datetime as dt
-import glob
-
+from PeakDetector import peak_detection
 from sklearn.linear_model import Lasso, Ridge
 from sklearn.metrics import mean_squared_error
-import math
-
-from PeakDetector import peak_detection
+from dateutil.relativedelta import relativedelta
 
 
 class LASSOOverallPredictor(object):
@@ -21,7 +17,7 @@ class LASSOOverallPredictor(object):
         self.weights = {}
         self.cutoff = cutoff
         self.go_and_classify()
-        self.output_errors()
+        self.output_data()
 
     @staticmethod
     def get_fridays(data):
@@ -101,12 +97,13 @@ class LASSOOverallPredictor(object):
     def go_and_classify(self):
         for i in glob.glob('tidydata/joined/*.csv'):
             place = i.split('/')[-1].replace('.csv', '')
-            a = peak_detection(i, 'RMCount')
+            a = peak_detection(i, 'RMCount', 'RMSearches')
             if a is not False:
                 data = a
+                data.to_csv('tidydata/peaks/%s.csv'%place)
                 df1, df2 = self.get_fridays(data)
                 self.classify(data, place, df1, df2)
-                print "Done with %s"%place
+                print "Done with %s" % place
 
     def classify(self, df, place, data_fridays, data_compfriday):
         def predict_last_4_fridays(row):
@@ -121,7 +118,6 @@ class LASSOOverallPredictor(object):
         data = df.copy(deep=True)
         data = data.merge(data_fridays, on='Date', how='outer')
         data = data[36:]
-        # print data
         data = data.fillna(0)
 
         data_sf = df.copy(deep=True)
@@ -129,30 +125,33 @@ class LASSOOverallPredictor(object):
         data_sf = data_sf[36:]
         data_sf = data_sf.fillna(0)
 
-        Xinput = p.DataFrame(zip(data.Count.tolist(), data.Friday1.tolist(), \
-                                 data.Friday2.tolist(), data.Friday3.tolist(), data.Friday4.tolist()), \
-                             columns=['RMCount', 'Friday1', 'Friday2', 'Friday3', 'Friday4'])
+        Xinput = p.DataFrame(zip(data.Count.tolist(), data.Friday1.tolist(),
+                                 data.Friday2.tolist(), data.Friday3.tolist(), data.Friday4.tolist(),
+                                 data.CountPeakToday.tolist(), data.SearchesPeakToday.tolist()),
+                             columns=['RMCount', 'Friday1', 'Friday2', 'Friday3', 'Friday4', 'CountPeakToday',
+                                      'SearchesPeakToday'])
 
-        X2 = p.DataFrame(zip(data_sf.Count.tolist(), data_sf.Fridays.tolist()), \
-                         columns=['RMCount', 'Fridays'])
+        X2 = p.DataFrame(zip(data_sf.Count.tolist(), data_sf.Fridays.tolist(), data.CountPeakToday.tolist(),
+                            data.SearchesPeakToday.tolist()),
+                         columns=['RMCount', 'Fridays', 'CountPeakToday', 'SearchesPeakToday'])
 
         Youtput = data.Searches.tolist()
 
         for alpha in self.alphas:
             clf = Lasso(alpha=alpha)
             clf.fit(Xinput[:self.cutoff].values, Youtput[:self.cutoff])
-            #print clf.coef_
 
             clf2 = Lasso(alpha=alpha)
             clf2.fit(X2[:self.cutoff].values, Youtput[:self.cutoff])
-            #print clf2.coef_
 
             self.weights['%s-dynamic-%s' % (place, str(alpha))] = {'Twitter': clf.coef_[0],
                                                                    'F1': clf.coef_[1],
                                                                    'F2': clf.coef_[2],
                                                                    'F3': clf.coef_[3],
                                                                    'F4': clf.coef_[4],
-            }
+                                                                   'CPeak': clf.coef_[5],
+                                                                   'SPeak': clf.coef_[6],
+                                                                }
 
             ridge1 = Ridge(alpha=alpha)
             ridge1.coef_ = clf.coef_
@@ -217,12 +216,13 @@ class LASSOOverallPredictor(object):
                                   "WinnerBin": winner2,
             }
 
-    def output_errors(self):
+    def output_data(self):
+        current_datetime = (dt.datetime.now().strftime("%d-%m-%Y"))
         error_df = p.DataFrame.from_dict(self.errors, orient="index")
-        error_df.to_csv('results/lasso-static-and-dynamic.csv')
+        error_df.to_csv('results/LASSO Results/lasso-static-and-dynamic-%s.csv' % current_datetime)
 
         weights_df = p.DataFrame.from_dict(self.weights, orient='index')
-        weights_df.to_csv('results/static-and-dynamic.csv')
+        weights_df.to_csv('results/LASSO Weights/static-and-dynamic-%s.csv' % current_datetime)
 
 
 if __name__ == '__main__':

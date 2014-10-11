@@ -200,17 +200,17 @@ destinations = c('Aarhus', 'Abbotsford', 'Aberdeen', 'Abha', 'Abidjan', 'Abilene
                  'Winston-Salem', 'Winton', 'Wroclaw', 'Wuhan', 'Wuxi', 'Xi An', 'Xiamen', 'Yakima', 'Yangon',
                  'Yap', 'Yellowknife', 'Yemen', 'Yeosu', 'Yerevan', 'Yogyakarta', 'Youngstown', 'Yuma', 'Zagreb',
 'Zambia' , 'Zamboanga', 'Zanzibar', 'Zaragoza', 'Zimbabwe', 'Zurich')
-
+i = 'Brazil'
 for (i in destinations){
   file <- paste('../tidydata/joined/', i, sep='')
   file <- paste(file, '.csv',sep='')
   data <- read.csv(file)
   
+  keeps <- c( "RMCount", "Date", "NSearches")
+  data <- data[(names(data) %in% keeps)]
+  
   data <- data[complete.cases(data), ]
   data$Date <- as.Date(data$Date,format="%Y-%m-%d")
-  
-  keeps <- c( "RMCount", "Date", "RMSearches")
-  data <- data[(names(data) %in% keeps)]
   
   df <- melt(data, id.vars=c("Date"))
   
@@ -224,5 +224,5 @@ for (i in destinations){
   #  scale_x_date(labels = date_format("%m-%Y"))
   print(ggobj)
   
-  ggsave(sprintf("plots/%s.pdf", i))
+  ggsave(sprintf("plots/%s.pdf", i), width=9, height=10)
 }
