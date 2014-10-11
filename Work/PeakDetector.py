@@ -12,20 +12,26 @@ def peak_detection(filename, metric):
     print median
     print stdev
 
-    def classify(k):
-        max_threshold = median + 2*stdev
-        min_threshold = median - 2*stdev
+    if median < stdev:
 
-        if k > max_threshold:
-            return 'Peak'
-        elif k < min_threshold:
-            return 'MinPeak'
-        else:
-            return 'NoPeak'
+        def classify(k):
+            max_threshold = median + 2*stdev
+            min_threshold = median - 2*stdev
 
-    df['%sPeakToday'%metric] = df[metric].apply(classify)
+            if k > max_threshold:
+                return 'Peak'
+            elif k < min_threshold:
+                return 'MinPeak'
+            else:
+                return 'NoPeak'
 
-    return df
+        df['%sPeakToday'%metric] = df[metric].apply(classify)
+
+        return df
+
+    else:
+        return False
+
 
 if __name__ == '__main__':
     file = glob.glob('tidydata/twitter/Sochi*')[0]

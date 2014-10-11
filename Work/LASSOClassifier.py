@@ -10,6 +10,8 @@ from sklearn.linear_model import Lasso, Ridge
 from sklearn.metrics import mean_squared_error
 import math
 
+from PeakDetector import peak_detection
+
 
 class LASSOOverallPredictor(object):
     def __init__(self, alphas, cutoff, output=True):
@@ -100,9 +102,11 @@ class LASSOOverallPredictor(object):
         for i in glob.glob('tidydata/joined/*.csv'):
             place = i.split('/')[-1].replace('.csv', '')
             data = p.read_csv(i)
-            df1, df2 = self.get_fridays(data)
-            self.classify(data, place, df1, df2)
-            print "Done with %s"%place
+            a = peak_detection(data)
+            if a:
+                df1, df2 = self.get_fridays(data)
+                self.classify(data, place, df1, df2)
+                print "Done with %s"%place
 
     def classify(self, df, place, data_fridays, data_compfriday):
         def predict_last_4_fridays(row):
