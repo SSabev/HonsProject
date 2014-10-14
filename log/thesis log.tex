@@ -1,0 +1,44 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Thesis log}
+\author{Stefan Sabev}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section{14th October 2014}
+
+What's been tried so far:
+
+\begin{itemize}
+\item I have used smoothing to smooth the weekly seasonality component out of both the twitter and searches data.
+That has yielded small improvement in the correlation coefficients.
+\item I have also used a very basic method of prediction which works as follows:
+\begin{quotation}
+Calculate the mean and the standard deviation of the searches.
+If the standard deviation is more than the mean, then there has been a spike which has pushed it higher.
+\end{quotation}
+\item I've also used that to determine which destinations should have a classifier built. That has yielded very small improvements.
+\end{itemize}
+
+
+The fact that the simple combination of LASSO + Ridge regression does not perform miraculously well has led my supervisor and I to believe that perhaps we should investigate more sophisticated models that will perhaps model the problem better.
+
+I am currently doing:
+
+\begin{itemize}
+\item Reading the Adams \& MacKay paper on Bayesian change point models
+\item Will look into the matlab implementation and try to port it to Python.
+\end{itemize}
+
+
+\end{document}  

@@ -10,12 +10,11 @@ from dateutil.relativedelta import relativedelta
 
 
 class LASSOOverallPredictor(object):
-    def __init__(self, alphas, cutoff, output=True):
+    def __init__(self, alphas, output=True):
         self.output = output
         self.alphas = alphas
         self.errors = {}
         self.weights = {}
-        self.cutoff = cutoff
         self.go_and_classify()
         self.output_data()
 
@@ -100,49 +99,50 @@ class LASSOOverallPredictor(object):
             a = peak_detection(i, 'RMCount', 'RMSearches')
             if a is not False:
                 data = a
-                data.to_csv('tidydata/peaks/%s.csv'%place)
                 df1, df2 = self.get_fridays(data)
-                self.classify(data, place, df1, df2)
-                print "Done with %s" % place
+                data = data.dropna(subset=['Count', 'RMCount'])
+                if len(data.index) > 50:
+                    data.to_csv('tidydata/peaks/%s.csv' % place)
+                    self.classify(data, place, df1, df2)
+                    print "Done with %s" % place
 
     def classify(self, df, place, data_fridays, data_compfriday):
         def predict_last_4_fridays(row):
             if row['Date'] > cutoff_date:
                 f1_w, f2_w, f3_w, f4_w = 0.675, 0.225, 0.075, 0.025
-                ps = f1_w * row['Friday1'] + f2_w * row['Friday2'] + \
-                     f3_w * row['Friday3'] + f4_w * row['Friday4']
+                ps = f1_w * row['Friday1'] + f2_w * row['Friday2'] + f3_w * row['Friday3'] + f4_w * row['Friday4']
                 return ps
             else:
                 return 0
 
         data = df.copy(deep=True)
-        data = data.merge(data_fridays, on='Date', how='outer')
-        data = data[36:]
+        data = data.merge(data_fridays, on='Date', how='inner')
         data = data.fillna(0)
 
         data_sf = df.copy(deep=True)
-        data_sf = data_sf.merge(data_compfriday, on='Date', how='outer')
-        data_sf = data_sf[36:]
+        data_sf = data_sf.merge(data_compfriday, on='Date', how='inner')
         data_sf = data_sf.fillna(0)
 
-        Xinput = p.DataFrame(zip(data.Count.tolist(), data.Friday1.tolist(),
+        Xinput = p.DataFrame(zip(data.RMCount.tolist(), data.Friday1.tolist(),
                                  data.Friday2.tolist(), data.Friday3.tolist(), data.Friday4.tolist(),
                                  data.CountPeakToday.tolist(), data.SearchesPeakToday.tolist()),
                              columns=['RMCount', 'Friday1', 'Friday2', 'Friday3', 'Friday4', 'CountPeakToday',
                                       'SearchesPeakToday'])
 
-        X2 = p.DataFrame(zip(data_sf.Count.tolist(), data_sf.Fridays.tolist(), data.CountPeakToday.tolist(),
-                            data.SearchesPeakToday.tolist()),
+        X2 = p.DataFrame(zip(data_sf.RMCount.tolist(), data_sf.Fridays.tolist(), data.CountPeakToday.tolist(),
+                             data.SearchesPeakToday.tolist()),
                          columns=['RMCount', 'Fridays', 'CountPeakToday', 'SearchesPeakToday'])
+
+        cutoff = len(data.index) - 7
 
         Youtput = data.Searches.tolist()
 
         for alpha in self.alphas:
             clf = Lasso(alpha=alpha)
-            clf.fit(Xinput[:self.cutoff].values, Youtput[:self.cutoff])
+            clf.fit(Xinput[:cutoff].values, Youtput[:cutoff])
 
             clf2 = Lasso(alpha=alpha)
-            clf2.fit(X2[:self.cutoff].values, Youtput[:self.cutoff])
+            clf2.fit(X2[:cutoff].values, Youtput[:cutoff])
 
             self.weights['%s-dynamic-%s' % (place, str(alpha))] = {'Twitter': clf.coef_[0],
                                                                    'F1': clf.coef_[1],
@@ -151,7 +151,7 @@ class LASSOOverallPredictor(object):
                                                                    'F4': clf.coef_[4],
                                                                    'CPeak': clf.coef_[5],
                                                                    'SPeak': clf.coef_[6],
-                                                                }
+            }
 
             ridge1 = Ridge(alpha=alpha)
             ridge1.coef_ = clf.coef_
@@ -165,28 +165,28 @@ class LASSOOverallPredictor(object):
 
             data['LF4Predicted'] = data.apply(predict_last_4_fridays, axis=1)
 
-            predicted_tw_d_f = clf.predict(Xinput[self.cutoff:].values)
-            predicted_tw_d_f_r = ridge1.predict(Xinput[self.cutoff:].values)
-            predicted_tw_s_f = clf2.predict(X2[self.cutoff:].values)
-            predicted_tw_s_f_r = ridge2.predict(X2[self.cutoff:].values)
+            predicted_tw_d_f = clf.predict(Xinput[cutoff:].values)
+            predicted_tw_d_f_r = ridge1.predict(Xinput[cutoff:].values)
+            predicted_tw_s_f = clf2.predict(X2[cutoff:].values)
+            predicted_tw_s_f_r = ridge2.predict(X2[cutoff:].values)
 
             predicted_l4f = data.LF4Predicted
             actual = data.RMSearches
 
-            rmse_twitter = mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_d_f)
+            rmse_twitter = mean_squared_error(actual[cutoff:].tolist(), predicted_tw_d_f)
             rmse_twitter = math.sqrt(rmse_twitter)
 
-            rmse_static = mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_s_f)
+            rmse_static = mean_squared_error(actual[cutoff:].tolist(), predicted_tw_s_f)
             rmse_static = math.sqrt(rmse_static)
 
-            rmse_rtdf = math.sqrt(mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_d_f_r))
-            rmse_rtcf = math.sqrt(mean_squared_error(actual[self.cutoff:].tolist(), predicted_tw_s_f_r))
+            rmse_rtdf = math.sqrt(mean_squared_error(actual[cutoff:].tolist(), predicted_tw_d_f_r))
+            rmse_rtcf = math.sqrt(mean_squared_error(actual[cutoff:].tolist(), predicted_tw_s_f_r))
 
-            rmse_l4f = mean_squared_error(actual[self.cutoff:].tolist(), predicted_l4f[self.cutoff:])
+            rmse_l4f = mean_squared_error(actual[cutoff:].tolist(), predicted_l4f[cutoff:])
             rmse_l4f = math.sqrt(rmse_l4f)
 
-            predictions = p.DataFrame(zip(actual, clf.predict(Xinput), clf2.predict(X2), \
-                                          predicted_l4f, ridge1.predict(Xinput), ridge2.predict(X2)), \
+            predictions = p.DataFrame(zip(actual, clf.predict(Xinput), clf2.predict(X2),
+                                          predicted_l4f, ridge1.predict(Xinput), ridge2.predict(X2)),
                                       columns=['Actual', 'TwitterDF', 'TwitterCF', 'L4F', 'RTwitterDF', 'RTwitterCF'])
             predictions.to_csv('tidydata/predictions/%s.csv' % place)
 
@@ -194,13 +194,14 @@ class LASSOOverallPredictor(object):
                 del data['Unnamed: 0']
             except KeyError:
                 pass
-            #data.to_csv('tidydata/predictions/%s-dynamic-%s.csv'%(place, alpha))
-            winner = ''
+
             errors = {rmse_l4f: 'L4F',
                       rmse_static: 'TCF',
                       rmse_twitter: 'TDF',
                       rmse_rtdf: 'RTDF',
                       rmse_rtcf: 'RTCF'}
+
+            print errors
 
             winner2 = 'L4F' if rmse_l4f < rmse_twitter else 'Twitter'
 
@@ -209,7 +210,7 @@ class LASSOOverallPredictor(object):
                                   "L4F": rmse_l4f,
                                   "RidgeTwitterDF": rmse_rtdf,
                                   "RidgeTwitterCF": rmse_rtcf,
-                                  "R^2_twitter": clf.score(Xinput[self.cutoff:], actual[self.cutoff:]),
+                                  "R^2_twitter": clf.score(Xinput[cutoff:], actual[cutoff:]),
                                   "Twitter weight": clf.coef_[0],
                                   "Fridays weight": clf.coef_[1],
                                   "Winner": errors[min(errors.keys())],
@@ -226,4 +227,4 @@ class LASSOOverallPredictor(object):
 
 
 if __name__ == '__main__':
-    a = LASSOOverallPredictor([1], 140)
+    a = LASSOOverallPredictor([1])
