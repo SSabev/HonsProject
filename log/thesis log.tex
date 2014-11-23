@@ -15,7 +15,44 @@
 \begin{document}
 \maketitle
 
-\section{14th October 2014}
+\section{Week 3}
+
+In the model have:
+\begin{itemize}
+\item last 4 friday weights
+\item the twitter counts
+\end{itemize}
+
+Those would be the things that change.
+
+\begin{enumerate}
+\item Implement the method in the Ryan Adams \& David MacKay paper.
+\item Run this on some toy data.
+\item Run this on the search volumes without the Twitter data.
+\item Histogram of the change point to the nearest twitter peak.
+\end{enumerate}
+
+Non-linear function of the features.
+
+And SV regression with polynomial kernel.
+
+Use relative error or use absolute error.
+
+Average across days and destinations. 
+
+Do a histogram of median, box plot or any ways to drill down and show it clearly.
+\begin{enumerate}
+\item take quantiles across destination. 
+\item Median/mean absolute error.
+\end{enumerate}
+
+Take mean over days or median over destinations.
+Cluster the destinations by popularity - split into 5 groups.
+report the mean absolute error for each of the groups.
+
+(Add something to the prior that makes change point more likely if there is a twitter spike)
+
+\section{Week 5}
 
 What's been tried so far:
 
@@ -85,12 +122,27 @@ report the mean absolute error for each of the groups.
 
 Having read the Adams and MacKay paper the well-log data seems to be the most relevant, because of the step changes observed.
 
-\section{15th  and 16th October 2014}
-
 After reading the paper I started the experimental part. 
 
 Both of online and offline work perfectly fine.
 
 Currently doing some other assignments, but will make a start on this soon.
+
+\section{Week 6}
+
+The algorithm does not work out of the box which is expected. 
+
+What should be used for evaluation: 1/T ( sum (y prediction - y actual) / y actual )
+
+Things to try:
+
+\begin{enumerate}
+\item AR(1)
+\item and then AR(K)
+\end{enumerate}
+
+do it on weekly average or other data.
+
+
 
 \end{document}  

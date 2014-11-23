@@ -16,7 +16,7 @@ class TopFeatures(object):
 
     def load_stopwords(self):
         self.stopwords = {}
-        tempfile = open('tidydata/stopwords.txt')
+        tempfile = open('../tidydata/stopwords.txt')
         for line in tempfile:
             self.stopwords[line.strip()] = ''
 

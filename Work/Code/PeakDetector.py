@@ -60,3 +60,6 @@ if __name__ == '__main__':
 
     df.to_csv('Sochi-peaks.csv')
 
+
+
+

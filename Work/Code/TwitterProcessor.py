@@ -81,6 +81,6 @@ class TwitterProcessor(object):
         # print "%s went tits up"%str(bad)
 
 if __name__ == '__main__':
-    input_files = glob.glob('twittercounts/*.csv')
-    directory = 'tidydata/twitter'
+    input_files = glob.glob('../twittercounts/*.csv')
+    directory = '../tidydata/twitter'
     a = TwitterProcessor(input_files, directory)

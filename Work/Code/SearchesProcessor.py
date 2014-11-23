@@ -31,9 +31,12 @@ class ExitsProcessor(object):
     def extract(self):
         self.uniques = set(self.data['ToCity'])
         bad, good = 0, 0
-        del self.data['ToAirport']
-        del self.data['ToCountry']
-        del self.data['Unnamed: 0']
+        try:
+            del self.data['ToAirport']
+            del self.data['ToCountry']
+            del self.data['Unnamed: 0']
+        except KeyError:
+            pass
         for i in iter(self.uniques):
             df = self.data[self.data.ToCity == i]
             if sum(df['Searches']) > 10000:
@@ -73,8 +76,12 @@ class ExitsProcessor(object):
 
     def make_extracts_for_countries(self):
         bad, good = 0, 0
-        del self.original['ToAirport']
-        del self.original['ToCity']
+        try:
+            del self.original['ToAirport']
+            del self.original['ToCity']
+        except KeyError:
+            pass
+
         for i in iter(set(self.original['ToCountry'])):
             print i
             df = self.original[self.original['ToCountry'] == i]
@@ -115,7 +122,7 @@ class ExitsProcessor(object):
 
 if __name__ == '__main__':
     f = 'searches.csv'
-    directory = 'tidydata/se'
+    directory = '../tidydata/se'
     a = ExitsProcessor(f, directory)
     a.extract()
     a.make_extracts_for_countries()

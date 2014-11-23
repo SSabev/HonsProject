@@ -34,7 +34,7 @@ class TwitterExtractor(object):
         return hours, minutes, seconds
 
     def get_cities(self):
-        f = open('tbcities.dat', 'r')
+        f = open('../tbcities.dat', 'r')
         cities = {}
         for line in f:
             temp = line.split('\t')
@@ -118,13 +118,13 @@ class TwitterExtractor(object):
                 df = p.DataFrame(list(temp.iteritems()), \
                 columns=['Date', 'Count']).sort(columns=['Date'], ascending=False)
                 city_formatted = str(key)
-                df.to_csv('pcounts/%s.csv'%(city_formatted.capitalize().replace('/', '')))
+                df.to_csv('../pcounts/%s.csv'%(city_formatted.capitalize().replace('/', '')))
 
 
     def rebalance_counts(self):
-        twitter_dir = 'twittercounts/'
-        twitter_files = glob.glob('twittercounts/*.csv')
-        pcounts = glob.glob('pcounts/*.csv')
+        twitter_dir = '../twittercounts/'
+        twitter_files = glob.glob('../twittercounts/*.csv')
+        pcounts = glob.glob('../pcounts/*.csv')
 
         for i in pcounts:
             name = i.split('/')[1].replace('.csv','')
