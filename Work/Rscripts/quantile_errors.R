@@ -4,6 +4,7 @@ library(zoo)
 library("TTR")
 library('hydroGOF')
 library('changepoint')
+setwd('Dev/HonsProject/Work/Rscripts')
 
 # Get all the errors
 i <- 'Sochi'
@@ -54,7 +55,7 @@ for(i in 30:400){
   actual_vals <- place_ts[i:i+1]
   changepoint <- 0
   error <- actual_vals - predicted_vals
-  if(error > quantiles[6]){
+  if(error > quantiles[7]){
     changepoint <- 1
   }
   df_arima <- rbind(df_arima, c(predicted_vals, actual_vals, changepoint))

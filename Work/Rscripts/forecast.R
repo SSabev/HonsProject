@@ -92,19 +92,19 @@ plot(m.pelt, type = "l", cpt.col = "blue", xlab = "Index", cpt.width = 4)
 cpts(m.pelt)
 
 
-
-ts.plot(sochi_ts, xlab="index")
-sochi_cpts <- cpt.mean(sochi_ts[1:430], method='PELT')
-plot(sochi_cpts, type = "l", cpt.col = "blue", xlab = "Index", cpt.width = 4)
-cpts(sochi_cpts)
-
-sochi_cpts <- cpt.var(sochi_ts[1:430])
-plot(sochi_cpts, type = "l", cpt.col = "blue", xlab = "Index", cpt.width = 4)
-sochi_cpts <- cpt.mean(sochi_ts[1:430])
-plot(sochi_cpts, type = "l", cpt.col = "blue", xlab = "Index", cpt.width = 4)
+# 
+# ts.plot(sochi_ts, xlab="index")
+# sochi_cpts <- cpt.mean(sochi_ts[1:430], method='PELT')
+# plot(sochi_cpts, type = "l", cpt.col = "blue", xlab = "Index", cpt.width = 4, yaxt='n')
+# cpts(sochi_cpts)
+# 
+# sochi_cpts <- cpt.var(sochi_ts[1:430])
+# plot(sochi_cpts, type = "l", cpt.col = "blue", xlab = "Index", cpt.width = 4)
+# sochi_cpts <- cpt.mean(sochi_ts[1:430], yaxt='n')
+# plot(sochi_cpts, type = "l", cpt.col = "blue", xlab = "Index", cpt.width = 4)
 
 sochi_cpts <- cpt.mean(sochi_ts[1:430],method = "SegNeigh")
-plot(sochi_cpts, type = "l", cpt.col = "blue", xlab = "Index", cpt.width = 4)
+plot(sochi_cpts, type = "l", cpt.col = "blue", xlab = "Index", cpt.width = 4,yaxt='n')
 
 sochi_meanvar <- cpt.meanvar(sochi_ts[1:430], test.stat = "Poisson", method='SegNeigh')
 plot(sochi_meanvar, cpt.width = 3)
@@ -129,18 +129,18 @@ for(i in cpts.ts(sochi_meanvar)){
 }
 writeLines(paste("Log likelihood from piecewise fit is ", loglik))
 
-sochi_meanvar <- cpt.meanvar(sochi_ts[1:400], test.stat = "Poisson", method='SegNeigh')
-plot(sochi_meanvar, cpt.width = 3)
+sochi_meanvar <- cpt.meanvar(sochi_ts[1:400], test.stat = "Poisson", method='PELT')
+plot(sochi_meanvar, cpt.width = 3, yaxt='n')
 lines(fitted(sochi_arima), col='blue')
 
 sochi_meanvar <- cpt.meanvar(sochi_ts[1:430], test.stat = "Normal", method='SegNeigh')
-plot(sochi_meanvar, cpt.width = 3)
+plot(sochi_meanvar, cpt.width = 3,yaxt='n')
 
 sochi_meanvar <- cpt.meanvar(sochi_ts[1:430], test.stat = "Gamma", method='SegNeigh')
-plot(sochi_meanvar, cpt.width = 3)
+plot(sochi_meanvar, cpt.width = 3,yaxt='n')
 
 sochi_meanvar <- cpt.meanvar(sochi_ts[1:430], test.stat = "Exponential", method='SegNeigh')
-plot(sochi_meanvar, cpt.width = 3)
+plot(sochi_meanvar, cpt.width = 3,yaxt='n')
 
 
 
