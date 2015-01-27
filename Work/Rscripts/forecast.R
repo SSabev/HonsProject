@@ -17,7 +17,7 @@ plot.ts(sochi_ts)
 # plot.ts(sochi_smoothed)
 
 decomposed <- decompose(x=sochi_ts,type='additive')
-plot(decomposed)
+plot(decomposed, yaxt='n')
 #acf(sochi_smoothed, lag.max=20)
 #pacf(sochi_smoothed, lag.max=20)
 

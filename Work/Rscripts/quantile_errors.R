@@ -55,7 +55,7 @@ for(i in 30:400){
   actual_vals <- place_ts[i:i+1]
   changepoint <- 0
   error <- actual_vals - predicted_vals
-  if(error > quantiles[7]){
+  if(error >= quantiles[6]){
     changepoint <- 1
   }
   df_arima <- rbind(df_arima, c(predicted_vals, actual_vals, changepoint))
