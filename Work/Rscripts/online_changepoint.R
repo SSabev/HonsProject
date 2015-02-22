@@ -50,7 +50,6 @@ for(i in 30:429){
     num <- i - 30
     dt <- data.frame(x=c(1:num),y=df_arima$Error)
     dens <- density(dt$y)
-    df <- data.frame(x=dens$x, y=dens$y)
     writeLines(paste("Online mean is ", mean, " and online stdev is ", stdev))
 #     if(found && changepoint_decay > 1){
 #       changepoint_decay <- changepoint_decay - 1

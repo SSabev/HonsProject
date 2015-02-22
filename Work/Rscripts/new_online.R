@@ -8,7 +8,7 @@ library('reshape')
 setwd('Dev/HonsProject/Work/Rscripts')
 
 # Get all the errors
-i <- 'Sochi'
+i <- 'Sevastopol'
 place <- i
 file <- paste(i,".csv", sep="")
 data <- read.zoo(file=file, sep = ",", header = TRUE, 
@@ -24,10 +24,11 @@ numstdevs <- 4
 changepoint_decay <-5 
 found <- FALSE
 
-arima <- auto.arima(place_ts[1:30], method='ML')
+#auto.arima(place_ts[1:30]) #, method='ML')
 
-for(i in 30:153){
-  num_forecasts <- i-29
+for(i in 50:400){
+  arima <- arima(place_ts[1:i], order=c(4,1,5), method='ML')
+  num_forecasts <- i-49
   forecast <- forecast.Arima(arima, h=num_forecasts)
   predicted_vals <- forecast$mean[num_forecasts]
   actual_vals <- place_ts[i:i+1]
@@ -46,33 +47,19 @@ for(i in 30:153){
     numstdevs <- 3
   }
   
-  
-  if(i > 35){
-    df_arima <- df_arima[complete.cases(df_arima), ]
-    num <- i - 30
-    dt <- data.frame(x=c(1:num),y=df_arima$Error)
-    dens <- density(dt$y)
-    df <- data.frame(x=dens$x, y=dens$y)
-    writeLines(paste("Online mean is ", mean, " and online stdev is ", stdev))
-    #     if(found && changepoint_decay > 1){
-    #       changepoint_decay <- changepoint_decay - 1
-    #     }
-    #     
-    #     if(changepoint_decay == 1){
-    #       changepoint_decay <- 5
-    #       found <- FALSE
-    #     }
-    #     
-    if (error > mean + numstdevs*stdev || error < mean - numstdevs*stdev || !found){
-      writeLines('CHANGEPOINT')
-      changepoint <- 1
-      found <- TRUE
-      arima <- auto.arima(place_ts[1:i], method='ML')
-    }
-    
-    
+  df_arima <- df_arima[complete.cases(df_arima), ]
+  num <- i - 50
+  dt <- data.frame(x=c(1:num),y=df_arima$Error)
+  dens <- density(dt$y)
+  writeLines(paste("Online mean is ", mean, " and online stdev is ", stdev))
+  if (error > mean + numstdevs*stdev || error < mean - numstdevs*stdev || !found){
+    writeLines('CHANGEPOINT')
+    changepoint <- 1
+    found <- TRUE
+    #arima <- arima(place_ts[1:i], order=c(4,1,5), seasonal=c(2,1,2), method='ML')
+    # auto.arima(place_ts[1:i]) #, method='ML')
   }
-  
+    
   df_arima <- rbind(df_arima, c(predicted_vals, actual_vals, error, changepoint))
 }
 
