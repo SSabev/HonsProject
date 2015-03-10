@@ -5,17 +5,20 @@ library("TTR")
 library('hydroGOF')
 library('changepoint')
 library('reshape')
+library('vars')
 setwd('Dev/HonsProject/Work/Rscripts')
 
 # Get all the errors
-i <- 'Sochi'
+i <- 'FictionTown6'
 place <- i
 file <- paste(i,".csv", sep="")
 data <- read.zoo(file=file, sep = ",", header = TRUE, 
                  index = 1:1, tz = "", format = "%Y-%m-%d")
-place_ts <- ts(data$Searches)
+place_ts <- ts(data)
 plot.ts(place_ts)
 df_arima <- data.frame(Predicted=NA, Actual=NA, Error=NA, ChangePoint=NA)
+coef <- data.frame()
+
 
 n <- 0
 mean <- 0
@@ -24,8 +27,9 @@ numstdevs <- 4
 changepoint_decay <-5 
 found <- FALSE
 
-for(i in 30:429){
+for(i in 30:800){
   arima <- arima(place_ts[1:i], order=c(4,1,5), method='ML')
+  #writeLines(paste("The coeff are ", arima$coef))
   forecast <- forecast.Arima(arima, h=1)
   predicted_vals <- forecast$mean
   actual_vals <- place_ts[i:i+1]
@@ -48,29 +52,19 @@ for(i in 30:429){
   if(i > 35){
     df_arima <- df_arima[complete.cases(df_arima), ]
     num <- i - 30
-    dt <- data.frame(x=c(1:num),y=df_arima$Error)
-    dens <- density(dt$y)
     writeLines(paste("Online mean is ", mean, " and online stdev is ", stdev))
-#     if(found && changepoint_decay > 1){
-#       changepoint_decay <- changepoint_decay - 1
-#     }
-#     
-#     if(changepoint_decay == 1){
-#       changepoint_decay <- 5
-#       found <- FALSE
-#     }
-#     
+
     if (error > mean + numstdevs*stdev || error < mean - numstdevs*stdev || !found){
       writeLines('CHANGEPOINT')
       changepoint <- 1
       found <- TRUE
     }
     
-
   }
-  
+  coef <- rbind(coef, arima$coef)
   df_arima <- rbind(df_arima, c(predicted_vals, actual_vals, error, changepoint))
 }
 
 df_arima <- df_arima[complete.cases(df_arima), ]
+write.csv(df_arima, paste('Results/', place, '-result.csv', sep=''))
 # plot them all and find the quantiles

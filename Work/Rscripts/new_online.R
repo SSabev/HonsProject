@@ -8,7 +8,7 @@ library('reshape')
 setwd('Dev/HonsProject/Work/Rscripts')
 
 # Get all the errors
-i <- 'Sevastopol'
+i <- 'Sochi'
 place <- i
 file <- paste(i,".csv", sep="")
 data <- read.zoo(file=file, sep = ",", header = TRUE, 
@@ -23,8 +23,6 @@ M2 <- 0
 numstdevs <- 4
 changepoint_decay <-5 
 found <- FALSE
-
-#auto.arima(place_ts[1:30]) #, method='ML')
 
 for(i in 50:400){
   arima <- arima(place_ts[1:i], order=c(4,1,5), method='ML')
