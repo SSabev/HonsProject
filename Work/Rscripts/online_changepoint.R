@@ -9,7 +9,7 @@ library('vars')
 setwd('Dev/HonsProject/Work/Rscripts')
 
 # Get all the errors
-i <- 'FictionTown6'
+i <- 'FictionTown7'
 place <- i
 file <- paste(i,".csv", sep="")
 data <- read.zoo(file=file, sep = ",", header = TRUE, 
