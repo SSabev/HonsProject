@@ -28,7 +28,8 @@ changepoint_decay <-5
 found <- FALSE
 
 for(i in 30:800){
-  arima <- arima(place_ts[1:i], order=c(4,1,5), method='ML')
+  arima <- auto.arima(place_ts[1:i])
+  #arima <- arima(place_ts[1:i], order=c(4,1,5), method='ML')
   #writeLines(paste("The coeff are ", arima$coef))
   forecast <- forecast.Arima(arima, h=1)
   predicted_vals <- forecast$mean

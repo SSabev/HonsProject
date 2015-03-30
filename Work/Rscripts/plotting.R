@@ -281,3 +281,14 @@ ggplot(data=wrmse, aes(x=Alpha, y=value, group=variable, colour=variable)) +
   theme(axis.text.x = element_text(angle = 45, size=10, hjust = 1))
 
 
+############################################################################
+# Scatter plot of FP vs Recall
+############################################################################
+
+data <- read.csv('FP_Recall_data.csv')
+
+ggplot(data=data, aes(x=FP, y=Recall)) + 
+  geom_point(size=3, colour='blue') + xlab("False Positives") + ylab("Recall") + 
+  ggtitle("Plot of False positives against Recall")+
+  stat_smooth(method='lm') + 
+  theme(axis.text.x = element_text(angle = 45, size=10, hjust = 1))
