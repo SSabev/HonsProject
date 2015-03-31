@@ -1,0 +1,94 @@
+
+%
+%
+%\bibitem{seqcap}
+%	BBC, \emph{Sequoia Capital investment values Skyscanner at \$800m}, \\
+%	{\url{http://www.bbc.co.uk/news/uk-scotland-scotland-business-24380126}}
+%
+%\bibitem{code}
+%	Stefan Sabev, Code for Inf Project,\\
+%	{\url{https://github.com/SSabev/HonsProject/}}
+%	
+%\bibitem{lasso}
+%	Wikipedia, \emph{Lasso (statistics)}, \\
+%	{\url{http://en.wikipedia.org/wiki/Lasso_(statistics)#Lasso_method}}
+%	
+%\bibitem{TwitterNewsWire}
+%	Twitter, \emph{Twitter as a news-wire}, \\
+%	{\url{https://blog.twitter.com/2008/twitter-news-wire}}
+%
+%\bibitem{TwitterResearch}
+%	Twitter Research,
+%	\emph{A collection of publications using Twitter data}, \\
+% 	{\url{https://sites.google.com/site/twitterresearch09/twitter-papers}}
+%
+%\bibitem{Miles}
+%	Miles Osborne, \emph{Social media papers}, \\
+%	{\url{http://homepages.inf.ed.ac.uk/miles/sm-papers.html}}
+%	
+%\bibitem{Petrovic2012}
+%	Sasa Petrovic
+%  	\emph{Real-time Event Detection in Massive Streams 2012} ,\\
+%	School of Informatics, University of Edinburgh \\
+%	{\url{http://homepages.inf.ed.ac.uk/s0894589/petrovic-thesis.pdf}}
+%
+%\bibitem{twitstock}
+%	Johan Bollen, Huina Mao and Xiao-Jun Zeng, \\
+%	\emph{Twitter mood predicts the stock market}, \\
+%	Computational Science, 2(1), 1-8, 2011
+%
+%\bibitem{twitnfl}
+%	Shiladitya Sinha, Chris Dyer , Kevin Gimpel, and Noah A. Smith, \\
+%	\emph{Predicting the NFL Using Twitter}, \\
+%	CoRR abs/1310.6998 (2013)
+%
+%\bibitem{twitflu}
+%	Michael J. Paul and Mark Dredze,  \\
+%	\emph{You Are What You Tweet: Analyzing Twitter for Public Health}, \\
+%	In Proc.  5th International AAAI Conference on Weblogs and Social Media,2011
+%
+%\bibitem{twitpoll}
+%	Brendan O'Connory,  Ramnath Balasubramanyany, Bryan R. Routledgex, Noah A. Smith, \\  
+%	\emph{From Tweets to Polls: Linking Text Sentiment to Public Opinion Time Series}, \\
+%	In Proc. 4th International AAAI Conference on Weblogs and Social Media, 2010
+%
+%\bibitem{dija}
+%	Wikipedia, \emph{Dow Jones Industrial Average}, \\
+%	{\url{http://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average}}
+%
+%\bibitem{opfind}
+%	OpinionFinder, \\
+%	{\url{http://mpqa.cs.pitt.edu/opinionfinder/}}
+%	
+%\bibitem{granger}
+%	Granger causality, \\
+%	{\url{http://en.wikipedia.org/wiki/Granger_causality}}
+%
+%\bibitem{sofnn}
+%	Gang Leng, Girijesh Prasad, Thomas Martin McGinnity
+%	\emph{An on-line algorithm for creating self-organizing fuzzy neural networks} \\
+%	Neural Networks 17, Pages 1477-1493, 2004
+%  
+%\bibitem{Hamletkdd03}
+% 	Etzionni, Tuchinda, Knoblock and Yates, \emph{To Buy or Not to Buy: Mining Airfare Data to Minimize Ticket Purchase Price}, \\
+%	In Proc. of the 9th ACM SIGKDD international conference on Knowledge discovery and data mining
+%Pages 119-128, 2003
+%
+%	
+%\bibitem{ijcai}
+%	William Groves and Maria Gini, \emph{Optimal Airline Ticket Purchasing Using Automated User-Guided Feature Selection}, \\ IJCAI, IJCAI/AAAI, (2013)
+%
+%\bibitem{samplestream}
+%	Twitter Sample Stream, \\
+%	{\url{https://dev.twitter.com/docs/api/1.1/get/statuses/sample}}
+%	
+%\bibitem{tweetobject}
+%	Twitter Developers Documentation, \emph{Tweets data and attributes},\\
+%	{\url{https://dev.twitter.com/docs/platform-objects/tweets}}
+%
+%\bibitem{pandas}
+%	Python  \emph{Python Data Analysis Library},\\
+%	{\url{http://pandas.pydata.org/}}
+%
+%
+%\end{thebibliography}
