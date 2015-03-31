@@ -809,6 +809,22 @@ An overview of the results:
 
 \chapter{Conclusion and future work}
 
+\section{Applications at Skyscanner}
+
+This project was done with the help of Skyscanner which provided us with the flight searches data, therefore we also need to examine what impact it will have on the company. As it currently stands they can use it for two things:
+\begin{enumerate}
+\item Predicting flight search volumes using either LASSO or the ARIMA models;
+\item Running the algorithm to find change points in the data and by using LASSO find out what has happened.
+\end{enumerate}
+
+The ARIMA system a tits current state is not as automated as the LASSO one,so there will be a small amount of manual work, but in a week or two the system can be brought to production standards without any major efforts. As we have shown the quality of the ARIMA forecasts is much better with reduction in RMSE of up to 50\%, which is a big improvement.
+
+When trying to quantify the impact that such an improvement would have on Skyscanner as a whole we consulted with several experts throughout the business - ranging form Business Intelligence, Finance and Marketing. Forecasts as a whole were very important for them.. A 30\% improvement in the forecast accuracy could have a major impact on the way budgets are allocated - if something is happening real time and the algorithm detects it, it could be paired with a customer management system that would show targeted ads to people interesting in the event happening and thus increasing the number of people who book flights.
+
+Having an accurate system of prediction can be quite important for the health of the service as a whole. In Chapter 1, we have outlined several high-profile outages that were caused by not knowing in terms of what's happening on the website. The work presented in here is online and by using the ARIMA with an hourly aggregation on the searches level could be used to detect whether an event or something else that has a strong effect on the flight searches is happening real-time. 
+
+The second way that this could be applied is not for forecast, but rather social stream monitoring. The LASSO model can be used to prune the unneeded features, the ones that do not correlate with flights searches and this way have a continuous way of monitoring what are the current words on Twitter that are correlated to flight searches and from that extrapolate what events could be happening.
+
 \section{Conclusion}
 
 In this project we have explored multiple approaches to adding an external factor such as Twitter into forecasting flight search volumes. This is the first work that we are aware of that has done so. We have done the following:
@@ -828,23 +844,7 @@ The ARIMA models in itself yielded a much better improvement over Last 4 Fridays
 
 Perhaps another avenue of work that could be explored even further is to find new and interesting ways to incorporate Twitter into the whole process and automate the prediction even further. In the first phase of the project we used the LASSO model to trim all the unnecessary features and then to give the weights. Perhaps the features could be then used as an input for a Vector AutoRegressive (VAR)\footnote{http://en.wikipedia.org/wiki/Vector\_autoregression} model that could be used for the forecasts. 
 
-\section{Applications at Skyscanner}
 
-This project was done with the help of Skyscanner which provided us with the flight searches data, therefore we also need to examine what impact it will have on the company. As it currently stands they can use it for two things:
-\begin{enumerate}
-\item Predicting flight search volumes using either LASSO or the ARIMA models;
-\item Running the algorithm to find change points in the data and by using LASSO find out what has happened.
-\end{enumerate}
-
-The ARIMA system a tits current state is not as automated as the LASSO one,so there will be a small amount of manual work, but in a week or two the system can be brought to production standards without any major efforts. As we have shown the quality of the ARIMA forecasts is much better with reduction in RMSE of up to 50\%. 
-
-
-Since this project was done in conjunction with Skyscanner, let us examine what impact it will have on the company. They will be able to use this to predict search volumes straight away. By having a look at which destinations benefit, they can start collecting data on a daily basis, aggregating and throwing away the unneeded dataset. By doing this they will be able to improve their prediction by more than 5\%. As the company grows, the need for more accurate and more versatile and robust prediction will become greater. Hence why the company will benefit from using this method of predicting flight search volumes with exogenous factors.
-It has been briefly touched on in previous sections, but using the LASSO weights for the features could tell a story ? what exactly happened in the past X days or hours. By re-training the models for every place you can pick out the most interesting features and those on their own can tell a good story of what has influenced people. Of course, that can also be used on historical data to classify any present spikes and create a narrative of what influences people?s decisions and what exactly makes them want to buy a plane ticket.
-
-When trying to quantify the impact that such an improvement would have on Skyscanner as a whole we consulted with several experts throughout the business - ranging form Business Intelligence, Finance and Marketing. Forecasts as a whole were very important for them.. A 30\% improvement in the forecast accuracy could have a major impact on the way budgets are allocated - if something is happening real time and the algorithm detects it, it could be paired with a customer management system that would show targeted ads to people interesting in the event happening and thus increasing the number of people who book flights.
-
-Having an accurate system of prediction can be quite important for the health of the service as a whole. In Chapter 1, we have outlined several high-profile outages that were caused by not knowing in terms of what's happening on the website. The work presented in here is online and by using the ARIMA with an hourly aggregation on the searches level could be used to detect whether something wrong is happening real-time. 
 
 \raggedright
 \sloppy

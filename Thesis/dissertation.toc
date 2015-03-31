@@ -35,6 +35,6 @@
 \contentsline {section}{\numberline {5.4}Improvement with change points}{42}
 \contentsline {section}{\numberline {5.5}Results overview}{43}
 \contentsline {chapter}{\numberline {6}Conclusion and future work}{45}
-\contentsline {section}{\numberline {6.1}Conclusion}{45}
-\contentsline {section}{\numberline {6.2}Applications at Skyscanner}{46}
-\contentsline {chapter}{Bibliography}{49}
+\contentsline {section}{\numberline {6.1}Applications at Skyscanner}{45}
+\contentsline {section}{\numberline {6.2}Conclusion}{46}
+\contentsline {chapter}{Bibliography}{47}
