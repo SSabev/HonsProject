@@ -8,3 +8,5 @@ Work/tbcities.dat
 *.idea
 *.dvi
 *.blg
+*.synctex.gz
+*.toc
