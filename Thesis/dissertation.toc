@@ -19,15 +19,15 @@
 \contentsline {section}{\numberline {4.1}Introduction to Change Point Detection}{24}
 \contentsline {section}{\numberline {4.2}Change Point Detection off the shelf}{25}
 \contentsline {subsection}{\numberline {4.2.1}Changes in the mean}{25}
-\contentsline {subsection}{\numberline {4.2.2}Changes in the variance}{26}
+\contentsline {subsection}{\numberline {4.2.2}Changes in the variance}{27}
 \contentsline {subsection}{\numberline {4.2.3}Changes in mean and variance}{28}
 \contentsline {subsection}{\numberline {4.2.4}Conclusions}{29}
 \contentsline {section}{\numberline {4.3}Bayesian Change Point Detection}{29}
 \contentsline {section}{\numberline {4.4}Novel method using ARIMA}{30}
-\contentsline {subsection}{\numberline {4.4.1}Algorithm}{30}
+\contentsline {subsection}{\numberline {4.4.1}Algorithm}{31}
 \contentsline {subsection}{\numberline {4.4.2}Offline version}{31}
 \contentsline {subsection}{\numberline {4.4.3}Online}{34}
-\contentsline {section}{\numberline {4.5}Conclusions}{36}
+\contentsline {section}{\numberline {4.5}Conclusions}{35}
 \contentsline {chapter}{\numberline {5}Results}{37}
 \contentsline {section}{\numberline {5.1}The test set}{37}
 \contentsline {section}{\numberline {5.2}ARIMA vs L4F}{38}
@@ -36,5 +36,6 @@
 \contentsline {section}{\numberline {5.5}Results overview}{43}
 \contentsline {chapter}{\numberline {6}Conclusion and future work}{45}
 \contentsline {section}{\numberline {6.1}Applications at Skyscanner}{45}
-\contentsline {section}{\numberline {6.2}Conclusion}{46}
+\contentsline {section}{\numberline {6.2}Future work}{46}
+\contentsline {section}{\numberline {6.3}Conclusion}{46}
 \contentsline {chapter}{Bibliography}{49}

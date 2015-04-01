@@ -1,4 +1,4 @@
-\documentclass[minf,twoside,singlespacing,parskip,frontabs,notimes,12pt]{infthesis} %
+\documentclass[minf,twoside,singlespacing,parskip,notimes,deptreport]{infthesis} %
 
 \usepackage{url}
 \usepackage{subfig}
@@ -13,9 +13,8 @@
 \title{Modelling search volumes as a dynamic system responding to external events}
 
 \author{Stefan Sabev}
-
 \course{Master of Informatics}
-\project{{\bf MInf Project (Part 2) Report}}
+\project{MInf Project Part 2 Report}
 
 \date{\today}
 
@@ -53,14 +52,14 @@ We live in age of the "Big Data". 90\% of all the data we have ever generated on
 The latest figures show there is about 2.5 exabytes of data generated every day in 2012\footnote{http://www.bbc.co.uk/news/business-26383058}. 
 Undoubtedly with the advent of mobile services such as Snapchat, Wechat and many others, that amount has probably increased quite a lot. 
 Most of this data of course is unstructured, comes in all shapes and sizes - pictures, videos and text. 
-It ranges from the 350 million photos people are uploading to Facebook every day\cite{InternetOrgWhitepaper} to the 700 millions of photos disappearing from people's phones sent from snapchat\cite{snapchat}. 
+It ranges from the 350 million photos people are uploading to Facebook every day\cite{InternetOrgWhitepaper} to the 700 millions of photos disappearing from people's phones sent from Snapchat\cite{snapchat}. 
 Since all of it is human generated, there are now people in marketing and in data science who are starging to think of different ways to utilise the data. 
 
 Therefore it should not come as a surprise that  companies living in this age of data are investing a big amount of money into analytics solutions that allow them to accurately predict their Key Performance Indicators (KPIs) - revenue, number of customers, profit, average purchase, etc. 
 For companies living in the internet economy and the increasingly bigger sharing economy age it is of vital importance to be able to know on a daily basis how many customers you are expecting on the website tomorrow and a ballpark estimate of the average revenue per customer. 
 The most important implication of those forecasts are budgets, but it could also be important for the company's operations. If there are people trying to access your website than what you usually have and the capacity is not there to meet the demand it will result in a crash that in turn will mean that you have foregone revenue. 
 Perhaps one of the biggest high-visibility failures like this are the Obamacare website\cite{obcare} which went down, because of the high volumes of people trying to access it simultaneously to register  and the Black Friday crash of Best Buy\cite{bestbuy}. 
-We are not arguing that the crashes would have been solely prevented by social media, because in the case of ObamaCare that was an one-off event. However both attest that being prepared is better than the consequences of being caught off guard. 
+We are not arguing that the crashes would have been solely prevented by social media, because in the case of ObamaCare that was an one-off event. However both attest to the fact that being prepared is better than the consequences of being caught off guard. 
 
 Precisely because of the unknown unknowns it is vitally important to make sure that the prediction mechanisms used in a company and the variables in them are going to reflect the environment accurately. 
 If one solely relies on historical data without a holistic view of other variables, one would be able to create forecasts which do a very good job, but undoubtedly there will be a few cases where things go wrong. 
@@ -68,7 +67,7 @@ When you talk about the holistic view however, there is an another debate brewin
 That approach is resource-intensive and prone to errors, because those events might not impact the way it is been thought. But there is an alternative - Social media. 
 
 With hundreds of millions - and in the case of Facebook, billions - of users, social networks have become an inherent part of our daily lives. Something that was not imaginable 10 years ago is now indispensable. 
-We ``tweet", we ``snapchat", we chat to people on ``whatsapp", post our latest holidays photos to Facebook, declare where we are going to eat on Fourqsquare and soon as we go in we Instagram our food. 
+We ``tweet", we ``snapchat", we ``whatsapp" others, post our latest holidays photos to Facebook, declare where we are going to eat on Fourqsquare and soon as we go in we Instagram our food. 
 In a matter of a decade people have become perfectly fine with externalising their lives to an incredible degree and posting every minute detail online and making it available to friends and in some case - the whole world. 
 It is not to say that absolutely every one does. 
 After all, 80\% of the world is not on Facebook\cite{FBstats}, however the 1.31 billion monthly active users are all sharing some data about themselves. 
@@ -77,25 +76,26 @@ We are increasingly transferring more and more of our personalities online.
 
 
 This project was born after a discussion into the benefits of Social media and how it can be used in a business context. 
-The most popular uses of Social media at the moment are Sentiment analysis and targeted advertising. 
+The most popular uses of Social media at the moment are sentiment analysis and targeted advertising. 
 Sentiment analysis is basically putting the mentions of your brand/company into two big buckets - positive or negative about a brand, topic or something else you want to measure against.
 Targeted advertising on the other hand is just matching the right people with the advertisements that are supposedly the most relevant for them. 
-Skyscanner already uses both as a company so we tried to come up something novel. 
+Skyscanner already uses both as a company so we tried to come up with a new way to utilise it.
 That novel idea was to use some external data taken from a social network that we can use an external factor in our predictions. 
 Hence the searches become the dynamic system that reacts to the external factor when the factor can play a big part. 
 
 The social network which we are using for this research is called Twitter. 
 It has a base of about 288 active million monthly users.
 Those 288 millions users produce over 500 million tweets every single day\footnote{https://about.twitter.com/company}. 
-It was viewed as a replacement of text messages - hence why the limitation is 140 characters - but it has grown to be one of the most prominent sources of information and news on the web. 
+It was viewed as a replacement of text messages - hence why the limitation is 140 characters.
+Despite that limitation it has grown to be one of the most prominent sources of information and news on the web. 
 Since old media such as TV, newspapers, etc require some form of approval or preparation Twitter often beats tradition news sources by a some margin. 
 For instance when the Los Angeles earthquake happened in 2008\cite{TwitterNewsWire} Twitter reacted seconds afterwards, while traditional media took 4 minutes. 
-The fact that they have public streams open to developers and researches makes it the best candidate social network to use. 
+The fact that they have public streams open to developers and researches makes it the right choice.
 
 
 There were several options that will allow us to add that externality - news sources (RSS, news websites) and social media. 
 Of course not all social media websites have got public websites and the ones that do impose quite a lot of restrictions. 
-After some initial evaluation it was decided to go with Twitter, since the Public Streaming API, which is a 1\% stream of the data they offer will allow us to easily access the data programmatically and the data volumes mean that the sample size would be good. 
+We looked into other ways to programatically obtain data, but Twitter has the Public Streaming API (Garden hose), which is a 1\% stream of all of their tweets. 
 
 
 Since this is the second part of the project, we have already done a sizeable amount of work in year 1. 
@@ -109,7 +109,7 @@ Contrary to many other areas of computer science, there is not an established bo
 However that is not to say that there are no previous attempts to use the wealth of Twitter data and put that to use in some context. 
 
 Petrovic, Osborne and Lavrenko\cite{Miles2} have tried predicting whether a Twitter message will be deleted. 
-They trained an Support Vector Machine and used the Passive-Aggressive Algorithm to train a linear classifier. 
+They trained an Support Vector Machine and used the PA -  Passive-Aggressive Algorithm - to train a linear classifier. 
 The authors had 72 million tweets which they acquired over the course of a month and from that they extracted about 42 million features. That proved to be quite a big number for the SVMs they wanted to use for classification so they had to resort to the Passive Aggressive algorithm. The results they reported were good, since it showed that Twitter data can be used for more than just trending hashtags and finding out where people tweet from. 
 An exemplary research into Twitter is Sasa Petrovic's PhD thesis - ``Real-time event detection in massive stream"\cite{Petrovic2012}. 
 In this work the author has done extensive research into the role of Twitter as a news wire and whether it can beat traditional news outlets. 
@@ -140,7 +140,7 @@ As a result the values Calm and Anxious can predict the market movement with 90\
 There is definitely a good argument to make that using Twitter for predicting the stock market. 
 Some companies such Bloomberg are now packaging that data and transforming into a product that they sell to financial institutions.\footnote{https://gigaom.com/2015/02/03/as-social-media-gets-quantified-more-people-use-twitter-to-trade/}. 
 In the above mentioned paper the authors make a strong case that capturing public sentiment can be indeed used to show where things are headed. 
-As far as their methods are concerned, we did examine neural networks, however the overheard of training them, tuning the parameters and the fact that we are dealing with time series data lead us to think that they are perhaps not the best suited tool for this particular type of prediction. 
+As far as their methods are concerned, we did examine neural networks, however the overhead of training them, tuning the parameters and the fact that we are dealing with time series data lead us to think that they are perhaps not the best suited tool for this particular type of prediction. 
 
 In Bollen and Mao\cite{twitstock} there was a clear relationship between mood and the stock market, however one can argue that there are other factors that influence the direction of stocks. 
 Twitter is an expression of public opinion on a variety of topics, so it is not surprising that it can be used to predict public opinion on a vast range of topics like in O'Connor et al\cite{twitpoll}. 
@@ -207,7 +207,7 @@ Here we are exploring whether the data obtained from Twitter can improve the for
 \item \textbf{I suggested, explored and implemented a novel way of predicting flight search volumes with taking exogenous factors into account.}
 \item \textbf{As a result of my models I have managed to improve overall prediction of flight search volumes by 5\%. As a side effect we also saw the effects of events such as the Winter olympics and the riots in Ukraine.} 
 \item \textbf{Developed a new offline and online algorithm that can be used with any model to see whether a change point occurs in a stream of time series data. The online algorithm helped to improve forecasts by segmenting the time series into regions that we could fit models on.} 
-\item \textbf{Compared and benchmarked a variety of models against each other and determined which was the best for forecasting flight search volumes. The best performing setups were the ARIMA change point detection + ARIMA and the Bayesian change point detection with ARIMA.}
+\item \textbf{Compared and benchmarked a variety of models against each other and determined which was the best for forecasting flight search volumes. The best performing setup was the ARIMA change point detection}
 \item \textbf{Explored how Twitter can be used to improve forecasting and how to incorporate social data in forecasting}.
 \end{itemize}
 
@@ -215,7 +215,7 @@ Here we are exploring whether the data obtained from Twitter can improve the for
 
 \chapter{Summary of Phase 1}
 
-There was a clear purpose, which we had in mind at the beginning of the first phase of this work - to change the methodology that Skyscanner uses to forecast flights search volumes. We can say that this has been achieved. Some of the work has been used directly, while the parts that have not been used sparked discussions. At the beginning of the project there was one method used - a simple classifier looking only into historical data without any assumptions. Now Skyscanner employs a lot of different methods which means that the quality of the forecasts does not depend solely on 1 number. 
+There was a clear purpose that we had in mind at the beginning of the first phase of this work - to change the methodology that Skyscanner uses to forecast flights search volumes. We can say that this has been achieved to a certain extent. Parts of the work have been used directly (ARIMA) while the parts that have not been used sparked discussions (automated forecasting models, LASSO). At the beginning of the project there was one method used - a simple classifier looking only into historical data without any assumptions. Now Skyscanner employs a lot of different methods which means that the quality of the forecasts does not depend solely on 1 number. 
 
 The plan we had set was:
 \begin{enumerate}
@@ -229,13 +229,14 @@ The plan we had set was:
 \end{enumerate}
 
 
-We did stick to this original plan. The tools we created \cite{code} are very effective at gathering, extracting, processing and building the automated models. Unfortunately, by the time we finished building all of them and tidying up the code that was training and outputting the models there was not much time for statistical analysis. That in turn meant that the first phase did not have the right amount of in-depth reflection and justification of the design features.
+We did stick to this original plan. The tools\cite{code} we created are very effective at gathering, extracting, processing and building the automated models. Unfortunately, by the time we finished building all of them and tidying up the code that was training and outputting the models there was not much time for statistical analysis. 
 
 \section{Collection}
 
 Machine Learning requires data to learn from. As such, first and foremost one has to collect the data that one needs and the data that one can. For this project the time series of Skyscanner flight searches and the Twitter data were used.
 
-Since I am a Skyscanner employee working in Analytics, the flight searches were quite easy to obtain. In order to keep the data on the number of searches confidential we have normalised them as having 1 as the maximum value and everything else is a proportion of that. 
+Since I am a Skyscanner employee working in Analytics, the flight searches were quite easy to obtain. In order to keep the data on the number of searches confidential we have normalised them where one is the maximum value and other values are expressed as a portion of that in graphs.
+
 
 The data obtained from all the SQL querying was the searches time series for 2403 destinations. Those destinations are all the cities with an airports and countries that you can fly to. The time series are stored in a Comma Separated Values (CSV) files, named after the destination which contains the data aggregated on a daily basis as shown in Table \ref{ssearches}. In order to remove any concern with confidentially we have anonymised the data when plotted or removed the axis labels altogether when plotting the actual values.
 
@@ -256,10 +257,10 @@ On the other hand Twitter's Public Streaming API was not something that we have 
 \label{ssearches}
 \end{table}
 
-Since Twitter has experienced a phenomenal growth the cut down data we collect daily has grown itself from 3.5 GB/day to 15GB/day. The data accumulated at the time of writing is 1.8 TB of textual data that contains around 2 billion tweets. As mentioned at the beginning of the chapter, we have collected data since the 24th of September 2013 until December 2014 with an interruption during the summer months. Due to some network outages, buffer overflows, etc, there are some holes in the data, so it is not as consistent as we would like it to be, but we have dealt with that by cleansing the data prior to training and evaluating my models. 
+Since Twitter has experienced a phenomenal growth the cut down data we collect daily has grown itself from 3.5 GB/day to 15GB/day. The data accumulated at the time of writing is 1.8 TB that contain around 2 billion tweets. As mentioned at the beginning of the chapter, we have collected data since the 24th of September 2013 until December 2014 with an interruption during the summer months. Due to some network outages, buffer overflows, etc, there are some holes in the data, so it is not as consistent as we would like it to be, but we have dealt with that by cleansing the data prior to training and evaluating my models. 
 
 
-All in all, data collection was probably the easiest of all the different sub-tasks, but at the same time it was the most important one, because everything else in this project depends so much on the data gathered. We believe our solution was simple enough, because for 6.5 months, we have got less than 10 days with gaps for the days that it was running . That is less than 5\% of the overall collection time. In those gaps, the failure of the collections was caused by human error or network interruption or a failure, because of the Streaming API. 
+All in all, data collection was probably the easiest of all the different sub-tasks, but at the same time it was the most important one, because everything else in this project depends so much on the data gathered. We believe our solution was simple enough, because for 12 months, we have got less than 10 days with gaps for the days that it was running . That is less than 3\% of the overall collection time. In those gaps, the failure of the collections was caused by human error or network interruption or a failure, because of the Streaming API. 
 
 
 \section{Processing}
@@ -283,7 +284,7 @@ Finding out what keywords to use was the next logical step. In Twitter there are
 \item Use all the words in the tweet.
 \end{enumerate}
 
-The simplest way to go about solving this problem was to extract the hashtags, since that requires no text processing. Twitter already ships the hashtags as a separate data structure within the tweet, so processing those requires just taking them and storing them in a dictionary with the counts. However, since we are concerned with place names it turned out that the volumes of place names that have been hash tagged was not sufficient.
+The simplest way to go about solving this problem was to extract the hashtags, since that requires no text processing. Twitter already has them as a separate data structure within the tweet, so processing those requires just taking them and storing them in a dictionary with the counts. However, since we are concerned with place names it turned out that the volumes of place names that have been hash tagged was not sufficient.
 
 Therefore we had to go for the second option - process the whole tweet and extract the relevant place names and time series from it. That of course meant additional processing time, since for every word in the tweet we had to check whether that word is a place name or not and then to see whether the tweet contains any travel words. After coding up the solution, we discovered that the volumes of the simple word counts were sufficient and were not prone to any explosive fluctuations as with the hashtags.
 
@@ -389,12 +390,12 @@ Therefore for the time being Last 4 Fridays was providing the optimal tradeoff o
 
 \section{LASSO}
 
-The LASSO (Least Absolute Shrinkage and Selection Operator) is the model that was used in the last phase of the project. We need a model that will be good at selecting weights from the plethora of features, but also was good in the forecasting and easy to implement.  Another major problem of the first phase was that we hurriedly try to add the Twitter data without much correlation. For over 80\% of the destination the Pearson tested yielded a correlation coefficient of $<0.5$, which is a pretty low correlation as far as we concerned. That is precisely why we did not build any models that were solely using Twitter to forecast the flight search volumes. Instead they were helped  by it. The features we used for the models were ranging from the Fridays as they are present in the Last 4 Fridays baseline and a count of the number of times a place has been mentioned on Social media to the full set of words co-occurring with the place we are building the model for. 
+The LASSO (Least Absolute Shrinkage and Selection Operator) is the model that was used in the last phase of the project. We needed a model that will be good at selecting weights from the plethora of features, but also was good in the forecasting and easy to implement.  Another major problem of the first phase was that we hurriedly try to add the Twitter data without much correlation. For over 80\% of the destination the Pearson tested yielded a correlation coefficient of $<0.5$, which is a pretty low correlation as far as we concerned. That is precisely why we did not build any models that were solely using Twitter to forecast the flight search volumes. Instead they were helped  by it. The features we used for the models were ranging from the Fridays as they are present in the Last 4 Fridays baseline and a count of the number of times a place has been mentioned on Social media to the full set of words co-occurring with the place we are building the model for. 
 
 As an experiment, we also had 2 different models - one where the weights for the Fridays are predetermined and one where they are picked by the LASSO model. Both ended up working quite well, but there was not a big difference in the results from both. 
 
 The way that LASSO works is that it picks the optimal weights for every feature by minimising its objective function:
-\begin{equation}c
+\begin{equation}
 \underset{w}{min}({\frac{1}{2n_{samples}}} \|X*w - y \|_2^2 + \alpha\|w\|_1)
 \end{equation}
 
@@ -456,7 +457,7 @@ The autocorrelation plot for Sochi ca be found in Figure \ref{autocor}  and the 
 
 Using the autocorrelation plots is a perfectly reasonable way of finding your parameters. However, since we have no previous experience in using them it was better to use the auto.arima function. It finds the optimal parameters for your data using Maximum Likelihood and it yields the model ready to use. 
 
-For our case the auto fit yielded that the best order for Sochi in particular is 4, 1, 5. That means that Sochi is a non-stationary time series ( does not have a constant mean and variance) and the ARIMA is an autoregression of the 4th order, moving average of the 5th order and differencing of 1st order to "stationarise" the time series. The fact that some of the series are stationary, while others are not only increases the utility of having this auto fit, since it cannot be guaranteed that a single fit all solution would work on a destination basis. 
+For our case the auto fit yielded that the best order for Sochi in particular is 4, 1, 5. That means that Sochi is a non-stationary time series ( does not have a constant mean and variance) and the ARIMA is an autoregression of the 4th order, moving average of the 5th order and differencing of 1st order to "stationarise" the time series. The fact that some of the series are stationary (having a constant mean and variance)\footnote{http://en.wikipedia.org/wiki/Stationary\_process}, while others are not only increases the utility of having this auto fit, since it cannot be guaranteed that a single fit all solution would work on a destination basis. 
 
 Forecasting with the fitted model is very easy as well. R is excellent for time series forecasting and with 2 easy commands one has forecasts without any problem. As you can see in Figure \ref{arima-forecast} the forecast has kept the seasonality of the time series. We will explain more in the Results chapter, where there will be a discussion.
 
@@ -470,20 +471,20 @@ Forecasting with the fitted model is very easy as well. R is excellent for time 
 
 \section{Conclusion}
 
-In this chapter we have given an overview of the models used and a justifications of why they were used. In Chapter 5 we will present the results, discuss the results and show which model performed best.
-
+In this chapter we have given an overview of the models used and a justifications of why they were used. 
 In the next chapter we follow with an overview of the algorithm used for finding change points.        
+In Chapter 5 we will present, discuss the results and show which model performed best.
 
 \chapter{Methodology}
-%explain more about Twitter
 
-As the reader is now aware this is the second phase of this MInf project. All the heavy lifting in terms of data collection, processing and cleaning has been done in the first part and we have not changed it at all, because there was no need to do so. The system developed as part of Phase 1 was continuously used for all the tasks end-to-end and it is described in a bit more detail in Chapter 2. 
+
+As the reader is now aware this is the second phase of this MInf project. All the heavy lifting in terms of data collection, processing and cleaning has been done in the first part and we have not changed it fundamentally, so we will not talk more about it that what is already mentioned in Chapter 2. 
 
 Last year's work produced some interesting results and did improve forecasts by 5\%, however we would not be very wrong to say that those models were something that was used as a black-box. Of course, the author had an understanding of how they worked, but we did not work towards one of the goals we set out - to try and find the times where something odd is happening.
 
 In order to do that we had to depart from the programmers mindset of complete automation - developing the tools that we can chain together and get everything done easily. Instead we had to dig deeper into the data, find a few destinations that we knew something - be it an event of significant or something else, focus on that and develop and algorithm that will find those change points based on past data and Twitter and alert if something is happening and then of course, if one needs to use an automated tool the algorithm could be easily integrated into the current system.
 
-Therefore it should not come as a surprise that we decided to focus more on the modelling side. Because of the availability of the data and its volumes we have entered into this mentality where you just throw the data at some models and see what happens. That of course means that we can do quite a lot of things and of course eventually find what works, but also because of not knowing the models, we are wasting time trying things that do not go well together. 
+Therefore it should not come as a surprise that we decided to focus more on the modelling side. Because of the availability of the data and its volumes we have entered into this mentality where you just throw the data at some models and see what happens. That of course means that we can do quite a lot of things and of course eventually find what works, but also because of not knowing the models, we were wasting time trying things that do not go well together. 
 
 First and foremost, this section will be concerned predominantly with change point detection. There will be an introduction into the topic with some overview of different research and how this ties together with the problem we have set out to solve. Afterwards we will go through the different tools that we have used, why they did not work as we have expected and the algorithm that we implement ourselves. 
 
@@ -513,7 +514,7 @@ Therefore in most cases we can generalise that "online" can simply mean that the
 
 "Online" and "Offline" are simply used to describe the problem formulation and how the algorithm is expected to work rather than the algorithm. In the online scenario we would be striving to minimise the time to detection, while also decreasing the rate of false alarms. On the other hand in offline detection, we would not have the pressure to do it as soon as possible, since we will be able to fine tune the algorithm on the whole sequence and the criteria there would be to maximise the sensitivity of the algorithm - the number of actual change points detected - and avoiding false positives.
 
-Adaptive Filtering and Change Detection \cite{Gustaf} by Fredrik Gustafson is probably the best book on the topic. The author outlines various ways to solve the problems:
+Adaptive Filtering and Change Detection\cite{Gustaf}  is probably the best book on the topic. The author outlines various ways to solve the problems:
 \begin{enumerate}
 \item The standard changes in the mean and variance - described in Section \ref{sec:basic};
 \item AR \& ARX - a new algorithm using ARX and ARIMA described in Section \ref{sec:novel};
@@ -529,11 +530,11 @@ In the following sections of this chapters I will explore some of the options wh
 \subsection{Changes in the mean}
 \label{sec:basic}
 
-Perhaps the simples of all models are the changes in the mean, variance and the one that combines both. The \textbf{changepoint}\footnote{\url{http://cran.r-project.org/web/packages/changepoint/changepoint.pdf}} package in \textbf{R} fortunately had those methods all easily available, so we could easily carry out the testing of the different models without having the overhead of implementing every single method ourselves. 
+Perhaps the simples of all models are the changes in the mean, variance and the one that combines both. The \textbf{changepoint}\footnote{\url{http://cran.r-project.org/web/packages/changepoint/changepoint.pdf}} package in \textbf{R} fortunately had those methods easily available, so we could easily carry out the testing of the different models without having the overhead of implementing every single one ourselves. 
 
 Running the change point detection was trivial with various configurations, however one thing was apparent. It was segmenting the data at different partitions and while the boundaries of those partitions are arguably change points it is just additional overhear of trying to get get it to work as we would like. In Figure \ref{mean-best-output} we present how the changes in the mean model simply segments. We have the option to use 4 different methods for finding the change points:
 \begin{enumerate}
-\item AMOC - At most one change - the default option. Basically here we only try to find the single change point in the data. In our case that is not useful, since we are trying to find whether change points exist in the data, so we are not certain of their number. 
+\item AMOC - At most one change - the default option. Basically here we only try to find the single change point in the data. In our case that is not useful, since we are trying to find whether change points exist in the data and we are not certain of their number. 
 \item BinSeg - the most popular approach to identifying change point. It works on a principle rather simple to recursion or merge sort - you apply a single change point test statistic to the entire data set. If a change point is identified, then you split it into 2 locations. Then you repeat it on the new datasets - before and after the split. If you find any new ones, you split again and continue splitting until nothing new has been identified. The algorithm is approximate.
 \item SegNeigh - the algorithm works by minimising (4.1) by using a dynamic programming technique to obtain the optimal solution for m+1 change points and split the data into $m$ ``neighbourhoods".
 \begin{equation}
@@ -560,7 +561,7 @@ where where C is a cost function for a segment e.g., negative log-likelihood, $\
 \end{figure}
 
 
-Since the methods are easily available, we could try all of them one by one, however none of them really yielded anything that we could use as a change point, simply to the fact that it is a useless output for us.  You can see in Figure \ref{mean-best-output} how the output generate from changes in the mean with a \textbf{BinSeg} search algorithm on a generated data set. Even though the ends of the red lines, which are the change points in this case, do indeed align with some of the abrupt changes in the profile of the time series to this fictional place, we can see that quite a lot of the ones that are visible - especially in the second segment are not flagged up. PELT on the other hand bizarrely enough flagged every single point as a change point, while SegNeigh could not finish the computation for the example data set we used for comparison. 
+Since the methods are easily available, we could try all of them one by one, however none of them really yielded anything that we could use. You can see in Figure \ref{mean-best-output} how the output generate from changes in the mean with a \textbf{BinSeg} search algorithm on a generated data set. Even though the ends of the red lines, which are the change points in this case, do indeed align with some of the abrupt changes in the profile of the time series to this fictional place, we can see that quite a lot of the ones that are visible - especially in the second segment are not flagged up. PELT on the other hand bizarrely enough flagged every single point as a change point, while SegNeigh could not finish the computation for the example data set we used for comparison. 
 
 
 \subsection{Changes in the variance}
@@ -603,18 +604,17 @@ For all of those reasons we decided that the time we could have spend tweaking t
 
 \section{Bayesian Change Point Detection}
 
-PLACEHOLDER
+One of the things that I was recommended to try by my supervisor was using Bayesian change point detection as the change point method, which to base things on. In Adams and McKay\cite{adams2007bayesian} the authors have outlined a scalable solution for detecting change points online. There is a similar implementation in the R \textbf{bp} package which produced very good results as we can see in Figure \ref{bcp}, however due to the fact that we focused on the custom algorithm and also the fact that the bayesian methods required some further tweaking we did not have the time to implement this in full. 
 
 \begin{figure}[]
 \begin{center}
 \includegraphics[width=\textwidth]{bcp}
 \end{center}
-\caption{Online bayesian change point}
+\caption{Posterior means and the probabilities of a change point generated by the bcp package}
 \label{bcp}
 \end{figure}
 
 
-\newpage
 \section{Novel method using ARIMA}
 \label{sec:novel}
 
@@ -638,7 +638,7 @@ Then we are doing a second pass over the data and if:
 \begin{equation}
 \hat{y}_t  - y_t> \mu + 2*\sigma || \hat{y}_t  - y_t < \mu - 2*\sigma
 \end{equation}
-then we have a change point and we alert. That of course means that we assume that the residual distribution is Gaussian, but more on that in the next subsection. Just as a note for the first 2-3 months of running the data, we use $3*\sigma$, because of the fact that there is simply too little data in the beginning. 
+then we have a change point and we alert. That of course means that we assume that the residual distribution is Gaussian, but more on that in the next subsection. Just as a note for the first 2-3 months of running the data, we use $3*\sigma$, because of the fact that there is simply too little data in the beginning and we after that initial period we relax the constraint back to $2*\sigma$.
 
 The online version is similar, but we incrementally update the mean and standard deviation \footnote{\url{http://en.wikipedia.org/wiki/Algorithms\_for\_calculating\_variance#Online\_algorithm}} and we do not do a second pass over the data. 
 
@@ -658,18 +658,18 @@ Therefore after the first pass over the data we accumulated all the residuals an
 \begin{center}
 \includegraphics[width=\textwidth]{percentiles}
 \end{center}
-\caption{Plot of error density.}
+\caption{Plot of the kernel density estimate for $\hat{y}_t  - y_t$}
 \label{error-density}
 \end{figure}
 \begin{figure}[]
 \begin{center}
 \includegraphics[width=\textwidth]{error_plot}
 \end{center}
-\caption{Plot of absolute error density.}
+\caption{Plot of the kernel density estimate for $|\hat{y}_t  - y_t|$.}
 \label{abs-error-density}
 \end{figure}
 
-Now that we have done the residual density and it does look like a Gaussian we had to continue with developing the 2nd pass where we will be making the decisions whether something is a change point or not. Of course we want to be taking only the anomalies - times when the prediction is wildly overestimating or underestimating the number of flights searches. When it is doing either it basically means that something dramatically different has happened. 
+After we plotted the kernel density estimates for the residuals and they looked like a Gaussian we continued with developing the second pass over the data. That is the pass where we are flagging up change points. Of course we want to be taking only the anomalies - times when the prediction is wildly overestimating or underestimating the number of flights searches. When it is doing either it basically means that something dramatically different has happened. 
 
 
 Sochi is our favourite go-to place to work on, purely because we know that something very big happened there - the Winter 2014 Olympic Games. Because of that there is one massive spike exactly at the time of the games, which we can see in Figure \ref{offline-method}. The number of change points alerted was drastically reduced from the off the shelf packages, since this particular implementation has been tailored precisely for this use case. The most amazing fact at least for us the fact that the systems works exactly as intended which flags up the massive peak during the Olympics. 
@@ -688,13 +688,12 @@ That means that due to that particular event we can easily "smoke test"\footnote
 As a conclusion we would like to say that the offline performed very well indeed, but most importantly the way we interned it to. Since the offline version has confirmed that this can be done, now it was time to explore the online version, with the hope that the online version will speed things up since it will require only one pass over the data. 
 
 
-\newpage
 \subsection{Online}
 
 As mentioned in the previous subsection the results were promising, since the offline version worked exactly as intended. 
 Now it was time to make it work online. 
 
-In order to do that, first of all, we had to get rid of the accumulation of the residual statistic and update the mean and the standard deviation incrementally. If we had it done the way it currently worked it would have meant that for every data point we would have to do a pass over the data, to get all the at a points and compute the running stats from that. 
+In order to make this algorithm online we had to find a quick and simple way of computing the mean and standard deviation of the residual distribution on the go.  If we had it done the way it currently worked it would have meant that for every data point we would have to do a pass over the data, to get all the at a points and compute the running stats from that. 
 
 Instead, I used an algorithm that has been published by Donald Knuth\footnote{\url{http://en.wikipedia.org/wiki/Algorithms\_for\_calculating\_variance#Online\_algorithm}}, who himself cites Wetford\cite{online-mean-and-var}. 
 
@@ -740,7 +739,7 @@ In this Chapter we have given an overview of the different algorithm and methods
 
 \chapter{Results}
 
-In this section we will present the results from this work and discuss them. We have split this chapter into X sections:
+In this section we will present the results from this work and discuss them. We have split this chapter into 4 sections:
 \begin{enumerate}
 \item The test set - explanation and examples of the test set
 \item ARIMA vs L4F - comparison of ARIMA and Last 4 Friday. 
@@ -767,7 +766,7 @@ The destinations who had a step change, gradual increase/decrease were:
 \item Uruguay
 \end{enumerate}
 
-However, those 8 destinations were simply not enough to test the change point algorithm in more detail. Therefore in order to expand our data set we also set out to artificially create some data for us. We create 20 Comma Separated Value files with 800 data points each. They are simply called FictionTown 1 to 20. 
+However, those 8 destinations were simply not enough to test the change point algorithm in more detail. Therefore in order to expand our data set we also set out to artificially create some data for us. We created 20 Comma Separated Value files with 800 data points each. They are simply called FictionTown 1 to 20. 
 
 \begin{figure}[p!]
 \begin{center}
@@ -794,7 +793,7 @@ The way those are creates is simple:
 
 \section{ARIMA vs L4F}
 
-The first things, that we set out to benchmark was to see whether ARIMA would outperform Last 4 Fridays for the majority of the  destinations. However our approach to the testing set was rather different this time. Since Last 4 Fridays in general works well enough on the destinations without any major changes in their profiles.
+The first thing that we set out to benchmark was to see whether ARIMA would outperform Last 4 Fridays for the majority of the  destinations. However our approach to the testing set was rather different this time. Since Last 4 Fridays in general works well enough on the destinations without any major changes in their profiles.
 
 However, after all, in this work, we are not concerned with the general cases, but rather with those outliers that skew the statistic, for the very fact that they are the ones that have something interesting happened in them. Results for the smaller set of destinations without the change point time series segmentation can be found in Table \ref{comparison-results-v1}. 
 
@@ -860,7 +859,7 @@ The results from this were promising, since it seemed that the algorithm could d
 
 Since the change point algorithm worked rather well the next step was to see whether it would help with making the forecasts. The methodology was quite similar to the one that is described in Section 5.2 with one exception - every time there is a change point we would fit an ARIMA to each segment. Then for the 20\% data that we get the test statistic from we run the change point algorithm and if a change point happens we fit a different model again and continue with the forecasting.
 
-The results for this can found in Table \ref{comparison-results-v2}. We have shown the L4F RMSE, the ARIMA and the ARIMA models with the change points factored in. 
+The results for this can found in Table \ref{comparison-results-v2}. We have shown the L4F RMSE, the ARIMA and the ARIMA models with the change points factored in, when the online change point detection is run simultaneously on Twitter and the searches data. 
 
 \begin{table}[h]
 \begin{center}
@@ -912,7 +911,17 @@ Having an accurate system of prediction can be quite important for the health of
 
 The second way that this could be applied is not for forecast, but rather social stream monitoring. The LASSO model can be used to prune the unneeded features, the ones that do not correlate with flights searches and this way have a continuous way of monitoring what are the current words on Twitter that are correlated to flight searches and from that extrapolate what events could be happening.
 
+\section{Future work}
+
+
+An avenue of work that is worth exploring even further is to find new and interesting ways to incorporate Twitter into the whole process and automate the prediction even further. In the first phase of the project we used the LASSO model to trim all the unnecessary features and then to give the weights. Perhaps the features could be then used as an input for a Vector AutoRegressive (VAR)\footnote{http://en.wikipedia.org/wiki/Vector\_autoregression} model that could be used for the forecasts. 
+
+Another area which could increase the performance of the regression models and therefore improve the forecasts is feature engineering. In this particular work we have taken a rather simple approach to the problem, without putting too much effort into processing the data in other ways. What we've done is simply take all the place names that co-occur with different travel words and we've taken those raw counts and used them for the forecasts. Perhaps by exploring more in that area one would be a blue to achieve increased performance without changing much the models in the back-end, but rather improve by simply improving the inputs.
+
+In Section 4.3 we have also briefly presented some of the findings when we used the \textbf{bcp} package in R. An area where we think there will be a certain improvement is implementing our own Bayesian Change Point(BCP) detection algorithm. By using a better prior we will be able to make the algorithm much more flexible and therefore much more well tailored for the problem we have. We are positive that Bayesian Change Point detection will be the algorithm that will find the most change points and the least false positives, but unfortunately we've not had the time to explore. If presented with the opportunity we would like to incorporate BCP and Twitter into a complete packaged solution.
+
 \section{Conclusion}
+
 
 In this project we have explored multiple approaches to adding an external factor such as Twitter into forecasting flight search volumes. This is the first work that we are aware of that has done so. We have done the following:
 
@@ -929,15 +938,11 @@ One of the things that need to be taken into account is the fact that while the 
 The ARIMA models in itself yielded a much better improvement over Last 4 Fridays in comparison to the LASSO models we had in the first phase of the project. Therefore the first thing that should be done is to fit ARIMAs for the overall level of searches and see how accurate that is. Since it is performing well without the change point detection of places that do have them, we would expect ARIMA to yield a similar decrease as the one posted in the results in Figure \ref{comparison-results-v1} and \ref{comparison-results-v2}. 
 
 
-Perhaps another avenue of work that could be explored even further is to find new and interesting ways to incorporate Twitter into the whole process and automate the prediction even further. In the first phase of the project we used the LASSO model to trim all the unnecessary features and then to give the weights. Perhaps the features could be then used as an input for a Vector AutoRegressive (VAR)\footnote{http://en.wikipedia.org/wiki/Vector\_autoregression} model that could be used for the forecasts. 
 
-Another area which could increase the performance of the regression models and therefore improve the forecasts is feature engineering. In this particular work we have taken a rather simple approach to the problem, without putting too much effort into processing the data in other ways. What we've done is simply take all the place names that co-occur with different travel words and we've taken those raw counts and used them for the forecasts. Perhaps by exploring more in that area one would be a blue to achieve increased performance without changing much the models in the back-end, but rather improve by simply improving the inputs.
-
-In Section 4.3 we've also presented some of the findings when we used the \textbf{bcp} package in R. An area where we think there will be a certain improvement is implementing our own Bayesian Change Point detection algorithm. By using a better prior we will be able to make the algorithm much more flexible and therefore much more well tailored for the problem we have. 
 
 \raggedright
 \sloppy
-\bibliographystyle{unsrt}
+\bibliographystyle{srt}
 \bibliography{master}
 
 \end{document}
